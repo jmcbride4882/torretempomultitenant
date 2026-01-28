@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-.pnp/
+.pnp
 .pnp.js
 
 # Build outputs
@@ -9,10 +9,12 @@ build/
 .next/
 out/
 
-# Environment
+# Environment files
 .env
 .env.local
 .env.*.local
+.env.development
+.env.production
 
 # IDE
 .idea/
@@ -44,8 +46,12 @@ apps/api/prisma/*.db-journal
 apps/web/dev-dist/
 
 # Misc
-*.tsbuildinfo
-.eslintcache
+*.tgz
+.cache/
+.temp/
+.tmp/
 
-# Sisyphus working files (keep plans and research)
-.sisyphus/drafts/
+# OpenCode (development tool - not part of project)
+OpenCode.exe
+opencode-cli.exe
+uninstall.exe

@@ -1,155 +1,95 @@
 # Torre Tempo
 
-**Spanish Labor Law Compliant Staff Clocking System**
+Multi-tenant PWA for Spanish labor law compliant time tracking (registro horario).
 
-A multi-tenant PWA for time tracking (registro horario) compliant with RD-Ley 8/2019 and Convenio Hosteleria de Murcia.
+## Features
 
----
-
-## Status: Planning Complete
-
-| Document | Location |
-|----------|----------|
-| Agent Guidelines | `AGENTS.md` |
-| Work Plan | `.sisyphus/plans/staff-clocking-app.md` |
-| Deep Research | `.sisyphus/research/deep-research-findings.md` |
-
----
-
-## What We're Building
-
-**Core**: PWA web app for staff clock-in/out with QR codes, geofencing, offline support, approvals, scheduling, and compliant reporting.
-
-**Target**: Hosteleria de Murcia businesses (convenio 30000805011981)
-
-**Future**: Multi-tenant SaaS for any Spanish business
-
----
-
-## Key Features
-
-| Feature | Description |
-|---------|-------------|
-| **QR Clock-in** | Scan location QR code to clock in |
-| **Geofencing** | Validate employee is at work location |
-| **Offline Mode** | Queue clock-ins when offline, sync later |
-| **Approvals** | Manager approves time entry edits |
-| **Monthly PDF** | Signed reports with in-app signature |
-| **Exports** | CSV/XLSX for payroll and audits |
-| **Multi-language** | ES/EN/FR/DE/PL/NL-BE |
-| **Multi-tenant** | SaaS-ready from day one |
-
----
-
-## Legal Compliance
-
-### RD-Ley 8/2019 (Registro Horario)
-- Daily start/end time per worker
-- 5-year retention (exceeds 4-year minimum)
-- Employee and inspector access
-- Immutable audit trail
-
-### Workers' Statute Article 34
-- 40 hours/week max
-- 9 hours/day max
-- 12 hours rest between shifts
-- 15-minute break after 6 hours
-
-### Convenio Hosteleria de Murcia
-- 1,822 hours/year max
-- 2 rest days/week
-- Night premiums (25% for 1am-6am)
-
-### AEPD Guidance
-- **NO biometrics** (special category data, consent invalid in employment)
-
----
+- **QR + Geofence Clock-in**: Workers clock in by scanning location QR codes, validated against GPS boundaries
+- **Offline Support**: PWA queues clock-ins when offline, syncs when connection restored
+- **Spanish Labor Law Compliance**: RD-Ley 8/2019 compliant with 5-year retention
+- **Multi-tenant**: Complete data isolation per organization
+- **Convenio Support**: Hosteleria de Murcia (30000805011981) with 40h/week, 1822h/year limits
+- **Manager Approvals**: Edit requests require manager sign-off
+- **Signed Reports**: Monthly PDF reports with employee signature acknowledgment
+- **Multi-language**: ES, EN, FR, DE, PL, NL-BE
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | React 18 + Vite + TypeScript + Tailwind |
-| PWA | vite-plugin-pwa + Workbox |
+| Frontend | React 18 + Vite + TypeScript |
+| Styling | Tailwind CSS |
 | State | TanStack Query + Zustand |
-| Offline | IndexedDB + Service Worker |
+| i18n | i18next |
 | Backend | NestJS + TypeScript |
 | Database | PostgreSQL + Prisma |
-| Auth | Passport + JWT |
 | Queue | BullMQ + Redis |
-| i18n | i18next |
+| Storage | S3-compatible |
 
----
+## Getting Started
+
+### Prerequisites
+
+- Node.js >= 20
+- Docker and Docker Compose
+- PostgreSQL 15+ (or use Docker)
+- Redis (or use Docker)
+
+### Development Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Start database and Redis
+docker compose up -d postgres redis
+
+# Run database migrations
+npm run db:migrate
+
+# Start development servers
+npm run dev
+```
+
+The web app runs at http://localhost:5173 and API at http://localhost:3000.
+
+### Commands
+
+```bash
+npm run dev           # Start web + API concurrently
+npm run dev:web       # Web only (Vite)
+npm run dev:api       # API only (NestJS)
+npm run build         # Build all
+npm run test          # Run all tests
+npm run lint          # ESLint + Prettier check
+npm run db:migrate    # Run Prisma migrations
+npm run db:studio     # Open Prisma Studio
+```
 
 ## Project Structure
 
 ```
 torre-tempo/
 ├── apps/
-│   ├── web/              # React PWA frontend
+│   ├── web/              # React + Vite PWA
 │   └── api/              # NestJS backend
 ├── packages/
-│   └── shared/           # Shared types
+│   └── shared/           # Shared types and constants
 ├── infra/
 │   ├── docker-compose.yml
 │   └── nginx/
-├── AGENTS.md             # Agent guidelines
-└── README.md             # This file
+└── docs/
 ```
 
----
+## Legal Compliance
 
-## Roles
+This application is designed to comply with:
 
-| Role | Capabilities |
-|------|--------------|
-| **Employee** | Clock in/out, view own records, sign monthly PDF |
-| **Manager** | Above + view team, approve edits, create schedules |
-| **Admin** | Above + manage locations, users, exports, settings |
-
----
-
-## What's NOT in v1
-
-- Biometrics (AEPD guidance)
-- PTO/leave requests
-- Payroll integration
-- SSO (email/password only)
-- Photo proof
-
----
-
-## Getting Started
-
-> **Note**: Project is in planning phase. Implementation will follow the work plan.
-
-```bash
-# After scaffold (Wave 1, Task 2)
-npm install
-npm run dev
-```
-
----
-
-## Commands (Planned)
-
-```bash
-npm run dev           # Start web + API
-npm run dev:web       # Web only
-npm run dev:api       # API only
-npm test              # Run all tests
-npm run build         # Production build
-npx prisma migrate dev    # Run migrations
-```
-
----
+- **RD-Ley 8/2019**: Mandatory time tracking for all employees
+- **Workers' Statute Article 34**: Working time limits (40h/week, 9h/day)
+- **GDPR**: EU data protection (no biometrics, proper consent)
+- **Convenio Hosteleria de Murcia**: 1,822 hours/year maximum
 
 ## License
 
-Proprietary - All rights reserved
-
----
-
-## Contact
-
-[Your contact info here]
+Proprietary - LSLT Group

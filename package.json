@@ -2,29 +2,31 @@
   "name": "torre-tempo",
   "version": "0.1.0",
   "private": true,
-  "description": "Spanish labor law compliant staff clocking system",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "description": "Multi-tenant PWA for Spanish labor law compliant time tracking (registro horario)",
   "scripts": {
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
     "dev:web": "npm run dev -w apps/web",
     "dev:api": "npm run dev -w apps/api",
-    "build": "npm run build -w packages/shared && npm run build -w apps/api && npm run build -w apps/web",
+    "build": "npm run build:shared && npm run build:api && npm run build:web",
+    "build:shared": "npm run build -w packages/shared",
     "build:web": "npm run build -w apps/web",
     "build:api": "npm run build -w apps/api",
-    "test": "npm run test -w apps/api && npm run test -w apps/web",
-    "test:unit": "npm run test:unit -w apps/web",
+    "test": "npm run test --workspaces --if-present",
+    "test:unit": "npm run test:unit -w apps/web -w apps/api",
     "test:e2e": "npm run test:e2e -w apps/web",
-    "lint": "npm run lint -w apps/web && npm run lint -w apps/api",
-    "lint:fix": "npm run lint:fix -w apps/web && npm run lint:fix -w apps/api",
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:fix": "npm run lint:fix --workspaces --if-present",
     "db:migrate": "npm run db:migrate -w apps/api",
     "db:generate": "npm run db:generate -w apps/api",
     "db:studio": "npm run db:studio -w apps/api"
   },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=20.0.0"
