@@ -1,35 +1,46 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-
-// Placeholder DTOs - will be implemented in Wave 2
-class LoginDto {
-  email!: string;
-  password!: string;
-}
+import { LoginDto } from './dto/login.dto';
+import { RegisterUserDto, RegisterTenantDto } from './dto/register.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { RolesGuard } from './guards/roles.guard';
+import { Roles } from './decorators/roles.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { Role } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Post('register-tenant')
+  async registerTenant(@Body() dto: RegisterTenantDto) {
+    return this.authService.registerTenant(dto);
+  }
+
   @Post('login')
   async login(@Body() dto: LoginDto) {
-    // Placeholder - will be implemented in Wave 2
-    return {
-      message: 'Login endpoint - implementation coming in Wave 2',
-      email: dto.email,
-    };
+    return this.authService.login(dto);
   }
 
   @Post('logout')
   async logout() {
-    return { message: 'Logged out' };
+    // JWT is stateless, so logout is client-side only
+    return { message: 'Logged out successfully' };
   }
 
   @Get('me')
-  async me() {
-    // Placeholder - will be implemented in Wave 2
-    return {
-      message: 'Me endpoint - implementation coming in Wave 2',
-    };
+  @UseGuards(JwtAuthGuard)
+  async me(@CurrentUser() user: any) {
+    return user;
+  }
+
+  @Post('register-user')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.MANAGER)
+  async registerUser(
+    @Body() dto: RegisterUserDto,
+    @CurrentUser() user: any,
+  ) {
+    return this.authService.registerUser(user.tenantId, dto);
   }
 }
