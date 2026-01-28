@@ -3,35 +3,166 @@ PROPRIETARY LICENSE AGREEMENT
 Torre Tempo - Staff Clocking System
 Copyright (c) 2026 LSLT Group. All rights reserved.
 
+===============================================================================
 NOTICE: This software and its associated documentation are proprietary and
-confidential to LSLT Group.
+confidential to LSLT Group. Unauthorized use, copying, modification, or 
+distribution is strictly prohibited and may result in legal action.
+===============================================================================
 
-GRANT OF LICENSE:
-Subject to the terms of this Agreement, LSLT Group grants you a non-exclusive,
-non-transferable license to use this software for internal business purposes only.
+1. GRANT OF LICENSE
 
-RESTRICTIONS:
-1. You may NOT distribute, sublicense, or resell this software without explicit
-   written permission from LSLT Group.
-2. You may NOT modify or create derivative works based on this software without
-   explicit written permission.
-3. You may NOT reverse engineer, decompile, or disassemble this software.
-4. You may NOT remove or alter any copyright, trademark, or other proprietary notices.
+Subject to the terms of this Agreement and payment of applicable license fees,
+LSLT Group grants you a non-exclusive, non-transferable license to use this 
+software solely as permitted by your purchased license tier.
 
-LICENSING:
-For commercial licensing, distribution rights, or custom development:
-Contact: info@lsltgroup.es
-Website: https://lsltgroup.es
+2. LICENSE TIERS
 
-DISCLAIMER:
+   A) EVALUATION LICENSE (Free, 30 days)
+      - View documentation and marketing materials only
+      - NO deployment rights
+      - NO source code access
+      - NO development or modification rights
+
+   B) INTERNAL USE LICENSE (Paid)
+      - Deploy for your own organization only
+      - NO distribution to third parties
+      - NO modification or development rights
+      - NO source code access beyond deployment needs
+      - Technical support included
+
+   C) DISTRIBUTION LICENSE (Paid)
+      - Resell to your clients under your brand
+      - Limited customization rights (branding only)
+      - NO source code redistribution
+      - Development requires separate agreement
+      - Priority support included
+
+   D) WHITE LABEL LICENSE (Paid)
+      - Complete rebranding rights
+      - Custom feature development included
+      - Limited source code access (escrow)
+      - Dedicated technical support
+      - SLA guarantees
+
+3. STRICT PROHIBITIONS
+
+You may NOT, under any circumstances:
+
+   a) Use this software without a valid paid license (except 30-day evaluation)
+   b) Distribute, sublicense, or resell without Distribution/White Label License
+   c) Modify, adapt, or create derivative works without explicit written permission
+   d) Reverse engineer, decompile, or disassemble the software
+   e) Remove or alter any copyright, trademark, or proprietary notices
+   f) Use for development or testing without a license that grants such rights
+   g) Share access credentials or installation files with unlicensed parties
+   h) Clone, fork, or copy the repository without explicit authorization
+   i) Use in production without a valid paid license
+   j) Provide hosting or SaaS services without White Label License
+
+4. DEVELOPMENT AND MODIFICATION RIGHTS
+
+Development, modification, and customization are PROHIBITED unless:
+   - You have purchased a White Label License, OR
+   - You have signed a separate Custom Development Agreement with LSLT Group
+
+Unauthorized development constitutes breach of contract and copyright infringement.
+
+5. SOURCE CODE ACCESS
+
+Source code is provided for deployment purposes only. Access does NOT grant:
+   - Right to modify or customize
+   - Right to study or learn from the code
+   - Right to create competing products
+   - Right to extract or reuse components
+
+Source code access is a privilege, not a right, and may be revoked for violations.
+
+6. INTELLECTUAL PROPERTY
+
+All intellectual property rights in and to the software, including but not limited to:
+   - Source code and compiled binaries
+   - Algorithms and business logic
+   - Database schemas and structures
+   - UI/UX designs and graphics
+   - Documentation and materials
+
+remain the exclusive property of LSLT Group.
+
+7. ENFORCEMENT
+
+LSLT Group actively monitors for license violations. Violations may result in:
+   - Immediate license termination
+   - Legal action for copyright infringement
+   - Claims for damages and lost revenue
+   - Injunctive relief
+   - Criminal prosecution where applicable
+
+8. FEES AND PAYMENT
+
+   - Licenses require ongoing payment as specified in your agreement
+   - Failure to pay results in immediate license suspension
+   - No refunds for partial periods
+   - Prices subject to change with 30 days notice
+
+9. AUDIT RIGHTS
+
+LSLT Group reserves the right to audit your use of the software to ensure
+compliance with license terms. You agree to cooperate with such audits.
+
+10. COMMERCIAL LICENSING
+
+For information about purchasing a commercial license:
+
+   Contact: info@lsltgroup.es
+   Website: https://lsltgroup.es
+   Phone: +34 XXX XXX XXX
+
+Pricing and terms are available upon request. Custom agreements available
+for enterprise clients and resellers.
+
+11. WARRANTY DISCLAIMER
+
 THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+12. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL LSLT GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+SOFTWARE. LSLT GROUP'S TOTAL LIABILITY SHALL NOT EXCEED THE LICENSE FEES PAID.
 
-TERMINATION:
+13. TERMINATION
+
 This license is effective until terminated. LSLT Group may terminate this
-license at any time if you fail to comply with any term(s) of this Agreement.
+license immediately upon:
+   - Non-payment of license fees
+   - Violation of any term of this Agreement
+   - Unauthorized use, modification, or distribution
+
+Upon termination, you must:
+   - Cease all use of the software immediately
+   - Delete all copies and installations
+   - Return or destroy all materials received
+   - Provide written certification of compliance
+
+14. GOVERNING LAW
+
+This Agreement shall be governed by the laws of Spain. Any disputes shall be
+resolved in the courts of Murcia, Spain.
+
+15. ENTIRE AGREEMENT
+
+This Agreement constitutes the entire agreement between you and LSLT Group
+regarding the software and supersedes all prior agreements.
+
+===============================================================================
+BY USING THIS SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS LICENSE,
+UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS AND CONDITIONS.
+
+UNAUTHORIZED USE IS PROHIBITED AND SUBJECT TO LEGAL ACTION.
+===============================================================================
+
+For licensing inquiries: info@lsltgroup.es
+Last Updated: January 2026

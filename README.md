@@ -2,9 +2,16 @@
 
 **Professional Staff Clocking System for Spanish Labor Law Compliance**
 
+> **⚠️ PROPRIETARY COMMERCIAL SOFTWARE**  
+> This software requires a **paid commercial license** for any use beyond evaluation.  
+> **Unauthorized use, modification, or deployment is strictly prohibited.**  
+> See [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE) for details.  
+> **Contact info@lsltgroup.es to purchase a license.**
+
 Multi-tenant Progressive Web App (PWA) for Spanish labor law compliant time tracking (registro horario), designed for hospitality, retail, and service industries.
 
 [![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
+[![Commercial](https://img.shields.io/badge/license-Required-orange.svg)](NOTICE.md)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18-blue.svg)](https://reactjs.org/)
 [![NestJS](https://img.shields.io/badge/NestJS-10-red.svg)](https://nestjs.com/)
@@ -116,16 +123,30 @@ Built with modern, enterprise-grade technologies:
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
-### Production Deployment (Recommended)
+### Purchase a License First
+
+**⚠️ REQUIRED**: You must purchase a valid license before deploying Torre Tempo.
+
+**Contact for licensing:**
+- 📧 Email: info@lsltgroup.es
+- 🌐 Website: https://lsltgroup.es
+- 💼 Request a quote or demo
+
+### Production Deployment (After Licensing)
+
+Once you have purchased a license, you will receive:
+1. Access credentials to the private deployment repository
+2. Your license key
+3. Installation documentation
+4. Technical support contact
 
 Deploy Torre Tempo to your VPS server in minutes with the interactive installer:
 
 ```bash
-# Download and run the interactive installer
-wget https://raw.githubusercontent.com/jmcbride4882/torretempomultitenant/main/infra/scripts/deploy-interactive.sh
-sudo bash deploy-interactive.sh
+# Download installer (requires license key)
+# Instructions provided after purchase
 ```
 
 The installer will guide you through:
@@ -141,74 +162,37 @@ For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 
-### Development Setup
+### Custom Development & Modifications
 
-For developers who want to customize or extend Torre Tempo:
+**⚠️ IMPORTANT: Custom development and modifications require a commercial license.**
 
-#### Prerequisites
+Torre Tempo is proprietary software. Unauthorized modification, customization, or development work is prohibited under the [LICENSE](LICENSE) agreement.
 
-- Node.js >= 20
-- Docker and Docker Compose
-- PostgreSQL 15+ (or use Docker)
-- Redis 7+ (or use Docker)
+#### Want to Customize Torre Tempo?
 
-#### Installation
+We offer custom development services:
 
-```bash
-# Clone the repository
-git clone https://github.com/jmcbride4882/torretempomultitenant.git
-cd torretempomultitenant
+- **✨ Custom Features**: Add industry-specific functionality
+- **🎨 White Label Branding**: Complete UI/UX customization
+- **🔌 Integrations**: Connect with your existing systems (payroll, HR, ERP)
+- **📊 Custom Reports**: Tailored reporting and analytics
+- **🔧 API Development**: Custom endpoints for your needs
 
-# Install dependencies
-npm install
+**Contact us for development services:**
+- 📧 Email: info@lsltgroup.es
+- 💼 Custom development quotes available
+- 🤝 Partnership opportunities for agencies
 
-# Start database and Redis
-docker compose up -d postgres redis
+#### For Licensed Developers
 
-# Run database migrations
-npm run db:migrate
+If you have purchased a **Distribution License** or **White Label License** that includes development rights:
 
-# Seed default admin account
-cd apps/api && npm run db:seed
+1. Contact info@lsltgroup.es to receive access credentials
+2. Sign the developer agreement
+3. Receive private repository access and development documentation
+4. Access to priority technical support
 
-# Start development servers
-npm run dev
-```
-
-The web app runs at **http://localhost:5173** and API at **http://localhost:4000**.
-
-#### Admin Account Setup
-
-**For Production Deployment:**
-The interactive installer (`deploy-interactive.sh`) prompts you to create your own admin account with:
-- Custom email address
-- Secure password (minimum 8 characters)
-- Your company name and tenant slug
-- Admin name
-
-**For Development:**
-The seed script creates a test admin account for local development:
-```bash
-cd apps/api && npm run db:seed
-```
-
-This creates a sample tenant and admin user. You can customize the seed data in `apps/api/prisma/seed.ts`.
-
-**⚠️ IMPORTANT**: Production deployments automatically create secure admin accounts during installation. Never use development credentials in production!
-
-#### Development Commands
-
-```bash
-npm run dev           # Start web + API concurrently
-npm run dev:web       # Web only (Vite dev server)
-npm run dev:api       # API only (NestJS watch mode)
-npm run build         # Build all packages for production
-npm run test          # Run all tests (Jest + Vitest)
-npm run lint          # ESLint + Prettier check
-npm run db:migrate    # Run Prisma migrations
-npm run db:studio     # Open Prisma Studio (database GUI)
-npm run db:seed       # Seed database with test data
-```
+**Development is only permitted under a valid commercial license with explicit development rights.**
 
 ---
 
