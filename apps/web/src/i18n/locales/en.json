@@ -14,13 +14,148 @@
     "submit": "Submit",
     "offline": "Offline - Data will sync when you reconnect"
   },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "login": "Sign In",
+      "trial": "Free Trial"
+    },
+    "hero": {
+      "title": "Time Tracking Made Simple",
+      "subtitle": "Comply with Spanish labor law in 5 minutes. QR clocking, geolocation and offline mode for your team.",
+      "cta": "Start Free",
+      "demo": "See Features"
+    },
+    "trust": {
+      "retention": "5-year retention",
+      "noBiometrics": "No biometrics"
+    },
+    "features": {
+      "title": "Everything you need for time tracking",
+      "subtitle": "Comply with Spanish regulations without technical complications or additional hardware.",
+      "qr": {
+        "title": "QR Clocking",
+        "desc": "Scan your location QR code and clock in seconds from any mobile phone."
+      },
+      "geo": {
+        "title": "Geolocation",
+        "desc": "Automatically validate that the employee is at the workplace when clocking."
+      },
+      "offline": {
+        "title": "Offline Mode",
+        "desc": "Works without internet connection. Clock-ins sync automatically when back online."
+      },
+      "approvals": {
+        "title": "Approvals",
+        "desc": "Managers approve changes to records with full traceability."
+      },
+      "reports": {
+        "title": "PDF Reports",
+        "desc": "Generate monthly reports digitally signed by each employee."
+      },
+      "languages": {
+        "title": "Multi-language",
+        "desc": "Available in Spanish, English, French, German, Polish and Dutch."
+      }
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "step1": {
+        "title": "Create your account",
+        "desc": "Sign up in 2 minutes. No credit card required."
+      },
+      "step2": {
+        "title": "Add locations",
+        "desc": "Set up your work centers with QR and geofence."
+      },
+      "step3": {
+        "title": "Start clocking",
+        "desc": "Your employees clock in from their phone instantly."
+      }
+    },
+    "pricing": {
+      "title": "Simple and transparent pricing",
+      "subtitle": "No hidden costs. Cancel anytime.",
+      "perEmployee": "/employee/month",
+      "starter": {
+        "name": "Starter",
+        "f1": "Up to 25 employees",
+        "f2": "1 location",
+        "f3": "QR clocking",
+        "f4": "Basic reports",
+        "f5": "Email support",
+        "cta": "Start Free"
+      },
+      "pro": {
+        "name": "Professional",
+        "f1": "Up to 100 employees",
+        "f2": "5 locations",
+        "f3": "Geolocation",
+        "f4": "Shifts and schedules",
+        "f5": "Approvals",
+        "f6": "Priority support",
+        "cta": "Try 14 days"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Contact us",
+        "f1": "Unlimited employees",
+        "f2": "Unlimited locations",
+        "f3": "API access",
+        "f4": "SSO/SAML",
+        "f5": "Custom agreements",
+        "f6": "Dedicated account manager",
+        "cta": "Contact Sales"
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "legal": {
+        "q": "Is this clocking system legal?",
+        "a": "Yes. Torre Tempo fully complies with RD-Ley 8/2019 which requires companies to record working hours. We keep records for 5 years and they are available for inspection."
+      },
+      "offline": {
+        "q": "Does it work without internet?",
+        "a": "Yes. Clock-ins are saved on the device and sync automatically when connection returns. You'll never lose a record."
+      },
+      "data": {
+        "q": "Where is my data stored?",
+        "a": "All data is stored on servers within the European Union, complying with GDPR. We do not share data with third parties."
+      },
+      "plan": {
+        "q": "Can I change plans?",
+        "a": "Yes, you can upgrade or downgrade at any time. Changes apply in the next billing cycle."
+      }
+    },
+    "cta": {
+      "title": "Start your 14-day free trial",
+      "subtitle": "No credit card. No commitment. Cancel anytime.",
+      "button": "Create Free Account"
+    },
+    "footer": {
+      "tagline": "Simple and legal time tracking for Spanish companies.",
+      "product": "Product",
+      "legal": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookies": "Cookies",
+      "contact": "Contact",
+      "rights": "All rights reserved.",
+      "company": "Lakeside La Torre (Murcia) Group SL",
+      "cif": "CIF: B70822366"
+    }
+  },
   "login": {
     "title": "Sign In",
     "email": "Email",
     "password": "Password",
     "submit": "Sign In",
     "forgotPassword": "Forgot password?",
-    "error": "Invalid credentials"
+    "error": "Invalid credentials",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
   },
   "dashboard": {
     "title": "Dashboard",

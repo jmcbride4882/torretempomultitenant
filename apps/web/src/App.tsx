@@ -1,52 +1,171 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from './lib/store';
+import LandingPage from './features/landing/LandingPage';
 
-// Placeholder components - will be implemented in Wave 2
+// Login Page
 function LoginPage() {
   const { t } = useTranslation();
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full p-6">
-        <h1 className="text-2xl font-bold text-center text-gray-900 mb-8">
-          Torre Tempo
-        </h1>
-        <p className="text-center text-gray-600">
-          {t('login.placeholder', 'Login functionality coming in Wave 2')}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white">
+      <div className="max-w-md w-full p-8">
+        <div className="text-center mb-8">
+          <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <span className="text-white font-bold text-xl">TT</span>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">Torre Tempo</h1>
+        </div>
+        
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">
+            {t('login.title')}
+          </h2>
+          
+          <form className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                {t('login.email')}
+              </label>
+              <input
+                type="email"
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="tu@email.com"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                {t('login.password')}
+              </label>
+              <input
+                type="password"
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="••••••••"
+              />
+            </div>
+            
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            >
+              {t('login.submit')}
+            </button>
+          </form>
+          
+          <div className="mt-4 text-center">
+            <a href="#" className="text-sm text-blue-600 hover:text-blue-700">
+              {t('login.forgotPassword')}
+            </a>
+          </div>
+        </div>
+        
+        <p className="mt-6 text-center text-sm text-gray-600">
+          {t('login.noAccount')}{' '}
+          <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+            {t('login.signUp')}
+          </a>
         </p>
       </div>
     </div>
   );
 }
 
+// Dashboard Page
 function DashboardPage() {
   const { t } = useTranslation();
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <h1 className="text-2xl font-bold text-gray-900">
-        {t('dashboard.title', 'Dashboard')}
-      </h1>
-      <p className="text-gray-600 mt-2">
-        {t('dashboard.placeholder', 'Dashboard functionality coming in Wave 2')}
-      </p>
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white border-b border-gray-100 px-4 py-4">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">TT</span>
+            </div>
+            <span className="font-bold text-lg text-gray-900">Torre Tempo</span>
+          </div>
+          <nav className="flex items-center gap-6">
+            <a href="/app/dashboard" className="text-sm font-medium text-blue-600">Dashboard</a>
+            <a href="/app/clock" className="text-sm font-medium text-gray-600 hover:text-gray-900">Fichar</a>
+            <a href="/app/entries" className="text-sm font-medium text-gray-600 hover:text-gray-900">Registros</a>
+          </nav>
+        </div>
+      </header>
+      <main className="max-w-7xl mx-auto p-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">
+          {t('dashboard.title')}
+        </h1>
+        <div className="grid sm:grid-cols-3 gap-6">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <p className="text-sm text-gray-500 mb-1">{t('dashboard.todayHours')}</p>
+            <p className="text-3xl font-bold text-gray-900">0:00</p>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <p className="text-sm text-gray-500 mb-1">{t('dashboard.weekHours')}</p>
+            <p className="text-3xl font-bold text-gray-900">0:00</p>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <p className="text-sm text-gray-500 mb-1">{t('dashboard.monthHours')}</p>
+            <p className="text-3xl font-bold text-gray-900">0:00</p>
+          </div>
+        </div>
+        <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <p className="text-gray-500 text-center py-8">
+            App functionality coming soon...
+          </p>
+        </div>
+      </main>
     </div>
   );
 }
 
+// Clock Page
 function ClockPage() {
   const { t } = useTranslation();
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <h1 className="text-2xl font-bold text-gray-900">
-        {t('clock.title', 'Clock In/Out')}
-      </h1>
-      <p className="text-gray-600 mt-2">
-        {t('clock.placeholder', 'Clocking functionality coming in Wave 2')}
-      </p>
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white border-b border-gray-100 px-4 py-4">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">TT</span>
+            </div>
+            <span className="font-bold text-lg text-gray-900">Torre Tempo</span>
+          </div>
+          <nav className="flex items-center gap-6">
+            <a href="/app/dashboard" className="text-sm font-medium text-gray-600 hover:text-gray-900">Dashboard</a>
+            <a href="/app/clock" className="text-sm font-medium text-blue-600">Fichar</a>
+            <a href="/app/entries" className="text-sm font-medium text-gray-600 hover:text-gray-900">Registros</a>
+          </nav>
+        </div>
+      </header>
+      <main className="max-w-md mx-auto p-6">
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            {t('clock.title')}
+          </h1>
+          <p className="text-gray-500 mb-8">{t('clock.clockedOut')}</p>
+          
+          <button className="w-full bg-green-500 text-white py-4 rounded-xl font-medium text-lg hover:bg-green-600 transition-colors mb-4">
+            {t('clock.clockIn')}
+          </button>
+          
+          <button className="w-full bg-gray-100 text-gray-400 py-4 rounded-xl font-medium text-lg cursor-not-allowed" disabled>
+            {t('clock.clockOut')}
+          </button>
+          
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <button className="flex items-center justify-center gap-2 w-full text-blue-600 font-medium">
+              <span>📷</span>
+              {t('clock.scanQR')}
+            </button>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
 
+// Protected Route
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   
@@ -60,9 +179,13 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <Routes>
+      {/* Public routes */}
+      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
+      
+      {/* Protected app routes */}
       <Route
-        path="/dashboard"
+        path="/app/dashboard"
         element={
           <ProtectedRoute>
             <DashboardPage />
@@ -70,14 +193,17 @@ export default function App() {
         }
       />
       <Route
-        path="/clock"
+        path="/app/clock"
         element={
           <ProtectedRoute>
             <ClockPage />
           </ProtectedRoute>
         }
       />
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      
+      {/* Redirects */}
+      <Route path="/dashboard" element={<Navigate to="/app/dashboard" replace />} />
+      <Route path="/clock" element={<Navigate to="/app/clock" replace />} />
     </Routes>
   );
 }

@@ -14,13 +14,148 @@
     "submit": "Enviar",
     "offline": "Sin conexion - Los datos se sincronizaran cuando vuelva a conectarse"
   },
+  "landing": {
+    "nav": {
+      "features": "Caracteristicas",
+      "pricing": "Precios",
+      "faq": "FAQ",
+      "login": "Iniciar Sesion",
+      "trial": "Prueba Gratis"
+    },
+    "hero": {
+      "title": "Registro Horario Sin Complicaciones",
+      "subtitle": "Cumple con la ley espanola en 5 minutos. Fichaje QR, geolocalizacion y modo offline para tu equipo.",
+      "cta": "Empezar Gratis",
+      "demo": "Ver Caracteristicas"
+    },
+    "trust": {
+      "retention": "Retencion 5 anos",
+      "noBiometrics": "Sin biometricos"
+    },
+    "features": {
+      "title": "Todo lo que necesitas para el control horario",
+      "subtitle": "Cumple con la normativa espanola sin complicaciones tecnicas ni hardware adicional.",
+      "qr": {
+        "title": "Fichaje QR",
+        "desc": "Escanea el codigo QR de tu ubicacion y ficha en segundos desde cualquier movil."
+      },
+      "geo": {
+        "title": "Geolocalizacion",
+        "desc": "Valida automaticamente que el empleado esta en el lugar de trabajo al fichar."
+      },
+      "offline": {
+        "title": "Modo Offline",
+        "desc": "Funciona sin conexion a internet. Los fichajes se sincronizan automaticamente."
+      },
+      "approvals": {
+        "title": "Aprobaciones",
+        "desc": "Los managers aprueban cambios en los registros con trazabilidad completa."
+      },
+      "reports": {
+        "title": "Informes PDF",
+        "desc": "Genera informes mensuales firmados digitalmente por cada empleado."
+      },
+      "languages": {
+        "title": "Multi-idioma",
+        "desc": "Disponible en Espanol, Ingles, Frances, Aleman, Polaco y Neerlandes."
+      }
+    },
+    "howItWorks": {
+      "title": "Como funciona",
+      "step1": {
+        "title": "Crea tu cuenta",
+        "desc": "Registrate en 2 minutos. Sin tarjeta de credito."
+      },
+      "step2": {
+        "title": "Anade ubicaciones",
+        "desc": "Configura tus centros de trabajo con QR y geovalla."
+      },
+      "step3": {
+        "title": "Empieza a fichar",
+        "desc": "Tus empleados fichan desde su movil al instante."
+      }
+    },
+    "pricing": {
+      "title": "Precios simples y transparentes",
+      "subtitle": "Sin costes ocultos. Cancela cuando quieras.",
+      "perEmployee": "/empleado/mes",
+      "starter": {
+        "name": "Starter",
+        "f1": "Hasta 25 empleados",
+        "f2": "1 ubicacion",
+        "f3": "Fichaje QR",
+        "f4": "Informes basicos",
+        "f5": "Soporte por email",
+        "cta": "Empezar Gratis"
+      },
+      "pro": {
+        "name": "Profesional",
+        "f1": "Hasta 100 empleados",
+        "f2": "5 ubicaciones",
+        "f3": "Geolocalizacion",
+        "f4": "Turnos y horarios",
+        "f5": "Aprobaciones",
+        "f6": "Soporte prioritario",
+        "cta": "Probar 14 dias"
+      },
+      "enterprise": {
+        "name": "Empresa",
+        "price": "Contactar",
+        "f1": "Empleados ilimitados",
+        "f2": "Ubicaciones ilimitadas",
+        "f3": "Acceso API",
+        "f4": "SSO/SAML",
+        "f5": "Convenios personalizados",
+        "f6": "Account manager dedicado",
+        "cta": "Contactar Ventas"
+      }
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "legal": {
+        "q": "¿Es legal este sistema de fichaje?",
+        "a": "Si. Torre Tempo cumple al 100% con el RD-Ley 8/2019 que obliga a las empresas a registrar la jornada laboral. Guardamos los registros durante 5 anos y estan disponibles para inspeccion."
+      },
+      "offline": {
+        "q": "¿Funciona sin conexion a internet?",
+        "a": "Si. Los fichajes se guardan en el dispositivo y se sincronizan automaticamente cuando vuelve la conexion. Nunca perderas un registro."
+      },
+      "data": {
+        "q": "¿Donde se guardan mis datos?",
+        "a": "Todos los datos se almacenan en servidores dentro de la Union Europea, cumpliendo con el RGPD. No compartimos datos con terceros."
+      },
+      "plan": {
+        "q": "¿Puedo cambiar de plan?",
+        "a": "Si, puedes subir o bajar de plan en cualquier momento. Los cambios se aplican en el siguiente ciclo de facturacion."
+      }
+    },
+    "cta": {
+      "title": "Empieza tu prueba gratuita de 14 dias",
+      "subtitle": "Sin tarjeta de credito. Sin compromiso. Cancela cuando quieras.",
+      "button": "Crear Cuenta Gratis"
+    },
+    "footer": {
+      "tagline": "Control horario simple y legal para empresas espanolas.",
+      "product": "Producto",
+      "legal": "Legal",
+      "privacy": "Privacidad",
+      "terms": "Terminos",
+      "cookies": "Cookies",
+      "contact": "Contacto",
+      "rights": "Todos los derechos reservados.",
+      "company": "Lakeside La Torre (Murcia) Group SL",
+      "cif": "CIF: B70822366"
+    }
+  },
   "login": {
     "title": "Iniciar sesion",
     "email": "Correo electronico",
     "password": "Contrasena",
     "submit": "Entrar",
-    "forgotPassword": "Olvidar contrasena?",
-    "error": "Credenciales incorrectas"
+    "forgotPassword": "¿Olvidaste tu contrasena?",
+    "error": "Credenciales incorrectas",
+    "noAccount": "¿No tienes cuenta?",
+    "signUp": "Registrate"
   },
   "dashboard": {
     "title": "Panel de control",
