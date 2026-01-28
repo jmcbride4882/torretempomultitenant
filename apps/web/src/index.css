@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+:root {
+  --color-primary: #1e40af;
+  --color-primary-dark: #1e3a8a;
+}
+
+/* PWA install prompt styling */
+.pwa-toast {
+  @apply fixed bottom-4 left-4 right-4 bg-white rounded-lg shadow-lg p-4 z-50;
+}
+
+/* Signature canvas */
+.signature-canvas {
+  @apply border border-gray-300 rounded-lg touch-none;
+  background-color: #fafafa;
+}
+
+/* Mobile-first button styles */
+.btn-primary {
+  @apply w-full py-3 px-4 bg-blue-700 text-white font-semibold rounded-lg 
+         hover:bg-blue-800 active:bg-blue-900 transition-colors
+         disabled:bg-gray-400 disabled:cursor-not-allowed;
+}
+
+.btn-secondary {
+  @apply w-full py-3 px-4 bg-gray-200 text-gray-800 font-semibold rounded-lg 
+         hover:bg-gray-300 active:bg-gray-400 transition-colors;
+}
+
+/* Clock button - large and easy to tap */
+.btn-clock {
+  @apply w-48 h-48 rounded-full text-2xl font-bold shadow-lg
+         flex items-center justify-center transition-all
+         active:scale-95;
+}
+
+.btn-clock-in {
+  @apply btn-clock bg-green-500 text-white hover:bg-green-600;
+}
+
+.btn-clock-out {
+  @apply btn-clock bg-red-500 text-white hover:bg-red-600;
+}
+
+/* Offline indicator */
+.offline-banner {
+  @apply fixed top-0 left-0 right-0 bg-yellow-500 text-yellow-900 
+         text-center py-2 text-sm font-medium z-50;
+}
+
+/* Form inputs */
+.input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg
+         focus:ring-2 focus:ring-blue-500 focus:border-transparent
+         placeholder-gray-400;
+}
+
+/* Card component */
+.card {
+  @apply bg-white rounded-lg shadow-md p-4;
+}
+
+/* Time entry row */
+.time-entry {
+  @apply flex items-center justify-between py-3 border-b border-gray-100
+         last:border-b-0;
+}
+
+/* Status badges */
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-pending {
+  @apply badge bg-yellow-100 text-yellow-800;
+}
+
+.badge-approved {
+  @apply badge bg-green-100 text-green-800;
+}
+
+.badge-rejected {
+  @apply badge bg-red-100 text-red-800;
+}

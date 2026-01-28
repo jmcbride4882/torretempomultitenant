@@ -1,0 +1,103 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Correcto",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "submit": "Enviar",
+    "offline": "Sin conexion - Los datos se sincronizaran cuando vuelva a conectarse"
+  },
+  "login": {
+    "title": "Iniciar sesion",
+    "email": "Correo electronico",
+    "password": "Contrasena",
+    "submit": "Entrar",
+    "forgotPassword": "Olvidar contrasena?",
+    "error": "Credenciales incorrectas"
+  },
+  "dashboard": {
+    "title": "Panel de control",
+    "welcome": "Bienvenido, {{name}}",
+    "todayHours": "Horas hoy",
+    "weekHours": "Horas esta semana",
+    "monthHours": "Horas este mes"
+  },
+  "clock": {
+    "title": "Fichar",
+    "clockIn": "Entrada",
+    "clockOut": "Salida",
+    "clockedIn": "Fichado desde {{time}}",
+    "clockedOut": "No fichado",
+    "scanQR": "Escanear codigo QR",
+    "locationRequired": "Debe estar en el lugar de trabajo",
+    "success": {
+      "clockIn": "Entrada registrada correctamente",
+      "clockOut": "Salida registrada correctamente"
+    },
+    "error": {
+      "geofence": "Estas fuera del area de trabajo",
+      "qrInvalid": "Codigo QR no valido",
+      "alreadyClockedIn": "Ya has fichado entrada",
+      "notClockedIn": "No has fichado entrada"
+    }
+  },
+  "entries": {
+    "title": "Mis registros",
+    "noEntries": "No hay registros",
+    "date": "Fecha",
+    "clockIn": "Entrada",
+    "clockOut": "Salida",
+    "duration": "Duracion",
+    "location": "Ubicacion",
+    "status": "Estado",
+    "requestEdit": "Solicitar cambio"
+  },
+  "approvals": {
+    "title": "Aprobaciones",
+    "pending": "Pendientes",
+    "approved": "Aprobados",
+    "rejected": "Rechazados",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "reason": "Motivo",
+    "noRequests": "No hay solicitudes pendientes"
+  },
+  "reports": {
+    "title": "Informes",
+    "monthly": "Informe mensual",
+    "download": "Descargar",
+    "sign": "Firmar",
+    "signed": "Firmado",
+    "signature": {
+      "title": "Firma del empleado",
+      "clear": "Borrar",
+      "save": "Guardar firma"
+    }
+  },
+  "schedule": {
+    "title": "Horario",
+    "thisWeek": "Esta semana",
+    "noShifts": "No hay turnos programados"
+  },
+  "settings": {
+    "title": "Configuracion",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "logout": "Cerrar sesion"
+  },
+  "warnings": {
+    "weeklyLimitWarning": "Atencion: Has trabajado {{hours}} horas esta semana (limite: 40)",
+    "weeklyLimitReached": "Has alcanzado el limite semanal de 40 horas",
+    "dailyLimitWarning": "Atencion: Has trabajado {{hours}} horas hoy",
+    "dailyLimitReached": "Has alcanzado el limite diario de 9 horas",
+    "annualLimitWarning": "Atencion: Has trabajado {{hours}} horas este ano (limite: 1.822)",
+    "restPeriod": "Debes descansar 12 horas entre turnos"
+  }
+}

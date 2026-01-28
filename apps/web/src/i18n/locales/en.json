@@ -1,0 +1,103 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "offline": "Offline - Data will sync when you reconnect"
+  },
+  "login": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign In",
+    "forgotPassword": "Forgot password?",
+    "error": "Invalid credentials"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {{name}}",
+    "todayHours": "Hours today",
+    "weekHours": "Hours this week",
+    "monthHours": "Hours this month"
+  },
+  "clock": {
+    "title": "Clock In/Out",
+    "clockIn": "Clock In",
+    "clockOut": "Clock Out",
+    "clockedIn": "Clocked in since {{time}}",
+    "clockedOut": "Not clocked in",
+    "scanQR": "Scan QR Code",
+    "locationRequired": "You must be at the work location",
+    "success": {
+      "clockIn": "Clock-in recorded successfully",
+      "clockOut": "Clock-out recorded successfully"
+    },
+    "error": {
+      "geofence": "You are outside the work area",
+      "qrInvalid": "Invalid QR code",
+      "alreadyClockedIn": "You are already clocked in",
+      "notClockedIn": "You are not clocked in"
+    }
+  },
+  "entries": {
+    "title": "My Time Entries",
+    "noEntries": "No time entries",
+    "date": "Date",
+    "clockIn": "Clock In",
+    "clockOut": "Clock Out",
+    "duration": "Duration",
+    "location": "Location",
+    "status": "Status",
+    "requestEdit": "Request Change"
+  },
+  "approvals": {
+    "title": "Approvals",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "approve": "Approve",
+    "reject": "Reject",
+    "reason": "Reason",
+    "noRequests": "No pending requests"
+  },
+  "reports": {
+    "title": "Reports",
+    "monthly": "Monthly Report",
+    "download": "Download",
+    "sign": "Sign",
+    "signed": "Signed",
+    "signature": {
+      "title": "Employee Signature",
+      "clear": "Clear",
+      "save": "Save Signature"
+    }
+  },
+  "schedule": {
+    "title": "Schedule",
+    "thisWeek": "This Week",
+    "noShifts": "No scheduled shifts"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "notifications": "Notifications",
+    "logout": "Sign Out"
+  },
+  "warnings": {
+    "weeklyLimitWarning": "Warning: You have worked {{hours}} hours this week (limit: 40)",
+    "weeklyLimitReached": "You have reached the weekly limit of 40 hours",
+    "dailyLimitWarning": "Warning: You have worked {{hours}} hours today",
+    "dailyLimitReached": "You have reached the daily limit of 9 hours",
+    "annualLimitWarning": "Warning: You have worked {{hours}} hours this year (limit: 1,822)",
+    "restPeriod": "You must rest 12 hours between shifts"
+  }
+}
