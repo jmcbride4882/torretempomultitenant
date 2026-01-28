@@ -242,8 +242,31 @@ echo -e "${GREEN}║                                                            
 echo -e "${GREEN}╚═══════════════════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 echo -e "  ${BLUE}Thank you for choosing Torre Tempo by LSLT Group!${NC}"
-echo -e "  ${BLUE}Preparing your professional deployment experience...${NC}"
 echo ""
+echo -e "${YELLOW}┌───────────────────────────────────────────────────────────────────────────┐${NC}"
+echo -e "${YELLOW}│  License Key (Optional)                                                   │${NC}"
+echo -e "${YELLOW}└───────────────────────────────────────────────────────────────────────────┘${NC}"
+echo ""
+echo -e "  ${BLUE}If you have received a license key from LSLT Group, enter it below.${NC}"
+echo -e "  ${BLUE}Otherwise, press Enter to continue with evaluation mode.${NC}"
+echo ""
+read -p "$(echo -e ${YELLOW}  License Key (or press Enter to skip): ${NC})" LICENSE_KEY
+
+if [ -n "$LICENSE_KEY" ]; then
+    echo ""
+    echo -e "  ${GREEN}✓${NC} License key recorded: ${GREEN}${LICENSE_KEY:0:8}-****-****-****${NC}"
+    echo -e "  ${BLUE}Your license will be validated during system startup.${NC}"
+    LICENSE_TYPE="Licensed"
+else
+    echo ""
+    echo -e "  ${YELLOW}⚠️  ${NC} No license key provided - proceeding in ${YELLOW}Evaluation Mode${NC}"
+    echo -e "  ${BLUE}30-day trial with full features enabled.${NC}"
+    LICENSE_KEY="EVAL-30DAY-$(date +%Y%m%d)"
+    LICENSE_TYPE="Evaluation"
+fi
+
+echo ""
+echo -e "  ${BLUE}Preparing your professional deployment experience...${NC}"
 sleep 2
 
 # Collect configuration
@@ -465,6 +488,17 @@ echo -e "  🔐 Database:          ${GREEN}✓ Auto-generated 32-char password${
 echo -e "  🔐 JWT Secret:        ${GREEN}✓ Auto-generated 32-char secret${NC}"
 echo -e "${BLUE}└────────────────────────────────────────────────────────────────────────────┘${NC}"
 echo ""
+echo -e "${BLUE}┌────────────────────────────────── Licensing ───────────────────────────────┐${NC}"
+if [ "$LICENSE_TYPE" = "Licensed" ]; then
+echo -e "  📜 License Type:      ${GREEN}✓ Commercial License${NC}"
+echo -e "  🔑 License Key:       ${GREEN}${LICENSE_KEY:0:8}-****-****-****${NC}"
+else
+echo -e "  📜 License Type:      ${YELLOW}⚠️  Evaluation Mode (30 days)${NC}"
+echo -e "  🔑 License Key:       ${YELLOW}$LICENSE_KEY${NC}"
+fi
+echo -e "  📅 Accepted Date:     $(date +"%Y-%m-%d %H:%M:%S")"
+echo -e "${BLUE}└────────────────────────────────────────────────────────────────────────────┘${NC}"
+echo ""
 echo ""
 echo -e "${YELLOW}════════════════════════════════════════════════════════════════════════════${NC}"
 read -p "$(echo -e ${YELLOW}Everything looks correct? Type \'yes\' to continue: ${NC})" confirm
@@ -579,6 +613,12 @@ ADMIN_LAST_NAME=${ADMIN_LAST_NAME}
 PRIMARY_DOMAIN=${PRIMARY_DOMAIN}
 SECONDARY_DOMAIN=${SECONDARY_DOMAIN}
 CERTBOT_EMAIL=${CERTBOT_EMAIL}
+
+# License Information
+LICENSE_KEY=${LICENSE_KEY}
+LICENSE_TYPE=${LICENSE_TYPE}
+LICENSE_ACCEPTED_DATE=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+LICENSE_ACCEPTED_BY=root
 EOF
 
 chmod 600 "$ENV_FILE"
@@ -839,11 +879,33 @@ echo -e "  🌐 Website:           ${GREEN}https://lsltgroup.es${NC}"
 echo -e "  📚 Documentation:     ${GREEN}https://docs.torretempo.com${NC} (coming soon)"
 echo -e "  💬 Community Forum:   ${GREEN}https://forum.torretempo.com${NC} (coming soon)"
 echo ""
+if [ "$LICENSE_TYPE" = "Evaluation" ]; then
+echo -e "${YELLOW}╔══════════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${YELLOW}║                                                                      ║${NC}"
+echo -e "${YELLOW}║                    ⚠️  EVALUATION MODE ACTIVE                       ║${NC}"
+echo -e "${YELLOW}║                                                                      ║${NC}"
+echo -e "${YELLOW}╚══════════════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+echo -e "  ${YELLOW}Your 30-day evaluation period started: $(date +"%Y-%m-%d")${NC}"
+echo -e "  ${YELLOW}Full features are available during evaluation.${NC}"
+echo ""
+echo -e "  ${BLUE}To purchase a license:${NC}"
+echo -e "    📧 Email: info@lsltgroup.es"
+echo -e "    🌐 Web:   https://lsltgroup.es"
+echo ""
+echo -e "  ${BLUE}Benefits of a commercial license:${NC}"
+echo -e "    • No time restrictions"
+echo -e "    • Priority email support"
+echo -e "    • Guaranteed updates and security patches"
+echo -e "    • Legal compliance documentation"
+echo ""
+fi
 echo -e "${GREEN}╔══════════════════════════════════════════════════════════════════════╗${NC}"
 echo -e "${GREEN}║                                                                      ║${NC}"
 echo -e "${GREEN}║        Thank you for choosing Torre Tempo by LSLT Group!            ║${NC}"
 echo -e "${GREEN}║                                                                      ║${NC}"
 echo -e "${GREEN}║     © 2026 LSLT Group - Lakeside La Torre (Murcia) - Spain          ║${NC}"
+echo -e "${GREEN}║                Licensed Commercial Software                          ║${NC}"
 echo -e "${GREEN}║                                                                      ║${NC}"
 echo -e "${GREEN}╚══════════════════════════════════════════════════════════════════════╝${NC}"
 echo ""
