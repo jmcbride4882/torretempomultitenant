@@ -41,10 +41,14 @@ echo "Verifying database authentication..."
 docker exec torre-tempo-db psql -U postgres -c "ALTER USER postgres WITH PASSWORD '${DB_PASSWORD:-postgres}';" 2>/dev/null || true
 
 # Run migrations
-echo "[5/5] Running database migrations..."
+echo "[5/6] Running database migrations..."
 docker run --rm --network infra_torre-tempo-network \
     -e DATABASE_URL="postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/torre_tempo?schema=public" \
     infra-api sh -c 'cd /app/apps/api && node /app/node_modules/prisma/build/index.js migrate deploy' || echo "No migrations to run"
+
+# Seed database with default admin
+echo "[6/6] Seeding default admin account..."
+docker exec torre-tempo-api npm run db:seed 2>/dev/null || echo "Default admin already exists or seed skipped"
 
 # Wait for API to start
 sleep 5

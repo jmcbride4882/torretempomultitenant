@@ -97,6 +97,22 @@ docker run --rm \
 docker restart torre-tempo-nginx
 ```
 
+### Default Admin Account
+
+After initial deployment, a global admin account is created automatically:
+
+- **Email**: info@lsltgroup.es
+- **Password**: Summer15
+- **Tenant**: LSLT Group (slug: lslt-group)
+
+**⚠️ IMPORTANT**: Change this password immediately after first login!
+
+To create the default admin (if not already created):
+```bash
+cd /opt/torre-tempo/infra
+docker exec torre-tempo-api npm run db:seed
+```
+
 ### Manual Deployment Steps (Reference)
 
 If you need to deploy manually without scripts:

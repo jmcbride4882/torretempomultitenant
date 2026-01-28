@@ -47,11 +47,24 @@ docker compose up -d postgres redis
 # Run database migrations
 npm run db:migrate
 
+# Seed default admin account
+cd apps/api && npm run db:seed
+
 # Start development servers
 npm run dev
 ```
 
 The web app runs at http://localhost:5173 and API at http://localhost:3000.
+
+### Default Admin Account
+
+A default admin account is created when seeding the database:
+
+- **Email**: info@lsltgroup.es
+- **Password**: Summer15
+- **Tenant**: LSLT Group
+
+**⚠️ IMPORTANT**: Change this password after first login!
 
 ### Commands
 
