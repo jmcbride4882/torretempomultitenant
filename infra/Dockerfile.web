@@ -6,13 +6,13 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json package-lock.json* ./
+# Copy all package files for workspace
+COPY package.json package-lock.json ./
 COPY apps/web/package.json ./apps/web/
 COPY packages/shared/package.json ./packages/shared/
 
-# Install dependencies
-RUN npm ci --workspace=@torre-tempo/shared --workspace=@torre-tempo/web
+# Install ALL dependencies (including root)
+RUN npm ci
 
 # Copy source code
 COPY packages/shared ./packages/shared
