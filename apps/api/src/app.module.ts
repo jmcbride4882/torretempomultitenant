@@ -2,6 +2,7 @@ import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
+import { TimeTrackingModule } from './time-tracking/time-tracking.module';
 import { HealthController } from './health.controller';
 import { TenantMiddleware } from './common/middleware/tenant.middleware';
 
@@ -13,8 +14,8 @@ import { TenantMiddleware } from './common/middleware/tenant.middleware';
     }),
     PrismaModule,
     AuthModule,
-    // Wave 2 modules will be added here:
-    // TimeTrackingModule,
+    TimeTrackingModule,
+    // Wave 2 modules (remaining):
     // LocationsModule,
     // SchedulingModule,
     // ApprovalsModule,
