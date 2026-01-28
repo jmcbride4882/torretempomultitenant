@@ -1,0 +1,128 @@
+version: '3.8'
+
+services:
+  # Nginx Reverse Proxy with SSL
+  nginx:
+    image: nginx:alpine
+    container_name: torre-tempo-nginx
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl/certbot/conf:/etc/letsencrypt:ro
+      - ./ssl/certbot/www:/var/www/certbot:ro
+    depends_on:
+      - web
+      - api
+    networks:
+      - torre-tempo-network
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+  # Certbot for SSL
+  certbot:
+    image: certbot/certbot
+    container_name: torre-tempo-certbot
+    restart: unless-stopped
+    volumes:
+      - ./ssl/certbot/conf:/etc/letsencrypt
+      - ./ssl/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  # React PWA Frontend
+  web:
+    build:
+      context: ../
+      dockerfile: infra/Dockerfile.web
+    container_name: torre-tempo-web
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - torre-tempo-network
+
+  # NestJS API Backend
+  api:
+    build:
+      context: ../
+      dockerfile: infra/Dockerfile.api
+    container_name: torre-tempo-api
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:${DB_PASSWORD}@postgres:5432/torre_tempo?schema=public
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=24h
+      - CORS_ORIGIN=https://time.lsltgroup.es
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - torre-tempo-network
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: torre-tempo-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: torre_tempo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - torre-tempo-network
+
+  # Redis for queues and caching
+  redis:
+    image: redis:7-alpine
+    container_name: torre-tempo-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - torre-tempo-network
+
+  # Database backup service
+  backup:
+    image: postgres:16-alpine
+    container_name: torre-tempo-backup
+    restart: unless-stopped
+    environment:
+      PGHOST: postgres
+      PGUSER: postgres
+      PGPASSWORD: ${DB_PASSWORD}
+      PGDATABASE: torre_tempo
+    volumes:
+      - ./backups:/backups
+      - ./scripts/backup.sh:/backup.sh:ro
+    entrypoint: ['/bin/sh', '-c', 'chmod +x /backup.sh && crond -f -l 2']
+    depends_on:
+      - postgres
+    networks:
+      - torre-tempo-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  torre-tempo-network:
+    driver: bridge

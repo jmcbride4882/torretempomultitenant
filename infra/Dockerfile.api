@@ -1,0 +1,67 @@
+# Torre Tempo - API (NestJS) Dockerfile
+# Multi-stage build for optimized production image
+
+# Stage 1: Build
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json package-lock.json* ./
+COPY apps/api/package.json ./apps/api/
+COPY packages/shared/package.json ./packages/shared/
+
+# Install dependencies
+RUN npm ci --workspace=@torre-tempo/shared --workspace=@torre-tempo/api
+
+# Copy source code
+COPY packages/shared ./packages/shared
+COPY apps/api ./apps/api
+
+# Build shared package
+RUN npm run build -w packages/shared
+
+# Generate Prisma client
+RUN cd apps/api && npx prisma generate
+
+# Build API
+RUN npm run build -w apps/api
+
+# Stage 2: Production
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dumb-init for proper signal handling
+RUN apk add --no-cache dumb-init
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && adduser -S nestjs -u 1001
+
+# Copy package files
+COPY package.json package-lock.json* ./
+COPY apps/api/package.json ./apps/api/
+COPY packages/shared/package.json ./packages/shared/
+
+# Install production dependencies only
+RUN npm ci --workspace=@torre-tempo/shared --workspace=@torre-tempo/api --omit=dev
+
+# Copy built files
+COPY --from=builder /app/packages/shared/dist ./packages/shared/dist
+COPY --from=builder /app/apps/api/dist ./apps/api/dist
+COPY --from=builder /app/apps/api/node_modules/.prisma ./apps/api/node_modules/.prisma
+
+# Copy Prisma schema for migrations
+COPY apps/api/prisma ./apps/api/prisma
+
+# Set ownership
+RUN chown -R nestjs:nodejs /app
+
+USER nestjs
+
+EXPOSE 4000
+
+# Use dumb-init to handle signals properly
+ENTRYPOINT ["dumb-init", "--"]
+
+CMD ["node", "apps/api/dist/main.js"]
