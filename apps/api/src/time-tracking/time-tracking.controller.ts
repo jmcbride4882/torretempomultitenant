@@ -55,14 +55,16 @@ export class TimeTrackingController {
   @Get('entries')
   async getMyEntries(
     @CurrentUser() user: any,
-    @Query('page', new ParseIntPipe({ optional: true })) page?: number,
-    @Query('pageSize', new ParseIntPipe({ optional: true })) pageSize?: number,
+    @Query('page') page?: string,
+    @Query('pageSize') pageSize?: string,
   ) {
+    const pageNum = page ? parseInt(page, 10) : undefined;
+    const pageSizeNum = pageSize ? parseInt(pageSize, 10) : undefined;
     return this.timeTrackingService.getEntries(
       user.id,
       user.tenantId,
-      page,
-      pageSize,
+      pageNum,
+      pageSizeNum,
     );
   }
 
@@ -75,13 +77,15 @@ export class TimeTrackingController {
   @Roles(Role.MANAGER, Role.ADMIN)
   async getAllEntries(
     @CurrentUser() user: any,
-    @Query('page', new ParseIntPipe({ optional: true })) page?: number,
-    @Query('pageSize', new ParseIntPipe({ optional: true })) pageSize?: number,
+    @Query('page') page?: string,
+    @Query('pageSize') pageSize?: string,
   ) {
+    const pageNum = page ? parseInt(page, 10) : undefined;
+    const pageSizeNum = pageSize ? parseInt(pageSize, 10) : undefined;
     return this.timeTrackingService.getAllEntries(
       user.tenantId,
-      page,
-      pageSize,
+      pageNum,
+      pageSizeNum,
     );
   }
 }
