@@ -105,4 +105,21 @@ This application is designed to comply with:
 
 ## License
 
-Proprietary - LSLT Group
+**Proprietary Software - LSLT Group**
+
+This software is proprietary and confidential. Unauthorized copying, distribution,
+or modification is strictly prohibited.
+
+### Commercial Licensing
+
+Torre Tempo is available for commercial licensing:
+- **Internal Use**: Deploy for your own organization
+- **Distribution Rights**: Resell to clients with proper licensing
+- **Custom Development**: Tailored features and integrations
+- **White Label**: Rebrand for your business
+
+**Contact for licensing:**
+- Email: info@lsltgroup.es
+- Website: https://lsltgroup.es
+
+See [LICENSE](LICENSE) for full terms.

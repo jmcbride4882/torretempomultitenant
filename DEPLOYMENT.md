@@ -2,19 +2,34 @@
 
 ## Production Deployment on VPS
 
-### Initial Setup
+### Quick Start - Interactive Installer (Recommended)
 
-The initial deployment is handled by `infra/scripts/deploy.sh`. This script:
-- Installs Docker and dependencies
-- Configures firewall
-- Clones the repository
-- Creates environment files
-- Obtains SSL certificates
-- Starts all services
+The easiest way to deploy Torre Tempo is using the interactive installer:
 
 ```bash
+# Download and run the interactive installer
+sudo bash infra/scripts/deploy-interactive.sh
+```
+
+The installer will prompt you for:
+- **Domain names** (primary and optional secondary)
+- **Company/tenant information**
+- **Admin credentials** (email, name, password)
+- **SSL certificate email**
+- **Installation directory**
+
+All configuration is saved securely and the system is ready to use immediately.
+
+### Advanced - Manual Setup
+
+For advanced users or custom configurations, use the manual deployment script:
+
+```bash
+# Edit configuration in the script first
 sudo bash infra/scripts/deploy.sh
 ```
+
+**Note:** Manual setup requires editing hardcoded values in the script.
 
 ### Environment Configuration
 
