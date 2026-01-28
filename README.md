@@ -177,15 +177,24 @@ npm run dev
 
 The web app runs at **http://localhost:5173** and API at **http://localhost:4000**.
 
-#### Default Admin Account
+#### Admin Account Setup
 
-A default admin account is created when seeding:
+**For Production Deployment:**
+The interactive installer (`deploy-interactive.sh`) prompts you to create your own admin account with:
+- Custom email address
+- Secure password (minimum 8 characters)
+- Your company name and tenant slug
+- Admin name
 
-- **Email**: info@lsltgroup.es
-- **Password**: Summer15
-- **Tenant**: LSLT Group
+**For Development:**
+The seed script creates a test admin account for local development:
+```bash
+cd apps/api && npm run db:seed
+```
 
-**⚠️ IMPORTANT**: Change this password immediately after first login!
+This creates a sample tenant and admin user. You can customize the seed data in `apps/api/prisma/seed.ts`.
+
+**⚠️ IMPORTANT**: Production deployments automatically create secure admin accounts during installation. Never use development credentials in production!
 
 #### Development Commands
 
