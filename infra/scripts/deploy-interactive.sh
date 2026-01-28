@@ -79,65 +79,187 @@ generate_password() {
     openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | head -c 32
 }
 
+# Function to show menu and get selection
+show_menu() {
+    local prompt="$1"
+    shift
+    local options=("$@")
+    
+    echo ""
+    echo -e "${BLUE}$prompt${NC}"
+    for i in "${!options[@]}"; do
+        echo "  $((i+1))) ${options[$i]}"
+    done
+    echo ""
+    
+    while true; do
+        read -p "Enter choice [1-${#options[@]}]: " choice
+        if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "${#options[@]}" ]; then
+            echo "${options[$((choice-1))]}"
+            return
+        else
+            echo -e "${RED}Invalid choice. Please enter a number between 1 and ${#options[@]}.${NC}"
+        fi
+    done
+}
+
 # Collect configuration
-echo -e "${YELLOW}=== Installation Directory ===${NC}"
+echo -e "${YELLOW}╔════════════════════════════════════════╗${NC}"
+echo -e "${YELLOW}║   INSTALLATION CONFIGURATION WIZARD    ║${NC}"
+echo -e "${YELLOW}╚════════════════════════════════════════╝${NC}"
+echo ""
+echo -e "${BLUE}This wizard will guide you through setting up Torre Tempo.${NC}"
+echo -e "${BLUE}You can press Ctrl+C at any time to cancel.${NC}"
+echo ""
+read -p "Press Enter to continue..."
+
+echo ""
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo -e "${YELLOW}  STEP 1: Installation Directory${NC}"
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo ""
+echo -e "${BLUE}This is where Torre Tempo will be installed.${NC}"
+echo -e "${BLUE}Default: $DEFAULT_APP_DIR${NC}"
+echo ""
 prompt_with_default "Install directory" "$DEFAULT_APP_DIR" "APP_DIR"
 
 echo ""
-echo -e "${YELLOW}=== Domain Configuration ===${NC}"
-prompt_with_default "Primary domain (e.g., tempo.yourcompany.com)" "" "PRIMARY_DOMAIN"
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo -e "${YELLOW}  STEP 2: Domain Configuration${NC}"
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo ""
+echo -e "${BLUE}Enter your domain name(s) where Torre Tempo will be accessible.${NC}"
+echo -e "${BLUE}Example: tempo.yourcompany.com${NC}"
+echo -e "${BLUE}Make sure DNS A records point to this server's IP address.${NC}"
+echo ""
+prompt_with_default "Primary domain" "" "PRIMARY_DOMAIN"
 prompt_with_default "Secondary domain (optional, press Enter to skip)" "" "SECONDARY_DOMAIN"
+echo ""
+echo -e "${BLUE}Email for SSL certificate notifications (Let's Encrypt):${NC}"
 prompt_with_default "Email for SSL certificates" "" "CERTBOT_EMAIL"
 
 echo ""
-echo -e "${YELLOW}=== Company/Tenant Information ===${NC}"
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo -e "${YELLOW}  STEP 3: Company/Tenant Information${NC}"
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo ""
+echo -e "${BLUE}This creates your organization's tenant in the system.${NC}"
+echo -e "${BLUE}Example: 'ACME Corporation'${NC}"
+echo ""
 prompt_with_default "Company/Organization name" "" "COMPANY_NAME"
-prompt_with_default "Tenant slug (lowercase, no spaces, e.g., 'mycompany')" "" "TENANT_SLUG"
-prompt_with_default "Timezone" "Europe/Madrid" "TIMEZONE"
-prompt_with_default "Locale (es, en, fr, de, pl, nl)" "es" "LOCALE"
 
 echo ""
-echo -e "${YELLOW}=== Default Admin Account ===${NC}"
+echo -e "${BLUE}Tenant slug is used in URLs and must be unique.${NC}"
+echo -e "${BLUE}Use lowercase letters, numbers, and hyphens only.${NC}"
+echo -e "${BLUE}Example: 'acme-corp' or 'my-company'${NC}"
+echo ""
+prompt_with_default "Tenant slug" "" "TENANT_SLUG"
+
+echo ""
+echo -e "${BLUE}Select your timezone:${NC}"
+TIMEZONE=$(show_menu "Choose timezone:" \
+    "Europe/Madrid (Spain)" \
+    "Europe/London (UK)" \
+    "Europe/Paris (France)" \
+    "Europe/Berlin (Germany)" \
+    "Europe/Amsterdam (Netherlands)" \
+    "Europe/Brussels (Belgium)" \
+    "Europe/Warsaw (Poland)" \
+    "America/New_York (US Eastern)" \
+    "America/Los_Angeles (US Pacific)" \
+    "America/Chicago (US Central)")
+TIMEZONE=$(echo "$TIMEZONE" | awk '{print $1}')
+
+echo ""
+echo -e "${BLUE}Select your default language:${NC}"
+LOCALE=$(show_menu "Choose language:" \
+    "es - Spanish (Español)" \
+    "en - English" \
+    "fr - French (Français)" \
+    "de - German (Deutsch)" \
+    "pl - Polish (Polski)" \
+    "nl - Dutch (Nederlands)")
+LOCALE=$(echo "$LOCALE" | awk '{print $1}')
+
+echo ""
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo -e "${YELLOW}  STEP 4: Administrator Account${NC}"
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo ""
+echo -e "${BLUE}Create the initial administrator account.${NC}"
+echo -e "${BLUE}This account will have full access to the system.${NC}"
+echo ""
 prompt_with_default "Admin email" "" "ADMIN_EMAIL"
 prompt_with_default "Admin first name" "" "ADMIN_FIRST_NAME"
 prompt_with_default "Admin last name" "" "ADMIN_LAST_NAME"
-prompt_password "Admin password (min 8 characters)" "ADMIN_PASSWORD"
+echo ""
+echo -e "${BLUE}Choose a strong password (minimum 8 characters).${NC}"
+prompt_password "Admin password" "ADMIN_PASSWORD"
 
 echo ""
-echo -e "${YELLOW}=== Database Configuration ===${NC}"
-echo "Generating secure database password..."
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo -e "${YELLOW}  STEP 5: Security Configuration${NC}"
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo ""
+echo -e "${BLUE}Generating secure passwords for database and JWT...${NC}"
+echo -e "${BLUE}These will be saved to .env file and are not shown.${NC}"
+echo ""
 DB_PASSWORD=$(generate_password)
-echo "Database password generated: ${DB_PASSWORD:0:10}... (saved to .env)"
-
-echo ""
-echo -e "${YELLOW}=== JWT Configuration ===${NC}"
-echo "Generating secure JWT secret..."
 JWT_SECRET=$(generate_password)
-echo "JWT secret generated (saved to .env)"
+echo -e "${GREEN}✓ Database password generated (32 characters)${NC}"
+echo -e "${GREEN}✓ JWT secret generated (32 characters)${NC}"
 
 echo ""
-echo -e "${YELLOW}=== Repository Configuration ===${NC}"
-prompt_with_default "Git repository URL" "$DEFAULT_REPO_URL" "REPO_URL"
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo -e "${YELLOW}  STEP 6: Source Code${NC}"
+echo -e "${YELLOW}═══════════════════════════════════════════${NC}"
+echo ""
+echo -e "${BLUE}Git repository URL (leave default for standard installation):${NC}"
+prompt_with_default "Repository URL" "$DEFAULT_REPO_URL" "REPO_URL"
 
 # Confirmation
 echo ""
-echo -e "${GREEN}=== Configuration Summary ===${NC}"
-echo "Install directory: $APP_DIR"
-echo "Primary domain: $PRIMARY_DOMAIN"
-[ -n "$SECONDARY_DOMAIN" ] && echo "Secondary domain: $SECONDARY_DOMAIN"
-echo "SSL email: $CERTBOT_EMAIL"
-echo "Company: $COMPANY_NAME"
-echo "Tenant slug: $TENANT_SLUG"
-echo "Admin email: $ADMIN_EMAIL"
-echo "Admin name: $ADMIN_FIRST_NAME $ADMIN_LAST_NAME"
-echo "Repository: $REPO_URL"
+echo -e "${GREEN}╔════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${GREEN}║              CONFIGURATION SUMMARY                         ║${NC}"
+echo -e "${GREEN}╚════════════════════════════════════════════════════════════╝${NC}"
 echo ""
-read -p "Continue with installation? (yes/no): " confirm
+echo -e "${YELLOW}Installation:${NC}"
+echo "  Directory:        $APP_DIR"
+echo "  Repository:       $REPO_URL"
+echo ""
+echo -e "${YELLOW}Domain & SSL:${NC}"
+echo "  Primary domain:   $PRIMARY_DOMAIN"
+[ -n "$SECONDARY_DOMAIN" ] && echo "  Secondary domain: $SECONDARY_DOMAIN"
+echo "  SSL email:        $CERTBOT_EMAIL"
+echo ""
+echo -e "${YELLOW}Organization:${NC}"
+echo "  Company:          $COMPANY_NAME"
+echo "  Tenant slug:      $TENANT_SLUG"
+echo "  Timezone:         $TIMEZONE"
+echo "  Language:         $LOCALE"
+echo ""
+echo -e "${YELLOW}Administrator:${NC}"
+echo "  Email:            $ADMIN_EMAIL"
+echo "  Name:             $ADMIN_FIRST_NAME $ADMIN_LAST_NAME"
+echo ""
+echo -e "${YELLOW}Security:${NC}"
+echo "  Database:         ✓ Auto-generated 32-char password"
+echo "  JWT Secret:       ✓ Auto-generated 32-char secret"
+echo ""
+echo -e "${BLUE}══════════════════════════════════════════════════════════════${NC}"
+echo ""
+read -p "Everything looks correct? Type 'yes' to continue: " confirm
 
 if [ "$confirm" != "yes" ]; then
+    echo ""
     echo -e "${RED}Installation cancelled.${NC}"
+    echo -e "${YELLOW}Run the script again to start over.${NC}"
     exit 0
 fi
+
+echo ""
+echo -e "${GREEN}Starting installation...${NC}"
+echo ""
 
 # Step 1: System Update
 echo -e "\n${YELLOW}[1/9] Updating system...${NC}"
