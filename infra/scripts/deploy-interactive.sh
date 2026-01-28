@@ -19,17 +19,19 @@ clear
 echo ""
 echo -e "${GREEN}╔═══════════════════════════════════════════════════════════════════════════╗${NC}"
 echo -e "${GREEN}║                                                                           ║${NC}"
-echo -e "${GREEN}║     ▀▀▀█████▀▀▀  ████▀▀▀▀▀  ████▀▀▀▀   ████▀▀▀▀   ▀▀▀█████▀▀▀          ║${NC}"
-echo -e "${GREEN}║         ██       ██    ██   ██   ██    ██   ██        ██                ║${NC}"
-echo -e "${GREEN}║         ██       ██    ██   ██████     ██████         ██                ║${NC}"
-echo -e "${GREEN}║         ██       ██    ██   ██   ██    ██   ██        ██                ║${NC}"
-echo -e "${GREEN}║         ██       ████▄▄▄▄   ██    ██   ██    ██       ██                ║${NC}"
+echo -e "${GREEN}║        ████████╗ ██████╗ ██████╗ ██████╗ ███████╗                        ║${NC}"
+echo -e "${GREEN}║        ╚══██╔══╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝                        ║${NC}"
+echo -e "${GREEN}║           ██║   ██║   ██║██████╔╝██████╔╝█████╗                          ║${NC}"
+echo -e "${GREEN}║           ██║   ██║   ██║██╔══██╗██╔══██╗██╔══╝                          ║${NC}"
+echo -e "${GREEN}║           ██║   ╚██████╔╝██║  ██║██║  ██║███████╗                        ║${NC}"
+echo -e "${GREEN}║           ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝                        ║${NC}"
 echo -e "${GREEN}║                                                                           ║${NC}"
-echo -e "${GREEN}║            ▀███▀████▀███▀ ████▀▀▀▀▀ ████▀   ▀██  ████▀▀▀▀▀              ║${NC}"
-echo -e "${GREEN}║              ███  ███     ██       ███▀▀█▀▀███  ██       ██████         ║${NC}"
-echo -e "${GREEN}║              ███  ███     ██████   ██  ██  ██   ██████   ██   ██        ║${NC}"
-echo -e "${GREEN}║              ███  ███     ██       ██  ██  ██   ██       ██  ██         ║${NC}"
-echo -e "${GREEN}║              ███  ███     ████▄▄▄▄ ██  ██  ██   ██       ██████         ║${NC}"
+echo -e "${GREEN}║           ████████╗███████╗███╗   ███╗██████╗  ██████╗                   ║${NC}"
+echo -e "${GREEN}║           ╚══██╔══╝██╔════╝████╗ ████║██╔══██╗██╔═══██╗                  ║${NC}"
+echo -e "${GREEN}║              ██║   █████╗  ██╔████╔██║██████╔╝██║   ██║                  ║${NC}"
+echo -e "${GREEN}║              ██║   ██╔══╝  ██║╚██╔╝██║██╔═══╝ ██║   ██║                  ║${NC}"
+echo -e "${GREEN}║              ██║   ███████╗██║ ╚═╝ ██║██║     ╚██████╔╝                  ║${NC}"
+echo -e "${GREEN}║              ╚═╝   ╚══════╝╚═╝     ╚═╝╚═╝      ╚═════╝                   ║${NC}"
 echo -e "${GREEN}║                                                                           ║${NC}"
 echo -e "${GREEN}║                ${YELLOW}Professional Time Tracking & Labor Compliance${NC}${GREEN}             ║${NC}"
 echo -e "${GREEN}║                                                                           ║${NC}"
@@ -58,6 +60,7 @@ echo -e "  ${BLUE}│${NC} Version: ${GREEN}1.0.0${NC}        Support: ${GREEN}i
 echo -e "  ${BLUE}│${NC} Website: ${GREEN}https://lsltgroup.es${NC}    License: ${YELLOW}Commercial${NC}          ${BLUE}│${NC}"
 echo -e "  ${BLUE}└─────────────────────────────────────────────────────────────────────┘${NC}"
 echo ""
+read -p "$(echo -e ${GREEN}Press Enter to continue...${NC})" dummy
 
 # Check if running as root
 if [ "$EUID" -ne 0 ]; then
@@ -198,10 +201,17 @@ echo -e "  ${RED}║  Proceeding without a valid license violates international 
 echo -e "  ${RED}║  copyright law and may result in legal action.                       ║${NC}"
 echo -e "  ${RED}╚═══════════════════════════════════════════════════════════════════════╝${NC}"
 echo ""
+echo -e "${BLUE}┌───────────────────────────────────────────────────────────────────────────┐${NC}"
+echo -e "${BLUE}│  Choose Installation Type:                                               │${NC}"
+echo -e "${BLUE}└───────────────────────────────────────────────────────────────────────────┘${NC}"
 echo ""
-read -p "$(echo -e ${YELLOW}  Do you have a valid license? Type \'${GREEN}yes${YELLOW}\' to accept and continue: ${NC})" license_accept
+echo -e "  ${GREEN}1)${NC} I have a commercial license - Proceed with licensed installation"
+echo -e "  ${YELLOW}2)${NC} Start 30-day free trial - No license required"
+echo -e "  ${RED}3)${NC} Exit - I need to purchase a license first"
+echo ""
+read -p "$(echo -e ${YELLOW}Enter your choice [1-3]: ${NC})" license_choice
 
-if [ "$license_accept" != "yes" ]; then
+if [ "$license_choice" = "3" ]; then
     clear
     echo ""
     echo -e "${RED}╔═══════════════════════════════════════════════════════════════════════════╗${NC}"
@@ -243,24 +253,44 @@ echo -e "${GREEN}╚════════════════════
 echo ""
 echo -e "  ${BLUE}Thank you for choosing Torre Tempo by LSLT Group!${NC}"
 echo ""
-echo -e "${YELLOW}┌───────────────────────────────────────────────────────────────────────────┐${NC}"
-echo -e "${YELLOW}│  License Key (Optional)                                                   │${NC}"
-echo -e "${YELLOW}└───────────────────────────────────────────────────────────────────────────┘${NC}"
-echo ""
-echo -e "  ${BLUE}If you have received a license key from LSLT Group, enter it below.${NC}"
-echo -e "  ${BLUE}Otherwise, press Enter to continue with evaluation mode.${NC}"
-echo ""
-read -p "$(echo -e ${YELLOW}  License Key (or press Enter to skip): ${NC})" LICENSE_KEY
 
-if [ -n "$LICENSE_KEY" ]; then
+# Handle license based on user choice
+if [ "$license_choice" = "1" ]; then
+    # Licensed installation
+    echo -e "${YELLOW}┌───────────────────────────────────────────────────────────────────────────┐${NC}"
+    echo -e "${YELLOW}│  Enter Your License Key                                                   │${NC}"
+    echo -e "${YELLOW}└───────────────────────────────────────────────────────────────────────────┘${NC}"
     echo ""
-    echo -e "  ${GREEN}✓${NC} License key recorded: ${GREEN}${LICENSE_KEY:0:8}-****-****-****${NC}"
-    echo -e "  ${BLUE}Your license will be validated during system startup.${NC}"
-    LICENSE_TYPE="Licensed"
+    echo -e "  ${BLUE}Please enter the license key you received from LSLT Group.${NC}"
+    echo -e "  ${BLUE}Format: XXXX-XXXX-XXXX-XXXX${NC}"
+    echo ""
+    read -p "$(echo -e ${YELLOW}  License Key: ${NC})" LICENSE_KEY
+    
+    if [ -n "$LICENSE_KEY" ]; then
+        echo ""
+        echo -e "  ${GREEN}✓${NC} License key recorded: ${GREEN}${LICENSE_KEY:0:8}-****-****${NC}"
+        echo -e "  ${BLUE}Your license will be validated during system startup.${NC}"
+        LICENSE_TYPE="Licensed"
+    else
+        echo ""
+        echo -e "  ${RED}✗${NC} No license key provided. Switching to evaluation mode..."
+        LICENSE_KEY="EVAL-30DAY-$(date +%Y%m%d)"
+        LICENSE_TYPE="Evaluation"
+    fi
 else
+    # Trial installation (choice 2)
+    echo -e "${YELLOW}┌───────────────────────────────────────────────────────────────────────────┐${NC}"
+    echo -e "${YELLOW}│  30-Day Free Trial Started                                                │${NC}"
+    echo -e "${YELLOW}└───────────────────────────────────────────────────────────────────────────┘${NC}"
     echo ""
-    echo -e "  ${YELLOW}⚠️  ${NC} No license key provided - proceeding in ${YELLOW}Evaluation Mode${NC}"
-    echo -e "  ${BLUE}30-day trial with full features enabled.${NC}"
+    echo -e "  ${GREEN}✓${NC} Your free trial begins today: ${GREEN}$(date +%Y-%m-%d)${NC}"
+    echo -e "  ${GREEN}✓${NC} Full features enabled for 30 days"
+    echo -e "  ${GREEN}✓${NC} No credit card required"
+    echo ""
+    echo -e "  ${BLUE}To upgrade to a commercial license at any time:${NC}"
+    echo -e "    📧 Email: info@lsltgroup.es"
+    echo -e "    🌐 Web:   https://lsltgroup.es"
+    echo ""
     LICENSE_KEY="EVAL-30DAY-$(date +%Y%m%d)"
     LICENSE_TYPE="Evaluation"
 fi
