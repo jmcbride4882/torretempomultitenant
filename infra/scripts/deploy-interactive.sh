@@ -98,25 +98,28 @@ generate_password() {
 }
 
 # Function to show menu and get selection
+# All display output goes to stderr, only the selection goes to stdout
 show_menu() {
     local prompt="$1"
     shift
     local options=("$@")
     
-    echo ""
-    echo -e "${BLUE}$prompt${NC}"
+    # Display to stderr so it doesn't pollute variable capture
+    echo "" >&2
+    echo -e "${BLUE}$prompt${NC}" >&2
     for i in "${!options[@]}"; do
-        echo "  $((i+1))) ${options[$i]}"
+        echo "  $((i+1))) ${options[$i]}" >&2
     done
-    echo ""
+    echo "" >&2
     
     while true; do
-        read -p "Enter choice [1-${#options[@]}]: " choice
+        read -p "Enter choice [1-${#options[@]}]: " choice >&2
         if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "${#options[@]}" ]; then
+            # Only the selected value goes to stdout (captured by variable)
             echo "${options[$((choice-1))]}"
             return
         else
-            echo -e "${RED}Invalid choice. Please enter a number between 1 and ${#options[@]}.${NC}"
+            echo -e "${RED}Invalid choice. Please enter a number between 1 and ${#options[@]}.${NC}" >&2
         fi
     done
 }
