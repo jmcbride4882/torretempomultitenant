@@ -183,6 +183,20 @@
       "notClockedIn": "You are not clocked in"
     }
   },
+  "clocking": {
+    "title": "Time Clock",
+    "status": "Status",
+    "clockIn": "Clock In",
+    "clockOut": "Clock Out",
+    "clockedIn": "Clocked In",
+    "clockedOut": "Clocked Out",
+    "clockInTime": "Clock-in time",
+    "location": "Location",
+    "offlineMode": "Offline Mode - Clock-ins will sync when you reconnect",
+    "offlineQueue": "Pending Sync",
+    "pendingSync": "{{count}} items pending sync",
+    "retryAttempt": "Retry attempt {{count}}"
+  },
   "entries": {
     "title": "My Time Entries",
     "noEntries": "No time entries",

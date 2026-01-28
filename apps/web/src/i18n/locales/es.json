@@ -183,6 +183,20 @@
       "notClockedIn": "No has fichado entrada"
     }
   },
+  "clocking": {
+    "title": "Reloj de Fichaje",
+    "status": "Estado",
+    "clockIn": "Entrada",
+    "clockOut": "Salida",
+    "clockedIn": "Fichado",
+    "clockedOut": "No Fichado",
+    "clockInTime": "Hora de entrada",
+    "location": "Ubicación",
+    "offlineMode": "Modo sin conexión - Los fichajes se sincronizarán al reconectar",
+    "offlineQueue": "Pendiente de Sincronización",
+    "pendingSync": "{{count}} elementos pendientes",
+    "retryAttempt": "Intento de reintento {{count}}"
+  },
   "entries": {
     "title": "Mis registros",
     "noEntries": "No hay registros",

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuthStore } from './lib/store';
 import { authApi } from './lib/api';
 import LandingPage from './features/landing/LandingPage';
+import { ClockingPage } from './features/clocking/ClockingPage';
 
 // Login Page
 function LoginPage() {
@@ -159,53 +160,6 @@ function DashboardPage() {
   );
 }
 
-// Clock Page
-function ClockPage() {
-  const { t } = useTranslation();
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-100 px-4 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">TT</span>
-            </div>
-            <span className="font-bold text-lg text-gray-900">Torre Tempo</span>
-          </div>
-          <nav className="flex items-center gap-6">
-            <a href="/app/dashboard" className="text-sm font-medium text-gray-600 hover:text-gray-900">Dashboard</a>
-            <a href="/app/clock" className="text-sm font-medium text-blue-600">Fichar</a>
-            <a href="/app/entries" className="text-sm font-medium text-gray-600 hover:text-gray-900">Registros</a>
-          </nav>
-        </div>
-      </header>
-      <main className="max-w-md mx-auto p-6">
-        <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            {t('clock.title')}
-          </h1>
-          <p className="text-gray-500 mb-8">{t('clock.clockedOut')}</p>
-          
-          <button className="w-full bg-green-500 text-white py-4 rounded-xl font-medium text-lg hover:bg-green-600 transition-colors mb-4">
-            {t('clock.clockIn')}
-          </button>
-          
-          <button className="w-full bg-gray-100 text-gray-400 py-4 rounded-xl font-medium text-lg cursor-not-allowed" disabled>
-            {t('clock.clockOut')}
-          </button>
-          
-          <div className="mt-8 pt-6 border-t border-gray-100">
-            <button className="flex items-center justify-center gap-2 w-full text-blue-600 font-medium">
-              <span>📷</span>
-              {t('clock.scanQR')}
-            </button>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-}
-
 // Protected Route
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -237,7 +191,7 @@ export default function App() {
         path="/app/clock"
         element={
           <ProtectedRoute>
-            <ClockPage />
+            <ClockingPage />
           </ProtectedRoute>
         }
       />
