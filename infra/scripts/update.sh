@@ -8,7 +8,9 @@ cd /opt/torre-tempo
 
 # Load environment variables
 if [ -f infra/.env ]; then
-  export $(cat infra/.env | grep -v '^#' | xargs)
+  set -a
+  source infra/.env
+  set +a
 fi
 
 # Pull latest changes
