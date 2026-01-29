@@ -15,6 +15,7 @@ import { UsersModule } from './users/users.module';
 import { AdminModule } from './admin/admin.module';
 import { GlobalAdminModule } from './global-admin/global-admin.module';
 import { ComplianceModule } from './compliance/compliance.module';
+import { OvertimeModule } from './overtime/overtime.module';
 import { HealthController } from './health.controller';
 import { TenantMiddleware } from './common/middleware/tenant.middleware';
 import { loggerConfig } from './config/logger.config';
@@ -40,6 +41,7 @@ import { loggerConfig } from './config/logger.config';
     AdminModule,
     GlobalAdminModule,
     ComplianceModule,
+    OvertimeModule,
   ],
   controllers: [HealthController],
 })
