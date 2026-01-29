@@ -13,6 +13,7 @@ import { AuditModule } from './audit/audit.module';
 import { TenantsModule } from './tenants/tenants.module';
 import { UsersModule } from './users/users.module';
 import { AdminModule } from './admin/admin.module';
+import { GlobalAdminModule } from './global-admin/global-admin.module';
 import { HealthController } from './health.controller';
 import { TenantMiddleware } from './common/middleware/tenant.middleware';
 import { loggerConfig } from './config/logger.config';
@@ -36,6 +37,7 @@ import { loggerConfig } from './config/logger.config';
     TenantsModule,
     UsersModule,
     AdminModule,
+    GlobalAdminModule,
   ],
   controllers: [HealthController],
 })
