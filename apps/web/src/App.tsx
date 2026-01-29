@@ -182,7 +182,7 @@ function AppShell({ children }: AppShellProps) {
     { path: '/app/settings', label: t('settings.title'), icon: 'settings', roles: [Role.ADMIN] },
   ];
 
-  const filteredNavItems = navItems.filter(item => 
+  const filteredNavItems = (navItems ?? []).filter(item => 
     user && item.roles.includes(user.role)
   );
 

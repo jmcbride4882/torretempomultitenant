@@ -18,9 +18,9 @@ interface BottomNavProps {
  * Renders only on mobile (<768px) with thumb-friendly tap targets.
  * Follows iOS Human Interface Guidelines (44pt min) and Material Design (48dp).
  */
-export function BottomNav({ navItems, currentPath, onNavigate }: BottomNavProps) {
+export function BottomNav({ navItems = [], currentPath, onNavigate }: BottomNavProps) {
   // Limit to max 5 items for mobile UX
-  const visibleItems = navItems.slice(0, 5);
+  const visibleItems = (navItems ?? []).slice(0, 5);
 
   const renderIcon = (icon: string, isActive: boolean) => {
     const className = `w-6 h-6 transition-colors duration-200 ${
