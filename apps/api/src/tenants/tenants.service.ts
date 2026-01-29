@@ -201,39 +201,64 @@ export class TenantsService {
     };
   }
 
-  /**
-   * List all tenants (GLOBAL_ADMIN only)
-   * @returns Array of all tenants
-   */
-  async listAllTenants() {
-    const tenants = await this.prisma.tenant.findMany({
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        timezone: true,
-        locale: true,
-        convenioCode: true,
-        maxWeeklyHours: true,
-        maxAnnualHours: true,
-        createdAt: true,
-        updatedAt: true,
-        _count: {
-          select: {
-            users: true,
-            locations: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+   /**
+    * List all tenants (GLOBAL_ADMIN only)
+    * @param page - Page number (default: 1)
+    * @param pageSize - Items per page (default: 50)
+    * @param search - Optional search query for name or slug
+    * @returns Paginated response with tenants array and metadata
+    */
+   async listAllTenants(page: number = 1, pageSize: number = 50, search?: string) {
+     const skip = (page - 1) * pageSize;
 
-    this.logger.log(`Listed all tenants: ${tenants.length} found`);
+     const where = search
+       ? {
+           OR: [
+             { name: { contains: search, mode: 'insensitive' as any } },
+             { slug: { contains: search, mode: 'insensitive' as any } },
+           ],
+         }
+       : {};
 
-    return tenants;
-  }
+     const [tenants, total] = await Promise.all([
+       this.prisma.tenant.findMany({
+         where,
+         skip,
+         take: pageSize,
+         select: {
+           id: true,
+           name: true,
+           slug: true,
+           timezone: true,
+           locale: true,
+           convenioCode: true,
+           maxWeeklyHours: true,
+           maxAnnualHours: true,
+           createdAt: true,
+           updatedAt: true,
+           _count: {
+             select: {
+               users: true,
+               locations: true,
+             },
+           },
+         },
+         orderBy: { createdAt: 'desc' },
+       }),
+       this.prisma.tenant.count({ where }),
+     ]);
+
+     this.logger.log(
+       `Listed tenants: page ${page}, pageSize ${pageSize}, total ${total}`,
+     );
+
+     return {
+       tenants,
+       total,
+       page,
+       pageSize,
+     };
+   }
 
   /**
    * Get tenant by ID (GLOBAL_ADMIN only)

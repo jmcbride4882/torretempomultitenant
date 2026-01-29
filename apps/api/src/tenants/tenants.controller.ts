@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { TenantsService } from './tenants.service';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
@@ -59,16 +60,22 @@ export class TenantsController {
     return this.tenantsService.getTenantStats(user.tenantId);
   }
 
-  /**
-   * List all tenants (GLOBAL_ADMIN only)
-   * GET /api/tenants
-   */
-  @Get()
-  @UseGuards(RolesGuard)
-  @Roles('GLOBAL_ADMIN' as any)
-  async listAllTenants() {
-    return this.tenantsService.listAllTenants();
-  }
+   /**
+    * List all tenants (GLOBAL_ADMIN only)
+    * GET /api/tenants
+    */
+   @Get()
+   @UseGuards(RolesGuard)
+   @Roles('GLOBAL_ADMIN' as any)
+   async listAllTenants(
+     @Query('page') page?: string,
+     @Query('pageSize') pageSize?: string,
+     @Query('search') search?: string,
+   ) {
+     const pageNum = page ? parseInt(page, 10) : 1;
+     const pageSizeNum = pageSize ? parseInt(pageSize, 10) : 50;
+     return this.tenantsService.listAllTenants(pageNum, pageSizeNum, search);
+   }
 
   /**
    * Get tenant by ID (GLOBAL_ADMIN only)
