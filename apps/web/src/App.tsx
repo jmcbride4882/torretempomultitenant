@@ -7,6 +7,7 @@ import { authApi } from './lib/api';
 import LandingPage from './features/landing/LandingPage';
 import { ClockingPage } from './features/clocking/ClockingPage';
 import { ApprovalsPage } from './features/approvals/ApprovalsPage';
+import { OvertimePage } from './features/overtime/OvertimePage';
 import { ReportsPage } from './features/reports/ReportsPage';
 import { MyReportsPage } from './features/reports/MyReportsPage';
 import { LocationsPage } from './features/locations/LocationsPage';
@@ -420,6 +421,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <ApprovalsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/app/overtime"
+          element={
+            <ProtectedRoute>
+              <OvertimePage />
             </ProtectedRoute>
           }
         />
