@@ -28,6 +28,7 @@
     "@nestjs/mapped-types": "^2.0.5",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.3.0",
+    "@nestjs/schedule": "^4.0.0",
     "@prisma/client": "^5.8.1",
     "@torre-tempo/shared": "*",
     "@types/qrcode": "^1.5.6",
@@ -37,12 +38,15 @@
     "exceljs": "^4.4.0",
     "fast-csv": "^5.0.5",
     "geolib": "^3.3.4",
+    "nest-winston": "^1.10.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pdfkit": "^0.17.2",
     "qrcode": "^1.5.4",
     "reflect-metadata": "^0.2.1",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.3.0",

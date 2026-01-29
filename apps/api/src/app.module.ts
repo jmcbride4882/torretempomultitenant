@@ -1,5 +1,6 @@
 import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule as NestScheduleModule } from '@nestjs/schedule';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { TimeTrackingModule } from './time-tracking/time-tracking.module';
@@ -7,6 +8,7 @@ import { ApprovalsModule } from './approvals/approvals.module';
 import { ReportsModule } from './reports/reports.module';
 import { LocationsModule } from './locations/locations.module';
 import { SchedulingModule } from './scheduling/scheduling.module';
+import { AuditModule } from './audit/audit.module';
 import { HealthController } from './health.controller';
 import { TenantMiddleware } from './common/middleware/tenant.middleware';
 
@@ -16,6 +18,7 @@ import { TenantMiddleware } from './common/middleware/tenant.middleware';
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
     }),
+    NestScheduleModule.forRoot(),
     PrismaModule,
     AuthModule,
     TimeTrackingModule,
@@ -23,6 +26,7 @@ import { TenantMiddleware } from './common/middleware/tenant.middleware';
     ReportsModule,
     LocationsModule,
     SchedulingModule,
+    AuditModule,
   ],
   controllers: [HealthController],
 })

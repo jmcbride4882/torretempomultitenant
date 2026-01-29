@@ -202,17 +202,127 @@ curl -X POST https://time.lsltgroup.es/api/auth/login \
   -d '{"email":"test@test.com","password":"password123"}'
 ```
 
-### Backup
+### Backup & Restore
 
-**Database backup**:
+#### Automated Backups
+
+Torre Tempo includes automated daily backups. To set up:
+
 ```bash
-docker exec torre-tempo-db pg_dump -U postgres torre_tempo > backup.sql
+cd /opt/torre-tempo/infra
+sudo bash scripts/setup-backup-cron.sh
 ```
 
-**Restore**:
+This creates a cron job that runs daily at 2:00 AM.
+
+**Backup Details:**
+- **Schedule**: Daily at 2:00 AM
+- **Location**: `/opt/torre-tempo/infra/backups/`
+- **Retention**: 30 days
+- **Format**: Compressed PostgreSQL dump (`.sql.gz`)
+- **Logs**: `/var/log/torre-tempo-backup.log`
+
+**Manual Backup:**
 ```bash
-docker exec -i torre-tempo-db psql -U postgres torre_tempo < backup.sql
+cd /opt/torre-tempo/infra
+docker exec torre-tempo-db sh /backups/backup.sh
 ```
+
+**List Backups:**
+```bash
+ls -lh /opt/torre-tempo/infra/backups/
+```
+
+#### Restore from Backup
+
+Use the interactive restore script:
+
+```bash
+cd /opt/torre-tempo/infra
+sudo bash scripts/restore-backup.sh
+```
+
+The script will:
+1. List available backups
+2. Prompt for the backup to restore
+3. Create a safety backup of current data
+4. Stop the API during restoration
+5. Restore the database
+6. Restart the API
+7. Verify the API is healthy
+
+**Manual Restore:**
+```bash
+# Uncompress and restore
+gunzip -c /opt/torre-tempo/infra/backups/torre_tempo_YYYY-MM-DD_HH-MM-SS.sql.gz | \
+  docker exec -i torre-tempo-db psql -U postgres -d torre_tempo
+```
+
+### Monitoring & Logging
+
+Torre Tempo includes comprehensive monitoring and logging for audit compliance.
+
+#### Health Checks
+
+**Basic Health Check:**
+```bash
+curl https://time.lsltgroup.es/api/health
+```
+
+**Expected Response:**
+```json
+{
+  "status": "ok",
+  "timestamp": "2026-01-29T14:30:45.123Z",
+  "service": "torre-tempo-api",
+  "version": "0.1.0",
+  "uptime": 86400.5,
+  "environment": "production",
+  "checks": {
+    "database": { "status": "connected", "latency": "15ms" },
+    "memory": { "used": "245MB", "total": "512MB" }
+  },
+  "responseTime": "18ms"
+}
+```
+
+**Detailed Metrics:**
+```bash
+curl https://time.lsltgroup.es/api/health/metrics
+```
+
+#### Application Logs
+
+Logs are stored in Docker volumes and rotated daily:
+
+**View Live Logs:**
+```bash
+cd /opt/torre-tempo/infra
+docker compose -f docker-compose.prod.yml logs -f api
+```
+
+**View Specific Log Files:**
+```bash
+docker exec torre-tempo-api ls -lh /app/logs/
+```
+
+**Log Types:**
+- `app-YYYY-MM-DD.log` - Application logs (30-day retention)
+- `error-YYYY-MM-DD.log` - Error logs (30-day retention)
+- `audit/audit-YYYY-MM-DD.log` - Audit logs (5-year retention, required by Spanish labor law)
+
+For detailed monitoring documentation, see [infra/MONITORING.md](infra/MONITORING.md).
+
+#### Data Retention Policy
+
+Torre Tempo complies with Spanish labor law (RD-Ley 8/2019) requiring **5-year retention** of time tracking records:
+
+- **Audit Logs**: 5 years (automated, never deleted)
+- **Time Entry Records**: 5 years (database)
+- **Application Logs**: 30 days
+- **Database Backups**: 30 days
+
+A scheduled job runs daily at 3:00 AM to enforce retention policies.
 
 ### Server Information
 
@@ -221,10 +331,15 @@ docker exec -i torre-tempo-db psql -U postgres torre_tempo < backup.sql
 - **App Directory**: /opt/torre-tempo
 - **Ports**: 80 (HTTP), 443 (HTTPS)
 - **Repository**: https://github.com/jmcbride4882/torretempomultitenant
+- **Monitoring**: [infra/MONITORING.md](infra/MONITORING.md)
 
 ### Support
 
 For issues, check:
-1. Docker container logs: `docker compose -f docker-compose.prod.yml logs`
-2. Nginx logs: `docker compose -f docker-compose.prod.yml logs nginx`
-3. API health: `curl https://time.lsltgroup.es/api/health`
+1. Health endpoint: `curl https://time.lsltgroup.es/api/health`
+2. Docker container logs: `docker compose -f docker-compose.prod.yml logs`
+3. Application logs: `docker exec torre-tempo-api cat /app/logs/app-$(date +%Y-%m-%d).log`
+4. Nginx logs: `docker compose -f docker-compose.prod.yml logs nginx`
+5. Backup logs: `tail -f /var/log/torre-tempo-backup.log`
+
+For detailed monitoring and troubleshooting, see [infra/MONITORING.md](infra/MONITORING.md).
