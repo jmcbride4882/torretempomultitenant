@@ -60,8 +60,9 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 # Copy Prisma schema for migrations
 COPY apps/api/prisma ./apps/api/prisma
 
-# Set ownership
-RUN chown -R nestjs:nodejs /app
+# Create logs directory with proper permissions
+RUN mkdir -p /app/logs/audit /app/logs/error /app/logs/combined && \
+    chown -R nestjs:nodejs /app
 
 USER nestjs
 
