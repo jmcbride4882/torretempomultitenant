@@ -712,6 +712,10 @@
       "confirmPasswordPlaceholder": "••••••••",
      "createSuccess": "Tenant created successfully",
      "createError": "Failed to create tenant",
+     "editTenant": "Edit Tenant",
+     "updateSuccess": "Tenant updated successfully",
+     "updateError": "Failed to update tenant",
+     "identifierHint": "This identifier is permanent and cannot be changed",
      "companyNamePlaceholder": "Enter company name",
      "adminEmailPlaceholder": "admin@company.com",
      "adminAccountHint": "This user will have full admin access to the tenant",
@@ -722,6 +726,7 @@
      "maxAnnualHoursRange": "Must be between 1 and 8760 hours",
       "validation": {
         "nameRequired": "Company name is required",
+        "nameMinLength": "Company name must be at least 2 characters",
         "emailRequired": "Admin email is required",
         "emailInvalid": "Please enter a valid email address",
         "passwordRequired": "Admin password is required",

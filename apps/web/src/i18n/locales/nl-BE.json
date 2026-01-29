@@ -620,6 +620,10 @@
       "confirmPasswordPlaceholder": "••••••••",
      "createSuccess": "Huurder succesvol aangemaakt",
      "createError": "Kon huurder niet aanmaken",
+     "editTenant": "Huurder Bewerken",
+     "updateSuccess": "Huurder succesvol bijgewerkt",
+     "updateError": "Kon huurder niet bijwerken",
+     "identifierHint": "Deze identificatie is permanent en kan niet worden gewijzigd",
      "companyNamePlaceholder": "Voer bedrijfsnaam in",
      "adminEmailPlaceholder": "admin@bedrijf.be",
      "adminAccountHint": "Deze gebruiker heeft volledige beheerderstoegang tot de huurder",
@@ -630,6 +634,7 @@
      "maxAnnualHoursRange": "Moet tussen 1 en 8760 uur zijn",
      "validation": {
        "nameRequired": "Bedrijfsnaam is verplicht",
+       "nameMinLength": "Bedrijfsnaam moet minimaal 2 tekens bevatten",
        "emailRequired": "Beheerder e-mail is verplicht",
        "emailInvalid": "Voer een geldig e-mailadres in",
        "passwordRequired": "Beheerder wachtwoord is verplicht",

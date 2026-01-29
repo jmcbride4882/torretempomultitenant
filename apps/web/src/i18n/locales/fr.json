@@ -620,6 +620,10 @@
       "confirmPasswordPlaceholder": "••••••••",
      "createSuccess": "Locataire créé avec succès",
      "createError": "Échec de la création du locataire",
+     "editTenant": "Modifier le Locataire",
+     "updateSuccess": "Locataire mis à jour avec succès",
+     "updateError": "Échec de la mise à jour du locataire",
+     "identifierHint": "Cet identifiant est permanent et ne peut pas être modifié",
      "companyNamePlaceholder": "Entrez le nom de l'entreprise",
      "adminEmailPlaceholder": "admin@entreprise.com",
      "adminAccountHint": "Cet utilisateur aura un accès administrateur complet au locataire",
@@ -630,6 +634,7 @@
      "maxAnnualHoursRange": "Doit être entre 1 et 8760 heures",
      "validation": {
        "nameRequired": "Le nom de l'entreprise est requis",
+       "nameMinLength": "Le nom de l'entreprise doit comporter au moins 2 caractères",
        "emailRequired": "L'e-mail de l'administrateur est requis",
        "emailInvalid": "Veuillez entrer une adresse e-mail valide",
        "passwordRequired": "Le mot de passe de l'administrateur est requis",

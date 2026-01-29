@@ -89,6 +89,27 @@ export class TenantsController {
   }
 
   /**
+   * Update tenant by ID (GLOBAL_ADMIN only)
+   * PATCH /api/tenants/:id
+   */
+  @Patch(':id')
+  @UseGuards(RolesGuard)
+  @Roles('GLOBAL_ADMIN' as any)
+  async updateTenantById(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+    @Body() dto: UpdateTenantDto,
+  ) {
+    return this.tenantsService.updateTenant(
+      id,
+      user.id,
+      user.email,
+      user.role,
+      dto,
+    );
+  }
+
+  /**
    * Create new tenant (GLOBAL_ADMIN only)
    * POST /api/tenants
    */

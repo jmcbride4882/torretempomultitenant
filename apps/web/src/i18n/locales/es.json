@@ -565,6 +565,10 @@
       "confirmPasswordPlaceholder": "••••••••",
      "createSuccess": "Empresa creada correctamente",
      "createError": "Error al crear empresa",
+     "editTenant": "Editar Empresa",
+     "updateSuccess": "Empresa actualizada correctamente",
+     "updateError": "Error al actualizar empresa",
+     "identifierHint": "Este identificador es permanente y no se puede cambiar",
      "companyNamePlaceholder": "Ingrese nombre de la empresa",
      "adminEmailPlaceholder": "admin@empresa.com",
      "adminAccountHint": "Este usuario tendrá acceso de administrador completo al inquilino",
@@ -575,6 +579,7 @@
      "maxAnnualHoursRange": "Debe estar entre 1 y 8760 horas",
       "validation": {
         "nameRequired": "El nombre de empresa es obligatorio",
+        "nameMinLength": "El nombre de empresa debe tener al menos 2 caracteres",
         "emailRequired": "El email del administrador es obligatorio",
         "emailInvalid": "Por favor introduce un email valido",
         "passwordRequired": "La contrasena del administrador es obligatoria",

@@ -15,6 +15,7 @@ import { EmployeeDashboard, ManagerDashboard, AdminDashboard, GlobalAdminDashboa
 import { TenantSettingsPage } from './features/settings/TenantSettingsPage';
 import { TenantManagementPage } from './features/tenants/TenantManagementPage';
 import { TenantDetailPage } from './features/tenants/TenantDetailPage';
+import { TenantEditPage } from './features/tenants/TenantEditPage';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { InstallPrompt, OfflineIndicator } from './components/pwa';
 import { SyncStatus } from './components/pwa/SyncStatus';
@@ -468,6 +469,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <TenantDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/app/tenants/:id/edit"
+          element={
+            <ProtectedRoute>
+              <TenantEditPage />
             </ProtectedRoute>
           }
         />

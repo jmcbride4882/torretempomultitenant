@@ -620,6 +620,10 @@
       "confirmPasswordPlaceholder": "••••••••",
      "createSuccess": "Mandant erfolgreich erstellt",
      "createError": "Fehler beim Erstellen des Mandanten",
+     "editTenant": "Mandant Bearbeiten",
+     "updateSuccess": "Mandant erfolgreich aktualisiert",
+     "updateError": "Fehler beim Aktualisieren des Mandanten",
+     "identifierHint": "Diese Kennung ist dauerhaft und kann nicht geändert werden",
      "companyNamePlaceholder": "Geben Sie den Unternehmensname ein",
      "adminEmailPlaceholder": "admin@unternehmen.de",
      "adminAccountHint": "Dieser Benutzer hat vollständigen Administratorzugriff auf den Mandanten",
@@ -630,6 +634,7 @@
      "maxAnnualHoursRange": "Muss zwischen 1 und 8760 Stunden liegen",
      "validation": {
        "nameRequired": "Unternehmensname ist erforderlich",
+       "nameMinLength": "Unternehmensname muss mindestens 2 Zeichen haben",
        "emailRequired": "Admin-E-Mail ist erforderlich",
        "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
        "passwordRequired": "Admin-Passwort ist erforderlich",

@@ -620,6 +620,10 @@
       "confirmPasswordPlaceholder": "••••••••",
      "createSuccess": "Dzierżawca utworzony pomyślnie",
      "createError": "Nie udało się utworzyć dzierżawcę",
+     "editTenant": "Edytuj Dzierżawcę",
+     "updateSuccess": "Dzierżawca zaktualizowany pomyślnie",
+     "updateError": "Nie udało się zaktualizować dzierżawcy",
+     "identifierHint": "Ten identyfikator jest stały i nie może być zmieniony",
      "companyNamePlaceholder": "Wprowadź nazwę firmy",
      "adminEmailPlaceholder": "admin@firma.pl",
      "adminAccountHint": "Ten użytkownik będzie miał pełny dostęp administratora do dzierżawcy",
@@ -630,6 +634,7 @@
      "maxAnnualHoursRange": "Musi być między 1 a 8760 godzin",
      "validation": {
        "nameRequired": "Nazwa firmy jest wymagana",
+       "nameMinLength": "Nazwa firmy musi mieć co najmniej 2 znaki",
        "emailRequired": "Email administratora jest wymagany",
        "emailInvalid": "Wprowadź prawidłowy adres e-mail",
        "passwordRequired": "Hasło administratora jest wymagane",

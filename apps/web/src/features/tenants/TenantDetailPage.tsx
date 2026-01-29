@@ -93,8 +93,7 @@ export function TenantDetailPage() {
   };
 
   const handleEdit = () => {
-    // Future: Navigate to edit page
-    alert('Edit functionality coming soon!');
+    navigate(`/app/tenants/${id}/edit`);
   };
 
   // Format date helper
