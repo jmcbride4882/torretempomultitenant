@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { api } from '../../lib/api';
 import { syncService } from '../../lib/sync-service';
 import { OfflineQueue } from './OfflineQueue';
+import { QRScanner } from '../../components/QRScanner';
 
 interface TimeEntry {
   id: string;
@@ -22,6 +23,10 @@ export function ClockingPage() {
   const queryClient = useQueryClient();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [queueCount, setQueueCount] = useState(0);
+  const [showQRScanner, setShowQRScanner] = useState(false);
+  const [qrToken, setQrToken] = useState<string | null>(null);
+  const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
 
   useEffect(() => {
     syncService.start();
@@ -65,10 +70,41 @@ export function ClockingPage() {
      refetchInterval: 30000,
    });
 
+  const requestGeolocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError(t('locations.gpsPermissionRequired'));
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+        setLocationError(null);
+      },
+      (error) => {
+        console.error('Geolocation error:', error);
+        setLocationError(t('locations.gpsPermissionDenied'));
+      },
+    );
+  };
+
+  const handleQRScan = (token: string) => {
+    setQrToken(token);
+    setShowQRScanner(false);
+    // Auto-request location when QR is scanned
+    requestGeolocation();
+  };
+
   const clockInMutation = useMutation({
     mutationFn: async () => {
       const body = {
         offlineId: !isOnline ? crypto.randomUUID() : undefined,
+        qrTokenId: qrToken || undefined,
+        latitude: location?.latitude,
+        longitude: location?.longitude,
       };
 
       if (!isOnline) {
@@ -79,6 +115,9 @@ export function ClockingPage() {
       return api.post('/time-tracking/clock-in', body);
     },
     onSuccess: () => {
+      setQrToken(null);
+      setLocation(null);
+      setLocationError(null);
       queryClient.invalidateQueries({ queryKey: ['current-time-entry'] });
       queryClient.invalidateQueries({ queryKey: ['time-entries'] });
     },
@@ -187,6 +226,51 @@ export function ClockingPage() {
             )}
           </div>
 
+          {/* QR & Geolocation Status */}
+          {!isClockedIn && (
+            <div className="mb-6 space-y-3">
+              {/* QR Scan Button */}
+              <button
+                onClick={() => setShowQRScanner(true)}
+                className="w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center border border-blue-200"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                </svg>
+                {qrToken ? t('qr.validCode') : t('locations.scanQR')}
+              </button>
+
+              {/* Location Status */}
+              {qrToken && (
+                <div className={`p-3 rounded-lg ${location ? 'bg-green-50 text-green-800' : locationError ? 'bg-red-50 text-red-800' : 'bg-yellow-50 text-yellow-800'}`}>
+                  {location ? (
+                    <div className="flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {t('locations.insideGeofence')}
+                    </div>
+                  ) : locationError ? (
+                    <div className="flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                      {locationError}
+                    </div>
+                  ) : (
+                    <div className="flex items-center">
+                      <svg className="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      {t('locations.gettingLocation')}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Clock In/Out Buttons */}
           <div className="space-y-4">
             {!isClockedIn ? (
@@ -243,6 +327,14 @@ export function ClockingPage() {
         {/* Offline Queue Component */}
         <OfflineQueue />
       </div>
+
+      {/* QR Scanner Modal */}
+      {showQRScanner && (
+        <QRScanner
+          onScan={handleQRScan}
+          onClose={() => setShowQRScanner(false)}
+        />
+      )}
     </div>
   );
 }
