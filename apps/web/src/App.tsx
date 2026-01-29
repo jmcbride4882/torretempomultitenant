@@ -15,6 +15,7 @@ import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { InstallPrompt, OfflineIndicator } from './components/pwa';
 import { SyncStatus } from './components/pwa/SyncStatus';
 import { OfflineIndicatorCompact } from './components/pwa/OfflineIndicator';
+import { BottomNav } from './components/BottomNav';
 
 // ============================================
 // LOGIN PAGE
@@ -302,9 +303,16 @@ function AppShell({ children }: AppShellProps) {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-20 md:pb-6">
         {children}
       </main>
+
+      {/* Mobile Bottom Navigation */}
+      <BottomNav
+        navItems={filteredNavItems}
+        currentPath={location.pathname}
+        onNavigate={(path) => navigate(path)}
+      />
     </div>
   );
 }
