@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApprovalsService } from './approvals.service';
 import { AuditService } from '../audit/audit.service';
+import { RetentionService } from '../audit/retention.service';
 import { CreateEditRequestDto } from './dto/create-edit-request.dto';
 import { ReviewEditRequestDto } from './dto/review-edit-request.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -23,6 +24,7 @@ export class ApprovalsController {
   constructor(
     private readonly approvalsService: ApprovalsService,
     private readonly auditService: AuditService,
+    private readonly retentionService: RetentionService,
   ) {}
 
   /**
@@ -179,5 +181,29 @@ export class ApprovalsController {
       pageSizeNum,
       entity,
     );
+  }
+
+  /**
+   * Check retention policy status (dry-run)
+   * GET /api/approvals/retention/check
+   * Admin only - Returns statistics without applying any changes
+   */
+  @Get('retention/check')
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  async checkRetentionPolicy() {
+    return this.retentionService.runManualRetentionCheck();
+  }
+
+  /**
+   * Run retention policy manually
+   * POST /api/approvals/retention/run
+   * Admin only - Actually applies the retention policy (archives old data)
+   */
+  @Post('retention/run')
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  async runRetentionPolicy() {
+    return this.retentionService.runRetentionPolicyNow();
   }
 }
