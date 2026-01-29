@@ -2141,3 +2141,18 @@ function Component({ navItems = [] }: Props) {
 **Documentation:**
 Created comprehensive test report: `DASHBOARD_FIX_VERIFICATION_REPORT.md`
 
+## [2026-01-29] Compliance Service Module
+
+### What Was Implemented
+- Created compliance module/service with validation checks for rest periods, daily/weekly/annual hours, weekly rest, and break compliance
+- Added timezone-aware range calculations using Intl and date-fns
+- Added compliance types and a DTO scaffold for future endpoints
+
+### Notes
+- ComplianceService uses TenantsService for tenant limits and PrismaService for time entries with tenantId filters
+- validateClockInAllowed aggregates rest period, daily, weekly, annual, and weekly rest checks with blocking violations and warnings
+- Warnings/violations include bilingual ES/EN messages plus metadata for thresholds and date ranges
+
+### Verification
+- npm run build: SUCCESS
+- LSP diagnostics unavailable (typescript-language-server not installed)

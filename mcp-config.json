@@ -1,0 +1,52 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/config.json",
+  "mcpServers": {
+    "prisma-local": {
+      "command": "npx",
+      "args": ["-y", "prisma", "mcp"],
+      "description": "Prisma MCP for database operations, migrations, and schema introspection"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\j.mcbride.LSLT\\Documents\\Torre Tempo V1"
+      ],
+      "description": "File system MCP for enhanced code navigation and file operations"
+    },
+    "time": {
+      "command": "C:\\Users\\j.mcbride.LSLT\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\uvx.exe",
+      "args": ["mcp-server-time", "--local-timezone", "Europe/Madrid"],
+      "description": "Time MCP for timezone conversions and time tracking operations (critical for Torre Tempo)"
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "description": "Sequential Thinking MCP for complex reasoning and architectural decisions"
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "description": "Memory MCP for persistent context across sessions"
+    },
+    "fetch": {
+      "command": "C:\\Users\\j.mcbride.LSLT\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\uvx.exe",
+      "args": ["mcp-server-fetch"],
+      "description": "Fetch MCP for API testing and web content retrieval"
+    },
+    "figma": {
+      "command": "npx",
+      "args": ["-y", "figma-mcp"],
+      "env": {
+        "FIGMA_ACCESS_TOKEN": "<YOUR_FIGMA_TOKEN>"
+      },
+      "description": "Figma MCP for design-to-code workflows and design token extraction"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"],
+      "description": "Playwright MCP for E2E testing, visual regression, and accessibility testing"
+    }
+  }
+}
