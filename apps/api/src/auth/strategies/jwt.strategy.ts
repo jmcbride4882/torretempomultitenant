@@ -46,12 +46,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       lastName: user.lastName,
       role: user.role,
       tenantId: user.tenantId,
-      tenant: {
+      tenant: user.tenant ? {
         id: user.tenant.id,
         name: user.tenant.name,
         slug: user.tenant.slug,
         timezone: user.tenant.timezone,
-      },
+      } : null,
     };
   }
 }
