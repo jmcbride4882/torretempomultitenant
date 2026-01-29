@@ -214,7 +214,7 @@ function AppShell({ children }: AppShellProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 flex flex-col">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white border-b border-slate-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -321,9 +321,16 @@ function AppShell({ children }: AppShellProps) {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-20 md:pb-6">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-24 md:pb-10 w-full">
         {children}
       </main>
+
+      {/* Footer */}
+      <footer className="mt-auto py-3 px-4 border-t border-slate-200 bg-slate-50 mb-16 md:mb-0">
+        <div className="max-w-7xl mx-auto text-center text-xs text-slate-500">
+          <p>© 2026 LSLT Group | Developed by John McBride</p>
+        </div>
+      </footer>
 
       {/* Mobile Bottom Navigation */}
       <BottomNav

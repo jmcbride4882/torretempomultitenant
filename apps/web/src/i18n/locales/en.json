@@ -15,6 +15,9 @@
     "offline": "Offline - Data will sync when you reconnect"
   },
   "landing": {
+    "internal": {
+      "badge": "For LSLT Group Staff Only"
+    },
     "nav": {
       "features": "Features",
       "pricing": "Pricing",
@@ -23,9 +26,9 @@
       "trial": "Free Trial"
     },
     "hero": {
-      "title": "Time Tracking Made Simple",
-      "subtitle": "Comply with Spanish labor law in 5 minutes. QR clocking, geolocation and offline mode for your team.",
-      "cta": "Start Free",
+      "title": "Staff Time Tracking",
+      "subtitle": "Clock in and out with ease. Compliant with Spanish labor law, designed for LSLT Group employees.",
+      "cta": "Sign In",
       "demo": "See Features"
     },
     "trust": {
@@ -130,12 +133,12 @@
       }
     },
     "cta": {
-      "title": "Start your 14-day free trial",
-      "subtitle": "No credit card. No commitment. Cancel anytime.",
-      "button": "Create Free Account"
+      "title": "Ready to clock in?",
+      "subtitle": "Access your account to start tracking your work hours.",
+      "button": "Sign In"
     },
     "footer": {
-      "tagline": "Simple and legal time tracking for Spanish companies.",
+      "tagline": "Internal staff clocking system for LSLT Group.",
       "product": "Product",
       "legal": "Legal",
       "privacy": "Privacy",
@@ -143,8 +146,8 @@
       "cookies": "Cookies",
       "contact": "Contact",
       "rights": "All rights reserved.",
-      "company": "Lakeside La Torre (Murcia) Group SL",
-      "cif": "CIF: B70822366"
+      "company": "LSLT Group",
+      "cif": ""
     }
   },
   "login": {

@@ -15,10 +15,10 @@ export default defineConfig({
         'icons/*.png',
       ],
       manifest: {
-        name: 'Torre Tempo - Staff Clocking',
+        name: 'Torre Tempo - LSLT Group Staff Clocking',
         short_name: 'Torre Tempo',
         description:
-          'Professional staff clocking system for Spanish labor law compliance',
+          'LSLT Group internal staff clocking system',
         theme_color: '#1e40af',
         background_color: '#ffffff',
         display: 'standalone',

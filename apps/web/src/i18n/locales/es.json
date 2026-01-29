@@ -15,6 +15,9 @@
     "offline": "Sin conexion - Los datos se sincronizaran cuando vuelva a conectarse"
   },
   "landing": {
+    "internal": {
+      "badge": "Solo para Personal de LSLT Group"
+    },
     "nav": {
       "features": "Caracteristicas",
       "pricing": "Precios",
@@ -23,9 +26,9 @@
       "trial": "Prueba Gratis"
     },
     "hero": {
-      "title": "Registro Horario Sin Complicaciones",
-      "subtitle": "Cumple con la ley espanola en 5 minutos. Fichaje QR, geolocalizacion y modo offline para tu equipo.",
-      "cta": "Empezar Gratis",
+      "title": "Registro Horario del Personal",
+      "subtitle": "Ficha entrada y salida facilmente. Cumple con la ley laboral espanola, disenado para empleados de LSLT Group.",
+      "cta": "Iniciar Sesion",
       "demo": "Ver Caracteristicas"
     },
     "trust": {
@@ -130,12 +133,12 @@
       }
     },
     "cta": {
-      "title": "Empieza tu prueba gratuita de 14 dias",
-      "subtitle": "Sin tarjeta de credito. Sin compromiso. Cancela cuando quieras.",
-      "button": "Crear Cuenta Gratis"
+      "title": "¿Listo para fichar?",
+      "subtitle": "Accede a tu cuenta para empezar a registrar tus horas de trabajo.",
+      "button": "Iniciar Sesion"
     },
     "footer": {
-      "tagline": "Control horario simple y legal para empresas espanolas.",
+      "tagline": "Sistema interno de fichaje para LSLT Group.",
       "product": "Producto",
       "legal": "Legal",
       "privacy": "Privacidad",
@@ -143,8 +146,8 @@
       "cookies": "Cookies",
       "contact": "Contacto",
       "rights": "Todos los derechos reservados.",
-      "company": "Lakeside La Torre (Murcia) Group SL",
-      "cif": "CIF: B70822366"
+      "company": "LSLT Group",
+      "cif": ""
     }
   },
   "login": {

@@ -13,58 +13,6 @@ function FeatureCard({ icon, title, description }: { icon: string; title: string
   );
 }
 
-// Pricing Card Component
-function PricingCard({ 
-  name, 
-  price, 
-  period, 
-  features, 
-  cta, 
-  popular = false,
-  onCta
-}: { 
-  name: string; 
-  price: string; 
-  period: string; 
-  features: string[]; 
-  cta: string; 
-  popular?: boolean;
-  onCta: () => void;
-}) {
-  return (
-    <div className={`relative bg-white rounded-2xl p-8 shadow-sm border-2 ${popular ? 'border-blue-600 scale-105' : 'border-gray-100'}`}>
-      {popular && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-          Popular
-        </div>
-      )}
-      <h3 className="text-xl font-bold text-gray-900 mb-2">{name}</h3>
-      <div className="mb-6">
-        <span className="text-4xl font-bold text-gray-900">{price}</span>
-        <span className="text-gray-500 ml-1">{period}</span>
-      </div>
-      <ul className="space-y-3 mb-8">
-        {features.map((feature, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-            <span className="text-green-500 mt-0.5">✓</span>
-            {feature}
-          </li>
-        ))}
-      </ul>
-      <button
-        onClick={onCta}
-        className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-          popular 
-            ? 'bg-blue-600 text-white hover:bg-blue-700' 
-            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-        }`}
-      >
-        {cta}
-      </button>
-    </div>
-  );
-}
-
 // FAQ Item Component
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -125,9 +73,6 @@ export default function LandingPage() {
               <a href="#features" className="text-gray-600 hover:text-gray-900 text-sm font-medium">
                 {t('landing.nav.features')}
               </a>
-              <a href="#pricing" className="text-gray-600 hover:text-gray-900 text-sm font-medium">
-                {t('landing.nav.pricing')}
-              </a>
               <a href="#faq" className="text-gray-600 hover:text-gray-900 text-sm font-medium">
                 {t('landing.nav.faq')}
               </a>
@@ -139,17 +84,11 @@ export default function LandingPage() {
               >
                 {i18n.language === 'es' ? 'EN' : 'ES'}
               </button>
-              <Link 
-                to="/login" 
-                className="text-sm text-gray-600 hover:text-gray-900 font-medium"
-              >
-                {t('landing.nav.login')}
-              </Link>
               <Link
                 to="/login"
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
               >
-                {t('landing.nav.trial')}
+                {t('landing.nav.login')}
               </Link>
             </div>
           </div>
@@ -159,6 +98,9 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-7xl mx-auto text-center">
+          <div className="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+            {t('landing.internal.badge')}
+          </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
             {t('landing.hero.title')}
           </h1>
@@ -264,67 +206,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              {t('landing.pricing.title')}
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              {t('landing.pricing.subtitle')}
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
-            <PricingCard
-              name={t('landing.pricing.starter.name')}
-              price="€2"
-              period={t('landing.pricing.perEmployee')}
-              features={[
-                t('landing.pricing.starter.f1'),
-                t('landing.pricing.starter.f2'),
-                t('landing.pricing.starter.f3'),
-                t('landing.pricing.starter.f4'),
-                t('landing.pricing.starter.f5'),
-              ]}
-              cta={t('landing.pricing.starter.cta')}
-              onCta={() => {}}
-            />
-            <PricingCard
-              name={t('landing.pricing.pro.name')}
-              price="€4"
-              period={t('landing.pricing.perEmployee')}
-              popular
-              features={[
-                t('landing.pricing.pro.f1'),
-                t('landing.pricing.pro.f2'),
-                t('landing.pricing.pro.f3'),
-                t('landing.pricing.pro.f4'),
-                t('landing.pricing.pro.f5'),
-                t('landing.pricing.pro.f6'),
-              ]}
-              cta={t('landing.pricing.pro.cta')}
-              onCta={() => {}}
-            />
-            <PricingCard
-              name={t('landing.pricing.enterprise.name')}
-              price={t('landing.pricing.enterprise.price')}
-              period=""
-              features={[
-                t('landing.pricing.enterprise.f1'),
-                t('landing.pricing.enterprise.f2'),
-                t('landing.pricing.enterprise.f3'),
-                t('landing.pricing.enterprise.f4'),
-                t('landing.pricing.enterprise.f5'),
-                t('landing.pricing.enterprise.f6'),
-              ]}
-              cta={t('landing.pricing.enterprise.cta')}
-              onCta={() => {}}
-            />
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
       <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-3xl mx-auto">
@@ -358,7 +239,7 @@ export default function LandingPage() {
             to="/login"
             className="inline-block bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-medium hover:bg-blue-50 transition-colors"
           >
-            {t('landing.cta.button')}
+            {t('landing.nav.login')}
           </Link>
         </div>
       </section>
@@ -377,12 +258,14 @@ export default function LandingPage() {
               <p className="text-gray-400 text-sm">
                 {t('landing.footer.tagline')}
               </p>
+              <p className="text-blue-400 text-sm mt-2 font-medium">
+                {t('landing.internal.badge')}
+              </p>
             </div>
             <div>
               <h4 className="font-semibold text-white mb-4">{t('landing.footer.product')}</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li><a href="#features" className="hover:text-white">{t('landing.nav.features')}</a></li>
-                <li><a href="#pricing" className="hover:text-white">{t('landing.nav.pricing')}</a></li>
                 <li><a href="#faq" className="hover:text-white">{t('landing.nav.faq')}</a></li>
               </ul>
             </div>
@@ -398,14 +281,12 @@ export default function LandingPage() {
               <h4 className="font-semibold text-white mb-4">{t('landing.footer.contact')}</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>info@lsltgroup.es</li>
-                <li>+34 XXX XXX XXX</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="text-gray-400 text-sm text-center sm:text-left">
-              <p>© 2026 Lakeside La Torre (Murcia) Group SL. {t('landing.footer.rights')}</p>
-              <p className="text-gray-500">CIF: B70822366</p>
+              <p>© 2026 LSLT Group | Developed by John McBride</p>
             </div>
             <button 
               onClick={toggleLanguage}
