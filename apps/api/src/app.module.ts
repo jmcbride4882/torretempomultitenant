@@ -1,6 +1,7 @@
 import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule as NestScheduleModule } from '@nestjs/schedule';
+import { WinstonModule } from 'nest-winston';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { TimeTrackingModule } from './time-tracking/time-tracking.module';
@@ -11,6 +12,7 @@ import { SchedulingModule } from './scheduling/scheduling.module';
 import { AuditModule } from './audit/audit.module';
 import { HealthController } from './health.controller';
 import { TenantMiddleware } from './common/middleware/tenant.middleware';
+import { loggerConfig } from './config/logger.config';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { TenantMiddleware } from './common/middleware/tenant.middleware';
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
     }),
+    WinstonModule.forRoot(loggerConfig),
     NestScheduleModule.forRoot(),
     PrismaModule,
     AuthModule,
