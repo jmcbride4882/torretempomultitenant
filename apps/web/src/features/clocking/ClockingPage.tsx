@@ -45,14 +45,25 @@ export function ClockingPage() {
     };
   }, []);
 
-  const { data: currentEntry, isLoading } = useQuery({
-    queryKey: ['current-time-entry'],
-    queryFn: async () => {
-      const response = await api.get<TimeEntry>('/time-tracking/current');
-      return response;
-    },
-    refetchInterval: 30000,
-  });
+   const { data: currentEntry, isLoading } = useQuery<TimeEntry | null>({
+     queryKey: ['current-time-entry'],
+     queryFn: async () => {
+       try {
+         const response = await api.get<TimeEntry>('/time-tracking/current');
+         return response;
+       } catch (e) {
+         // 404 means "no active entry" - this is valid, not an error
+         const error = e as Error;
+         if (error.message.includes('HTTP 404')) return null;
+         throw e;
+       }
+     },
+     retry: (count, e) => {
+       const error = e as Error;
+       return !error.message.includes('HTTP 404') && count < 2;
+     },
+     refetchInterval: 30000,
+   });
 
   const clockInMutation = useMutation({
     mutationFn: async () => {
@@ -73,22 +84,25 @@ export function ClockingPage() {
     },
   });
 
-  const clockOutMutation = useMutation({
-    mutationFn: async (breakMinutes?: number) => {
-      const body = { breakMinutes: breakMinutes || 0 };
+   const clockOutMutation = useMutation({
+     mutationFn: async (breakMinutes?: number) => {
+       const body = { breakMinutes: breakMinutes || 0 };
 
-      if (!isOnline) {
-        await syncService.addToQueue('/time-tracking/clock-out', 'POST', body);
-        return { queued: true };
-      }
+       if (!isOnline) {
+         await syncService.addToQueue('/time-tracking/clock-out', 'POST', body);
+         return { queued: true };
+       }
 
-      return api.post('/time-tracking/clock-out', body);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['current-time-entry'] });
-      queryClient.invalidateQueries({ queryKey: ['time-entries'] });
-    },
-  });
+       return api.post('/time-tracking/clock-out', body);
+     },
+     onSuccess: async () => {
+       // Immediately set cache to null for instant UI update
+       queryClient.setQueryData(['current-time-entry'], null);
+       // Then invalidate for eventual consistency
+       await queryClient.invalidateQueries({ queryKey: ['current-time-entry'] });
+       queryClient.invalidateQueries({ queryKey: ['time-entries'] });
+     },
+   });
 
   const isClockedIn = !!currentEntry && !currentEntry.clockOut;
 
