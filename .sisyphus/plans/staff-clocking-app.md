@@ -376,7 +376,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] Publish schedule and confirm employee view
 
-- [ ] 7. Edit approvals + audit log
+- [x] 7. Edit approvals + audit log
 
   **What to do**:
   - Employees request edits with reason
