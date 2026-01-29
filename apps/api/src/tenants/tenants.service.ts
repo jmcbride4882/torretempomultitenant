@@ -2,11 +2,14 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ConflictException,
   Logger,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
+import { CreateTenantDto } from './dto/create-tenant.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class TenantsService {
@@ -196,5 +199,190 @@ export class TenantsService {
       activeLocations,
       inactiveLocations: totalLocations - activeLocations,
     };
+  }
+
+  /**
+   * List all tenants (GLOBAL_ADMIN only)
+   * @returns Array of all tenants
+   */
+  async listAllTenants() {
+    const tenants = await this.prisma.tenant.findMany({
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        timezone: true,
+        locale: true,
+        convenioCode: true,
+        maxWeeklyHours: true,
+        maxAnnualHours: true,
+        createdAt: true,
+        updatedAt: true,
+        _count: {
+          select: {
+            users: true,
+            locations: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    this.logger.log(`Listed all tenants: ${tenants.length} found`);
+
+    return tenants;
+  }
+
+  /**
+   * Get tenant by ID (GLOBAL_ADMIN only)
+   * @param id - Tenant UUID
+   * @returns Tenant object with detailed stats
+   */
+  async getTenantById(id: string) {
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        timezone: true,
+        locale: true,
+        convenioCode: true,
+        maxWeeklyHours: true,
+        maxAnnualHours: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!tenant) {
+      throw new NotFoundException(`Tenant with ID ${id} not found`);
+    }
+
+    // Get stats for this tenant
+    const stats = await this.getTenantStats(id);
+
+    return {
+      ...tenant,
+      stats,
+    };
+  }
+
+  /**
+   * Create a new tenant with admin user (GLOBAL_ADMIN only)
+   * @param dto - Create tenant data
+   * @param actorId - User creating the tenant
+   * @param actorEmail - Email of user creating the tenant
+   * @returns Created tenant and admin user
+   */
+  async createTenant(
+    dto: CreateTenantDto,
+    actorId: string,
+    actorEmail: string,
+  ) {
+    // Generate slug from company name
+    const slug = this.generateSlug(dto.companyName);
+
+    // Check if slug already exists
+    const existingTenant = await this.prisma.tenant.findUnique({
+      where: { slug },
+    });
+
+    if (existingTenant) {
+      throw new ConflictException(
+        'Company name already taken, please choose another',
+      );
+    }
+
+    // Check if admin email already exists
+    const existingUser = await this.prisma.user.findFirst({
+      where: { email: dto.adminEmail.toLowerCase() },
+    });
+
+    if (existingUser) {
+      throw new ConflictException('Admin email already registered');
+    }
+
+    // Hash password
+    const passwordHash = await bcrypt.hash(dto.adminPassword, 12);
+
+    // Create tenant and admin user in transaction
+    const result = await this.prisma.$transaction(async (tx) => {
+      // Create tenant
+      const tenant = await tx.tenant.create({
+        data: {
+          name: dto.companyName,
+          slug,
+          timezone: dto.timezone || 'Europe/Madrid',
+          locale: dto.locale || 'es',
+          convenioCode: dto.convenioCode || null,
+          maxWeeklyHours: dto.maxWeeklyHours || 40,
+          maxAnnualHours: dto.maxAnnualHours || 1822,
+        },
+      });
+
+      // Create admin user
+      const adminUser = await tx.user.create({
+        data: {
+          tenantId: tenant.id,
+          email: dto.adminEmail.toLowerCase(),
+          passwordHash,
+          firstName: dto.adminFirstName,
+          lastName: dto.adminLastName,
+          role: 'ADMIN',
+        },
+        select: {
+          id: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          role: true,
+          isActive: true,
+          createdAt: true,
+        },
+      });
+
+      return { tenant, adminUser };
+    });
+
+    this.logger.log(
+      `Tenant ${result.tenant.name} created by ${actorEmail} with admin ${result.adminUser.email}`,
+    );
+
+    // Create audit log
+    await this.auditService.createLog({
+      tenantId: result.tenant.id,
+      action: 'TENANT_CREATED',
+      entity: 'Tenant',
+      entityId: result.tenant.id,
+      actorId,
+      actorEmail,
+      actorRole: 'GLOBAL_ADMIN',
+      changes: {
+        tenant: result.tenant,
+        adminUser: {
+          email: result.adminUser.email,
+          firstName: result.adminUser.firstName,
+          lastName: result.adminUser.lastName,
+        },
+      },
+    });
+
+    return result;
+  }
+
+  /**
+   * Generate URL-safe slug from company name
+   */
+  private generateSlug(name: string): string {
+    return name
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, '') // Remove special chars
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/-+/g, '-') // Replace multiple hyphens with single
+      .substring(0, 50); // Limit length
   }
 }

@@ -6,24 +6,43 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Seeding database...');
 
-  // Check if global admin tenant already exists
-  const existingTenant = await prisma.tenant.findUnique({
-    where: { slug: 'lslt-group' },
+  // Check if global admin user already exists
+  const existingGlobalAdmin = await prisma.user.findFirst({
+    where: { email: 'info@lsltgroup.es' },
   });
 
-  if (existingTenant) {
-    console.log('✅ Global admin tenant already exists. Skipping seed.');
+  if (existingGlobalAdmin) {
+    console.log('✅ Global admin user already exists. Skipping seed.');
     return;
   }
 
   // Hash the default password
   const passwordHash = await bcrypt.hash('Summer15', 12);
 
-  // Create global admin tenant and user
-  const tenant = await prisma.tenant.create({
+  // Create GLOBAL_ADMIN user (no tenant association)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const globalAdmin = await prisma.user.create({
     data: {
-      name: 'LSLT Group',
-      slug: 'lslt-group',
+      tenantId: undefined,
+      email: 'info@lsltgroup.es',
+      passwordHash,
+      firstName: 'LSLT',
+      lastName: 'Global Admin',
+      role: 'GLOBAL_ADMIN' as any, // Type will be correct after Prisma regenerate
+    } as any,
+  });
+
+  console.log('✅ Global admin user created:');
+  console.log(`   Email: ${globalAdmin.email}`);
+  console.log(`   Role: GLOBAL_ADMIN`);
+  console.log(`   Password: Summer15`);
+  console.log('');
+
+  // Create a demo tenant for testing
+  const demoTenant = await prisma.tenant.create({
+    data: {
+      name: 'Demo Company',
+      slug: 'demo-company',
       timezone: 'Europe/Madrid',
       locale: 'es',
       convenioCode: '30000805011981',
@@ -32,21 +51,22 @@ async function main() {
     },
   });
 
-  const adminUser = await prisma.user.create({
+  // Create demo admin for the demo tenant
+  const demoAdmin = await prisma.user.create({
     data: {
-      tenantId: tenant.id,
-      email: 'info@lsltgroup.es',
+      tenantId: demoTenant.id,
+      email: 'admin@demo.com',
       passwordHash,
-      firstName: 'LSLT',
+      firstName: 'Demo',
       lastName: 'Admin',
       role: 'ADMIN',
-      employeeCode: 'ADMIN001',
+      employeeCode: 'DEMO001',
     },
   });
 
-  console.log('✅ Global admin tenant created:');
-  console.log(`   Tenant: ${tenant.name} (${tenant.slug})`);
-  console.log(`   Admin: ${adminUser.email}`);
+  console.log('✅ Demo tenant created:');
+  console.log(`   Tenant: ${demoTenant.name} (${demoTenant.slug})`);
+  console.log(`   Admin: ${demoAdmin.email}`);
   console.log(`   Password: Summer15`);
   console.log('');
   console.log('⚠️  IMPORTANT: Change the default password after first login!');

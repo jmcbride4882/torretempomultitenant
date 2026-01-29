@@ -11,8 +11,9 @@ import { ReportsPage } from './features/reports/ReportsPage';
 import { MyReportsPage } from './features/reports/MyReportsPage';
 import { LocationsPage } from './features/locations/LocationsPage';
 import { UsersPage } from './features/users/UsersPage';
-import { EmployeeDashboard, ManagerDashboard, AdminDashboard } from './features/dashboard';
+import { EmployeeDashboard, ManagerDashboard, AdminDashboard, GlobalAdminDashboard } from './features/dashboard';
 import { TenantSettingsPage } from './features/settings/TenantSettingsPage';
+import { TenantManagementPage } from './features/tenants/TenantManagementPage';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { InstallPrompt, OfflineIndicator } from './components/pwa';
 import { SyncStatus } from './components/pwa/SyncStatus';
@@ -169,7 +170,8 @@ function AppShell({ children }: AppShellProps) {
 
   // Navigation items based on role
   const navItems = [
-    { path: '/app/dashboard', label: 'Dashboard', icon: 'home', roles: [Role.EMPLOYEE, Role.MANAGER, Role.ADMIN] },
+    { path: '/app/dashboard', label: 'Dashboard', icon: 'home', roles: [Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN] },
+    { path: '/app/tenants', label: t('tenants.title'), icon: 'building', roles: [Role.GLOBAL_ADMIN] },
     { path: '/app/clock', label: t('clocking.title'), icon: 'clock', roles: [Role.EMPLOYEE, Role.MANAGER, Role.ADMIN] },
     { path: '/app/approvals', label: t('approvals.title'), icon: 'check', roles: [Role.MANAGER, Role.ADMIN] },
     { path: '/app/reports', label: t('reports.title'), icon: 'document', roles: [Role.MANAGER, Role.ADMIN] },
@@ -187,6 +189,8 @@ function AppShell({ children }: AppShellProps) {
     switch (icon) {
       case 'home':
         return <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>;
+      case 'building':
+        return <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>;
       case 'clock':
         return <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
       case 'check':
@@ -337,6 +341,8 @@ function DashboardPage() {
   }
 
   switch (user.role) {
+    case Role.GLOBAL_ADMIN:
+      return <GlobalAdminDashboard />;
     case Role.ADMIN:
       return <AdminDashboard />;
     case Role.MANAGER:
@@ -440,6 +446,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <TenantSettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/app/tenants"
+          element={
+            <ProtectedRoute>
+              <TenantManagementPage />
             </ProtectedRoute>
           }
         />

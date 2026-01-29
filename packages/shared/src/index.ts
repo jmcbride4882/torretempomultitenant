@@ -5,9 +5,10 @@
 // ============================================
 
 export enum Role {
-  EMPLOYEE = 'EMPLOYEE',
-  MANAGER = 'MANAGER',
+  GLOBAL_ADMIN = 'GLOBAL_ADMIN',
   ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  EMPLOYEE = 'EMPLOYEE',
 }
 
 export enum EntryOrigin {
@@ -54,7 +55,7 @@ export interface Tenant {
 
 export interface User {
   id: string;
-  tenantId: string;
+  tenantId: string | null;
   email: string;
   firstName: string;
   lastName: string;
@@ -240,7 +241,7 @@ export interface LoginResponse {
 
 export interface AuthUser {
   id: string;
-  tenantId: string;
+  tenantId: string | null;
   email: string;
   role: Role;
 }

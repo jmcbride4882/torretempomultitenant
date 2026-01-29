@@ -41,6 +41,7 @@ interface UpdateUserRequest {
   firstName?: string;
   lastName?: string;
   employeeCode?: string;
+  role?: Role;
   isActive?: boolean;
 }
 
@@ -88,6 +89,7 @@ function RoleBadge({ role }: { role: Role }) {
   const { t } = useTranslation();
   
   const styles = {
+    [Role.GLOBAL_ADMIN]: 'bg-red-100 text-red-700',
     [Role.ADMIN]: 'bg-purple-100 text-purple-700',
     [Role.MANAGER]: 'bg-blue-100 text-blue-700',
     [Role.EMPLOYEE]: 'bg-gray-100 text-gray-700',
@@ -196,7 +198,9 @@ interface UserFormProps {
 
 function UserFormModal({ user, onSubmit, onClose, isLoading }: UserFormProps) {
   const { t } = useTranslation();
+  const currentUser = useAuthStore((state) => state.user);
   const isEditing = Boolean(user);
+  const canEditRole = currentUser?.role === Role.ADMIN || currentUser?.role === Role.MANAGER;
   
   const [formData, setFormData] = useState({
     firstName: user?.firstName || '',
@@ -205,6 +209,7 @@ function UserFormModal({ user, onSubmit, onClose, isLoading }: UserFormProps) {
     password: '',
     confirmPassword: '',
     employeeCode: user?.employeeCode || '',
+    role: user?.role || Role.EMPLOYEE,
     isActive: user?.isActive ?? true,
   });
   
@@ -253,6 +258,7 @@ function UserFormModal({ user, onSubmit, onClose, isLoading }: UserFormProps) {
         firstName: formData.firstName,
         lastName: formData.lastName,
         employeeCode: formData.employeeCode || undefined,
+        role: formData.role,
         isActive: formData.isActive,
       };
       onSubmit(updateData);
@@ -420,6 +426,29 @@ function UserFormModal({ user, onSubmit, onClose, isLoading }: UserFormProps) {
               placeholder={t('users.employeeCodePlaceholder')}
             />
           </div>
+          
+          {/* Role selector (only for edit and if user has permission) */}
+          {isEditing && canEditRole && (
+            <div>
+              <label htmlFor="role" className="block text-sm font-medium text-slate-700 mb-1.5">
+                {t('users.role')}
+              </label>
+              <select
+                id="role"
+                value={formData.role}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value as Role })}
+                className="w-full px-4 h-12 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none bg-white cursor-pointer"
+                disabled={user?.id === currentUser?.id}
+              >
+                <option value={Role.EMPLOYEE}>{t('users.roles.employee')}</option>
+                <option value={Role.MANAGER}>{t('users.roles.manager')}</option>
+                <option value={Role.ADMIN}>{t('users.roles.admin')}</option>
+              </select>
+              {user?.id === currentUser?.id && (
+                <p className="mt-1.5 text-xs text-slate-500">{t('users.cannotChangeOwnRole')}</p>
+              )}
+            </div>
+          )}
           
           {/* Status toggle (only for edit) */}
           {isEditing && (
