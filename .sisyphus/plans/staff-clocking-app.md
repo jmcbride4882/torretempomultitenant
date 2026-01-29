@@ -178,7 +178,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
 
 > Note: Greenfield project. File paths below are proposed targets for implementation.
 
-- [ ] 1. Define product architecture + data model (multi-tenant)
+- [x] 1. Define product architecture + data model (multi-tenant)
 
   **What to do**:
   - Define tenant isolation strategy (tenant_id everywhere)
@@ -215,7 +215,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] Review model doc for completeness and compliance coverage
 
-- [ ] 2. Scaffold repo + core services (PWA + API)
+- [x] 2. Scaffold repo + core services (PWA + API)
 
   **What to do**:
   - Choose default stack: React + Vite + TypeScript + Tailwind + i18next + Vite PWA plugin
@@ -250,7 +250,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] `npm run dev` launches web + API
 
-- [ ] 3. Auth + tenant/role management
+- [x] 3. Auth + tenant/role management
 
   **What to do**:
   - Implement email/password login + password reset
@@ -281,7 +281,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] Log in as admin and verify no cross-tenant data access
 
-- [ ] 4. Time tracking core + offline queue
+- [x] 4. Time tracking core + offline queue
 
   **What to do**:
   - Clock-in/out with start/end time, time zone handling
@@ -470,7 +470,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] Switch among locales and verify UI text updates
 
-- [ ] 10. Modern UI/UX + PWA polish
+- [x] 10. Modern UI/UX + PWA polish
 
   **What to do**:
   - Create modern, intuitive mobile-first UX
