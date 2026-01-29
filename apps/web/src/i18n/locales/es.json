@@ -438,15 +438,44 @@
       "maxAnnualHoursRange": "Las horas anuales deben estar entre 1 y 8760"
     }
   },
-  "warnings": {
-    "weeklyLimitWarning": "Atencion: Has trabajado {{hours}} horas esta semana (limite: 40)",
-    "weeklyLimitReached": "Has alcanzado el limite semanal de 40 horas",
-    "dailyLimitWarning": "Atencion: Has trabajado {{hours}} horas hoy",
-    "dailyLimitReached": "Has alcanzado el limite diario de 9 horas",
-    "annualLimitWarning": "Atencion: Has trabajado {{hours}} horas este ano (limite: 1.822)",
-    "restPeriod": "Debes descansar 12 horas entre turnos"
-  },
-  "compliance": {
+   "warnings": {
+     "weeklyLimitWarning": "Atencion: Has trabajado {{hours}} horas esta semana (limite: 40)",
+     "weeklyLimitReached": "Has alcanzado el limite semanal de 40 horas",
+     "dailyLimitWarning": "Atencion: Has trabajado {{hours}} horas hoy",
+     "dailyLimitReached": "Has alcanzado el limite diario de 9 horas",
+     "annualLimitWarning": "Atencion: Has trabajado {{hours}} horas este ano (limite: 1.822)",
+     "restPeriod": "Debes descansar 12 horas entre turnos"
+   },
+   "overtime": {
+     "title": "Gestion de Horas Extra",
+     "balance": "Balance Anual",
+     "limit": "Limite Anual",
+     "hours": "horas",
+     "hoursShort": "h",
+     "pending": "Aprobaciones Pendientes",
+     "history": "Historial de Horas Extra",
+     "approve": "Aprobar",
+     "reject": "Rechazar",
+     "compensationType": "Tipo de Compensacion",
+     "timeOff": "Tiempo Libre",
+     "pay": "Pago",
+     "ordinary": "Ordinarias",
+     "forceMajeure": "Fuerza Mayor",
+     "limitWarning": "Acercandose al limite anual de horas extra",
+     "limitExceeded": "Limite anual de horas extra excedido",
+     "status": {
+       "pending": "Pendiente",
+       "approved": "Aprobado",
+       "rejected": "Rechazado"
+     },
+     "noOvertimeYet": "No se han registrado horas extra aun",
+     "loadingBalance": "Cargando balance...",
+     "date": "Fecha",
+     "type": "Tipo",
+     "compensation": "Compensacion",
+     "actions": "Acciones"
+   },
+   "compliance": {
     "checking": "Comprobando cumplimiento...",
     "notChecked": "Cumplimiento no verificado",
     "compliant": "Cumple con la ley laboral",

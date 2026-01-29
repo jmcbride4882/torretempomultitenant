@@ -580,15 +580,44 @@
       "maxAnnualHoursRange": "Max annual hours must be between 1 and 8760"
     }
   },
-  "warnings": {
-    "weeklyLimitWarning": "Warning: You have worked {{hours}} hours this week (limit: 40)",
-    "weeklyLimitReached": "You have reached the weekly limit of 40 hours",
-    "dailyLimitWarning": "Warning: You have worked {{hours}} hours today",
-    "dailyLimitReached": "You have reached the daily limit of 9 hours",
-    "annualLimitWarning": "Warning: You have worked {{hours}} hours this year (limit: 1,822)",
-    "restPeriod": "You must rest 12 hours between shifts"
-  },
-  "compliance": {
+   "warnings": {
+     "weeklyLimitWarning": "Warning: You have worked {{hours}} hours this week (limit: 40)",
+     "weeklyLimitReached": "You have reached the weekly limit of 40 hours",
+     "dailyLimitWarning": "Warning: You have worked {{hours}} hours today",
+     "dailyLimitReached": "You have reached the daily limit of 9 hours",
+     "annualLimitWarning": "Warning: You have worked {{hours}} hours this year (limit: 1,822)",
+     "restPeriod": "You must rest 12 hours between shifts"
+   },
+   "overtime": {
+     "title": "Overtime Management",
+     "balance": "Annual Balance",
+     "limit": "Annual Limit",
+     "hours": "hours",
+     "hoursShort": "h",
+     "pending": "Pending Approvals",
+     "history": "Overtime History",
+     "approve": "Approve",
+     "reject": "Reject",
+     "compensationType": "Compensation Type",
+     "timeOff": "Time Off",
+     "pay": "Pay",
+     "ordinary": "Ordinary",
+     "forceMajeure": "Force Majeure",
+     "limitWarning": "Approaching annual overtime limit",
+     "limitExceeded": "Annual overtime limit exceeded",
+     "status": {
+       "pending": "Pending",
+       "approved": "Approved",
+       "rejected": "Rejected"
+     },
+     "noOvertimeYet": "No overtime recorded yet",
+     "loadingBalance": "Loading balance...",
+     "date": "Date",
+     "type": "Type",
+     "compensation": "Compensation",
+     "actions": "Actions"
+   },
+   "compliance": {
     "checking": "Checking compliance...",
     "notChecked": "Compliance not checked",
     "compliant": "Compliant with labor law",
