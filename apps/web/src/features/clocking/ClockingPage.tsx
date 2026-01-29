@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { format, differenceInMinutes } from 'date-fns';
 import { api } from '../../lib/api';
 import { syncService } from '../../lib/sync-service';
 import { OfflineQueue } from './OfflineQueue';
@@ -101,6 +102,8 @@ export function ClockingPage() {
   const [elapsedTime, setElapsedTime] = useState<string>('00:00:00');
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [activeBreak, setActiveBreak] = useState<any>(null);
+  const [breaks, setBreaks] = useState<any[]>([]);
 
   // Initialize sync service and listeners
   useEffect(() => {
@@ -323,6 +326,92 @@ export function ClockingPage() {
   const handleClockOut = () => {
     setErrorMessage(null);
     clockOutMutation.mutate(0);
+  };
+
+  // ============================================
+  // BREAK TRACKING
+  // ============================================
+
+  // Fetch breaks when current entry changes
+  useEffect(() => {
+    if (currentEntry?.id) {
+      fetchActiveBreak();
+      fetchBreaks();
+    } else {
+      setActiveBreak(null);
+      setBreaks([]);
+    }
+  }, [currentEntry?.id]);
+
+  const fetchActiveBreak = async () => {
+    if (!currentEntry?.id) return;
+    try {
+      const response = await api.get<any[]>(`/time-tracking/breaks/${currentEntry.id}`);
+      const activeBreak = response.find((b: any) => !b.endedAt);
+      setActiveBreak(activeBreak || null);
+    } catch (error) {
+      console.error('Failed to fetch active break:', error);
+    }
+  };
+
+  const fetchBreaks = async () => {
+    if (!currentEntry?.id) return;
+    try {
+      const response = await api.get<any[]>(`/time-tracking/breaks/${currentEntry.id}`);
+      setBreaks(response);
+    } catch (error) {
+      console.error('Failed to fetch breaks:', error);
+    }
+  };
+
+  const startBreakMutation = useMutation({
+    mutationFn: async (timeEntryId: string) => {
+      return api.post('/time-tracking/breaks/start', { timeEntryId });
+    },
+    onSuccess: (data) => {
+      setActiveBreak(data);
+      setSuccessMessage(t('clocking.breakStarted'));
+    },
+    onError: (error: MutationError) => {
+      setErrorMessage(error.message || t('clocking.breakStartFailed'));
+    },
+  });
+
+  const endBreakMutation = useMutation({
+    mutationFn: async (breakId: string) => {
+      return api.post('/time-tracking/breaks/end', { breakId });
+    },
+    onSuccess: async () => {
+      setActiveBreak(null);
+      await fetchBreaks();
+      setSuccessMessage(t('clocking.breakEnded'));
+    },
+    onError: (error: MutationError) => {
+      setErrorMessage(error.message || t('clocking.breakEndFailed'));
+    },
+  });
+
+  const handleStartBreak = () => {
+    if (currentEntry?.id) {
+      setErrorMessage(null);
+      startBreakMutation.mutate(currentEntry.id);
+    }
+  };
+
+  const handleEndBreak = () => {
+    if (activeBreak?.id) {
+      setErrorMessage(null);
+      endBreakMutation.mutate(activeBreak.id);
+    }
+  };
+
+  const isBreakMinimumMet = (startTime: string) => {
+    return differenceInMinutes(new Date(), new Date(startTime)) >= 15;
+  };
+
+  const formatBreakElapsedTime = (startTime: string) => {
+    const elapsed = differenceInMinutes(new Date(), new Date(startTime));
+    return `${elapsed} ${t('common.minutes')}`;
   };
 
   // ============================================
@@ -630,6 +719,110 @@ export function ClockingPage() {
                 </button>
               )}
             </div>
+
+            {/* Break Tracking Section */}
+            {currentEntry && !currentEntry.clockOut && (
+              <div className="mt-6 pt-6 border-t border-slate-200">
+                <h3 className="text-lg font-semibold text-slate-900 mb-4">
+                  {t('clocking.breaks')}
+                </h3>
+                
+                {!activeBreak ? (
+                  <button
+                    onClick={handleStartBreak}
+                    disabled={startBreakMutation.isPending}
+                    className="w-full bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 disabled:from-slate-400 disabled:to-slate-400 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 active:scale-[0.98] disabled:shadow-none flex items-center justify-center gap-2 shadow-md"
+                    aria-label={t('clocking.startBreak')}
+                  >
+                    {startBreakMutation.isPending ? (
+                      <>
+                        <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        <span>{t('common.loading')}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-2xl">☕</span>
+                        <span>{t('clocking.startBreak')}</span>
+                      </>
+                    )}
+                  </button>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                      <p className="text-sm text-amber-800 mb-2 font-medium">
+                        {t('clocking.onBreak')}
+                      </p>
+                      <p className="text-3xl font-mono font-bold text-amber-900">
+                        {formatBreakElapsedTime(activeBreak.startedAt)}
+                      </p>
+                      <p className="text-xs text-amber-700 mt-2">
+                        {t('clocking.breakStarted')}: {format(new Date(activeBreak.startedAt), 'HH:mm')}
+                      </p>
+                    </div>
+                    
+                    <button
+                      onClick={handleEndBreak}
+                      disabled={endBreakMutation.isPending || !isBreakMinimumMet(activeBreak.startedAt)}
+                      className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 disabled:from-slate-400 disabled:to-slate-400 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 active:scale-[0.98] disabled:shadow-none flex items-center justify-center gap-2 shadow-md disabled:opacity-60"
+                      aria-label={t('clocking.endBreak')}
+                    >
+                      {endBreakMutation.isPending ? (
+                        <>
+                          <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                          </svg>
+                          <span>{t('common.loading')}</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          <span>{t('clocking.endBreak')}</span>
+                        </>
+                      )}
+                    </button>
+                    
+                    {!isBreakMinimumMet(activeBreak.startedAt) && (
+                      <p className="text-sm text-amber-600 text-center font-medium">
+                        {t('clocking.breakMinimum')}
+                      </p>
+                    )}
+                  </div>
+                )}
+                
+                {/* Break History */}
+                {breaks.length > 0 && (
+                  <div className="mt-6">
+                    <h4 className="text-sm font-semibold text-slate-700 mb-3">
+                      {t('clocking.breaksToday')}
+                    </h4>
+                    <div className="space-y-2">
+                      {breaks.map((breakEntry) => (
+                        <div
+                          key={breakEntry.id}
+                          className="flex justify-between items-center text-sm bg-slate-50 p-3 rounded-lg border border-slate-200"
+                        >
+                          <span className="text-slate-600">
+                            {format(new Date(breakEntry.startedAt), 'HH:mm')} -{' '}
+                            {breakEntry.endedAt ? format(new Date(breakEntry.endedAt), 'HH:mm') : t('clocking.ongoing')}
+                          </span>
+                          <span className="font-semibold text-slate-900">
+                            {breakEntry.endedAt
+                              ? `${differenceInMinutes(new Date(breakEntry.endedAt), new Date(breakEntry.startedAt))} ${t('common.minutes')}`
+                              : t('clocking.ongoing')}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
