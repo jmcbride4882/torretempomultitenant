@@ -1987,3 +1987,157 @@ All operations logged via AuditService:
 - Pagination supports configurable page and pageSize query params
 - All user operations are scoped to the tenant from the JWT token
 - No cross-tenant access possible
+
+## Production Testing Learnings (2026-01-29)
+
+### Testing GLOBAL_ADMIN Features
+
+**Test Coverage:**
+- ✅ Authentication and login flow
+- ✅ System Admin dashboard functionality
+- ✅ Tenant list display with pagination
+- ✅ Create tenant form with placeholders
+- ✅ Navigation between tenant admin and global admin views
+- ✅ Translation keys rendering
+
+### Successful Deployments Verified
+
+**Pagination Implementation (edb70a3, 39817e3):**
+- API endpoint `/api/tenants` returns correct paginated format: `{ tenants: [...], total, page, pageSize }`
+- Tenant Management page displays 2 tenants correctly
+- Table shows all tenant details (company, identifier, users, locations, timezone, created date)
+
+**Translation Keys (879ff56):**
+- All 6 placeholder translation keys work correctly:
+  - `tenants.maxWeeklyHoursPlaceholder` → "Default: 40"
+  - `tenants.maxAnnualHoursPlaceholder` → "Default: 1822"
+  - `tenants.adminFirstNamePlaceholder` → "John"
+  - `tenants.adminLastNamePlaceholder` → "Smith"
+  - `tenants.adminPasswordPlaceholder` → "••••••••"
+  - `tenants.confirmPasswordPlaceholder` → "••••••••"
+
+### Production Environment Details
+
+**Working Endpoints:**
+- POST /api/auth/login → 200 OK
+- GET /api/tenants → 200 OK (paginated)
+- GET /api/admin/stats → 200 OK
+- GET /api/locations → 200 OK
+- GET /api/admin/activity?limit=10 → 200 OK
+
+**Known Issues (Acceptable):**
+- GET /api/global-admin/stats → 404 Not Found (using mock data)
+- Nginx container health check warnings (routes work fine)
+- Web container health check warnings (serves content correctly)
+
+### Testing Best Practices Observed
+
+**Effective Test Strategy:**
+1. Start with authentication flow
+2. Test each major page in isolation
+3. Verify API responses and console errors
+4. Take screenshots at each step
+5. Test navigation between pages
+6. Verify data persistence across views
+7. Check for translation key visibility
+
+**Playwright MCP Integration:**
+- `browser_navigate` for page navigation
+- `browser_snapshot` for accessibility tree (useful for finding elements)
+- `browser_take_screenshot` for visual verification
+- `browser_console_messages` for debugging JavaScript errors
+- `browser_network_requests` for API inspection
+- `browser_evaluate` for checking DOM state
+
+### Key Insights
+
+**Dashboard State Management:**
+- Initial render can differ from subsequent renders
+- Always test fresh login flow (not just navigation)
+- Race conditions can occur during initial data loading
+- Empty accessibility snapshots don't always mean page is broken (check with evaluate/screenshot)
+
+**Multi-Role Navigation:**
+- GLOBAL_ADMIN users see both tenant-specific and global views
+- Dashboard shows tenant admin context (for their primary tenant)
+- System Admin shows global context (all tenants)
+- Navigation must preserve role context correctly
+
+**Form Placeholder Testing:**
+- Placeholders on number inputs (`<input type="number">`) work differently than text inputs
+- Must use `document.querySelector` and check `.placeholder` attribute
+- Visual screenshot confirms placeholder visibility
+- All 6 expected placeholders were present and correctly translated
+
+### Production Testing Workflow
+
+**Recommended Process:**
+1. Test on staging first (if available)
+2. Use read-only operations in production
+3. Take comprehensive screenshots for documentation
+4. Document all bugs with reproduction steps
+5. Verify recent deployments against expected behavior
+6. Create detailed test report for stakeholders
+7. Add findings to notepads for future reference
+
+**Safety Measures Followed:**
+- Did NOT submit create tenant form (avoided test data in production)
+- Did NOT modify existing tenant data
+- Did NOT change user roles or permissions
+- Did NOT delete any data
+- Used read-only operations only (GET requests, UI navigation)
+
+---
+
+## [2026-01-29 16:00] Dashboard TypeError Fix - Production Verification
+
+### Bug Fix Verification
+Successfully verified fix for critical "TypeError: l.filter is not a function" bug that caused blank dashboard on initial GLOBAL_ADMIN login.
+
+**Fix Details (Commit 52159c1):**
+- Added nullish coalescing operator (`??`) to provide empty array fallback
+- Modified files:
+  - `apps/web/src/App.tsx` (line 185): `(navItems ?? []).filter(...)`
+  - `apps/web/src/components/BottomNav.tsx`: Added default parameter `navItems = []` and `(navItems ?? []).slice(0, 5)`
+
+**Testing Approach:**
+1. Used Playwright MCP for automated browser testing
+2. Fresh login simulation to production (https://time.lsltgroup.es)
+3. Console error monitoring for JavaScript errors
+4. Full-page screenshots for visual verification
+5. Navigation testing between all main pages
+
+**Results:**
+- ✅ Dashboard loads successfully on initial login (no blank screen)
+- ✅ No JavaScript console errors detected
+- ✅ No "TypeError: l.filter is not a function" error
+- ✅ All dashboard content displays properly (stats, locations, recent activity)
+- ✅ Navigation works smoothly between Dashboard → System Admin → Tenants → Dashboard
+
+**Key Learnings:**
+1. **Defensive Programming**: Always use nullish coalescing (`??`) or optional chaining (`?.`) when array operations might receive undefined/null
+2. **Default Parameters**: Provide default values in function parameters to prevent undefined errors
+3. **Initial State**: Ensure React state is initialized with proper default values (empty arrays, not undefined)
+4. **Testing Production**: Always test fixes on production with fresh browser state (clear cache) to simulate real user experience
+5. **Playwright MCP**: Excellent tool for automated production testing - provides console monitoring, screenshots, and accessibility snapshots
+
+**Pattern to Remember:**
+```typescript
+// ❌ Bad: Assumes array exists
+navItems.filter(...)
+
+// ✅ Good: Defensive with nullish coalescing
+(navItems ?? []).filter(...)
+
+// ✅ Good: Optional chaining (but only if undefined result is acceptable)
+navItems?.filter(...)
+
+// ✅ Good: Default parameter
+function Component({ navItems = [] }: Props) {
+  return navItems.slice(0, 5)
+}
+```
+
+**Documentation:**
+Created comprehensive test report: `DASHBOARD_FIX_VERIFICATION_REPORT.md`
+
