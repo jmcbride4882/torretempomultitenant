@@ -33,6 +33,19 @@ interface ReportData {
     clockIn: Date;
     clockOut: Date | null;
     breakMinutes: number | null;
+    breaks: Array<{
+      id: string;
+      startedAt: Date;
+      endedAt: Date | null;
+    }>;
+    overtimeEntries: Array<{
+      id: string;
+      hours: number;
+      type: string;
+      compensationType: string;
+      approvedAt: Date | null;
+      compensatedAt: Date | null;
+    }>;
     location: { name: string } | null;
     origin: string;
     status: string;
@@ -44,6 +57,13 @@ interface ReportData {
   }>;
   totalHours: number;
   scheduledHours: number;
+  annualOvertimeSummary: {
+    totalOrdinary: number;
+    totalForceMajeure: number;
+    limit: number;
+    remaining: number;
+    percentage: number;
+  };
 }
 
 @Injectable()
@@ -340,7 +360,10 @@ export class ReportsService {
         'Clock In',
         'Clock Out',
         'Break (min)',
+        'Break Count',
         'Total Hours',
+        'Overtime Hours',
+        'Overtime Type',
         'Location',
         'Origin',
         'Status',
@@ -356,12 +379,40 @@ export class ReportsService {
             (1000 * 60 * 60)
           : 0;
 
+        // Calculate break count and total minutes
+        const breakCount = entry.breaks ? entry.breaks.length : 0;
+        const actualBreakMinutes = entry.breaks
+          ? entry.breaks.reduce((sum, brk) => {
+              if (brk.endedAt) {
+                const minutes =
+                  (new Date(brk.endedAt).getTime() -
+                    new Date(brk.startedAt).getTime()) /
+                  (1000 * 60);
+                return sum + minutes;
+              }
+              return sum;
+            }, 0)
+          : 0;
+
+        // Calculate overtime hours and type
+        const overtimeHours =
+          entry.overtimeEntries && entry.overtimeEntries.length > 0
+            ? entry.overtimeEntries.reduce((sum, ot) => sum + ot.hours, 0)
+            : 0;
+        const overtimeType =
+          entry.overtimeEntries && entry.overtimeEntries.length > 0
+            ? entry.overtimeEntries.map((ot) => ot.type).join(', ')
+            : '';
+
         rows.push([
           clockInDate.toISOString().split('T')[0],
           clockInDate.toTimeString().split(' ')[0],
           clockOutDate ? clockOutDate.toTimeString().split(' ')[0] : '',
-          (entry.breakMinutes || 0).toString(),
+          Math.round(actualBreakMinutes).toString(),
+          breakCount.toString(),
           totalHours.toFixed(2),
+          overtimeHours.toFixed(1),
+          overtimeType,
           entry.location?.name || '',
           entry.origin,
           entry.status,
@@ -403,9 +454,9 @@ export class ReportsService {
     );
 
     const workbook = new Workbook();
+    
+    // Sheet 1: Time Entries
     const worksheet = workbook.addWorksheet('Time Entries');
-
-    // Add header
     worksheet.columns = [
       { header: 'Date', key: 'date', width: 12 },
       { header: 'Clock In', key: 'clockIn', width: 12 },
@@ -417,7 +468,6 @@ export class ReportsService {
       { header: 'Status', key: 'status', width: 12 },
     ];
 
-    // Add data rows
     reportData.timeEntries.forEach((entry) => {
       const clockInDate = new Date(entry.clockIn);
       const clockOutDate = entry.clockOut ? new Date(entry.clockOut) : null;
@@ -438,6 +488,124 @@ export class ReportsService {
         status: entry.status,
       });
     });
+
+    // Sheet 2: Breaks
+    const breaksSheet = workbook.addWorksheet('Breaks');
+    breaksSheet.columns = [
+      { header: 'Date', key: 'date', width: 12 },
+      { header: 'Break Start', key: 'startTime', width: 12 },
+      { header: 'Break End', key: 'endTime', width: 12 },
+      { header: 'Duration (min)', key: 'duration', width: 14 },
+      { header: 'Location', key: 'location', width: 20 },
+    ];
+
+    reportData.timeEntries.forEach((entry) => {
+      if (entry.breaks && entry.breaks.length > 0) {
+        entry.breaks.forEach((brk) => {
+          const startTime = new Date(brk.startedAt);
+          const endTime = brk.endedAt ? new Date(brk.endedAt) : null;
+          const duration = endTime
+            ? Math.round((endTime.getTime() - startTime.getTime()) / (1000 * 60))
+            : null;
+
+          breaksSheet.addRow({
+            date: new Date(entry.clockIn).toISOString().split('T')[0],
+            startTime: startTime.toTimeString().split(' ')[0],
+            endTime: endTime ? endTime.toTimeString().split(' ')[0] : 'Ongoing',
+            duration: duration !== null ? duration : 'N/A',
+            location: entry.location?.name || '',
+          });
+        });
+      }
+    });
+
+    // Sheet 3: Overtime
+    const overtimeSheet = workbook.addWorksheet('Overtime');
+    overtimeSheet.columns = [
+      { header: 'Date', key: 'date', width: 12 },
+      { header: 'Hours', key: 'hours', width: 10 },
+      { header: 'Type', key: 'type', width: 15 },
+      { header: 'Compensation', key: 'compensation', width: 15 },
+      { header: 'Status', key: 'status', width: 12 },
+      { header: 'Approved At', key: 'approvedAt', width: 18 },
+      { header: 'Compensated At', key: 'compensatedAt', width: 18 },
+    ];
+
+    reportData.timeEntries.forEach((entry) => {
+      if (entry.overtimeEntries && entry.overtimeEntries.length > 0) {
+        entry.overtimeEntries.forEach((ot) => {
+          overtimeSheet.addRow({
+            date: new Date(entry.clockIn).toISOString().split('T')[0],
+            hours: ot.hours.toFixed(1),
+            type: ot.type,
+            compensation: ot.compensationType,
+            status: ot.approvedAt ? 'Approved' : 'Pending',
+            approvedAt: ot.approvedAt
+              ? new Date(ot.approvedAt).toISOString().split('T')[0]
+              : '',
+            compensatedAt: ot.compensatedAt
+              ? new Date(ot.compensatedAt).toISOString().split('T')[0]
+              : '',
+          });
+        });
+      }
+    });
+
+    // Sheet 4: Compliance Summary
+    const complianceSheet = workbook.addWorksheet('Compliance Summary');
+    complianceSheet.columns = [
+      { header: 'Metric', key: 'metric', width: 30 },
+      { header: 'Value', key: 'value', width: 20 },
+    ];
+
+    const currentYear = new Date(reportData.period).getFullYear();
+    complianceSheet.addRow({
+      metric: 'Report Period',
+      value: reportData.period,
+    });
+    complianceSheet.addRow({
+      metric: 'Employee',
+      value: `${reportData.employee.firstName} ${reportData.employee.lastName}`,
+    });
+    complianceSheet.addRow({
+      metric: 'Employee Code',
+      value: reportData.employee.employeeCode || 'N/A',
+    });
+    complianceSheet.addRow({ metric: '', value: '' }); // Empty row
+    complianceSheet.addRow({
+      metric: `Annual Overtime Limit (${currentYear})`,
+      value: `${reportData.annualOvertimeSummary.limit} hours`,
+    });
+    complianceSheet.addRow({
+      metric: 'Ordinary Overtime Used',
+      value: `${reportData.annualOvertimeSummary.totalOrdinary.toFixed(1)} hours`,
+    });
+    complianceSheet.addRow({
+      metric: 'Force Majeure Overtime (exempt)',
+      value: `${reportData.annualOvertimeSummary.totalForceMajeure.toFixed(1)} hours`,
+    });
+    complianceSheet.addRow({
+      metric: 'Remaining Ordinary Overtime',
+      value: `${reportData.annualOvertimeSummary.remaining.toFixed(1)} hours`,
+    });
+    complianceSheet.addRow({
+      metric: 'Percentage Used',
+      value: `${reportData.annualOvertimeSummary.percentage.toFixed(0)}%`,
+    });
+    complianceSheet.addRow({ metric: '', value: '' }); // Empty row
+    
+    // Add warning if applicable
+    if (reportData.annualOvertimeSummary.percentage > 75) {
+      complianceSheet.addRow({
+        metric: 'WARNING',
+        value: 'Exceeding recommended overtime limit',
+      });
+    } else if (reportData.annualOvertimeSummary.percentage > 60) {
+      complianceSheet.addRow({
+        metric: 'CAUTION',
+        value: 'Approaching annual overtime limit',
+      });
+    }
 
     const buffer = await workbook.xlsx.writeBuffer();
     return Buffer.from(buffer);
@@ -503,6 +671,29 @@ export class ReportsService {
             name: true,
           },
         },
+        breaks: {
+          select: {
+            id: true,
+            startedAt: true,
+            endedAt: true,
+          },
+          orderBy: {
+            startedAt: 'asc',
+          },
+        },
+        overtimeEntries: {
+          select: {
+            id: true,
+            hours: true,
+            type: true,
+            compensationType: true,
+            approvedAt: true,
+            compensatedAt: true,
+          },
+          orderBy: {
+            createdAt: 'asc',
+          },
+        },
       },
       orderBy: {
         clockIn: 'asc',
@@ -564,6 +755,46 @@ export class ReportsService {
       return sum + shiftMinutes / 60;
     }, 0);
 
+    // Calculate annual overtime balance (for compliance summary)
+    const yearStartDate = new Date(year, 0, 1);
+    const yearEndDate = new Date(year, 11, 31, 23, 59, 59, 999);
+
+    const ordinaryOvertimeTotal = await this.prisma.overtimeEntry.aggregate({
+      where: {
+        userId,
+        tenantId,
+        type: 'ORDINARY',
+        createdAt: {
+          gte: yearStartDate,
+          lte: yearEndDate,
+        },
+      },
+      _sum: {
+        hours: true,
+      },
+    });
+
+    const forceMajeureOvertimeTotal = await this.prisma.overtimeEntry.aggregate({
+      where: {
+        userId,
+        tenantId,
+        type: 'FORCE_MAJEURE',
+        createdAt: {
+          gte: yearStartDate,
+          lte: yearEndDate,
+        },
+      },
+      _sum: {
+        hours: true,
+      },
+    });
+
+    const totalOrdinary = ordinaryOvertimeTotal._sum.hours || 0;
+    const totalForceMajeure = forceMajeureOvertimeTotal._sum.hours || 0;
+    const annualLimit = 80; // Spanish labor law: 80h annual overtime limit
+    const remaining = Math.max(0, annualLimit - totalOrdinary);
+    const percentage = Math.min(100, (totalOrdinary / annualLimit) * 100);
+
     return {
       tenant,
       employee,
@@ -572,6 +803,13 @@ export class ReportsService {
       auditLogs,
       totalHours,
       scheduledHours,
+      annualOvertimeSummary: {
+        totalOrdinary,
+        totalForceMajeure,
+        limit: annualLimit,
+        remaining,
+        percentage,
+      },
     };
   }
 
@@ -632,6 +870,103 @@ export class ReportsService {
             `${clockIn.toISOString().split('T')[0]} | ${clockIn.toTimeString().split(' ')[0]} - ${clockOut ? clockOut.toTimeString().split(' ')[0] : 'N/A'} | ${hours} hours | ${entry.location?.name || 'N/A'}`,
           );
         });
+        doc.moveDown();
+
+        // Breaks section
+        const entriesWithBreaks = data.timeEntries.filter(
+          (entry) => entry.breaks && entry.breaks.length > 0,
+        );
+        if (entriesWithBreaks.length > 0) {
+          doc.fontSize(14).text('Breaks Taken', { underline: true });
+          doc.fontSize(10);
+          entriesWithBreaks.forEach((entry) => {
+            const clockInDate = new Date(entry.clockIn);
+            doc.text(`Date: ${clockInDate.toISOString().split('T')[0]}`);
+            let totalBreakMinutes = 0;
+            entry.breaks.forEach((brk) => {
+              const startTime = new Date(brk.startedAt);
+              const endTime = brk.endedAt ? new Date(brk.endedAt) : null;
+              if (endTime) {
+                const breakMinutes = Math.round(
+                  (endTime.getTime() - startTime.getTime()) / (1000 * 60),
+                );
+                totalBreakMinutes += breakMinutes;
+                doc.text(
+                  `  • ${startTime.toTimeString().split(' ')[0]} - ${endTime.toTimeString().split(' ')[0]} (${breakMinutes} minutes)`,
+                );
+              } else {
+                doc.text(
+                  `  • ${startTime.toTimeString().split(' ')[0]} - Ongoing`,
+                );
+              }
+            });
+            if (totalBreakMinutes > 0) {
+              doc.text(`  Total: ${totalBreakMinutes} minutes`);
+            }
+          });
+          doc.moveDown();
+        }
+
+        // Overtime section
+        const allOvertimeEntries = data.timeEntries.flatMap((entry) =>
+          entry.overtimeEntries.map((ot) => ({
+            ...ot,
+            date: new Date(entry.clockIn),
+          })),
+        );
+        if (allOvertimeEntries.length > 0) {
+          doc.fontSize(14).text('Overtime Hours', { underline: true });
+          doc.fontSize(10);
+          doc.text(
+            'Date       | Hours | Type        | Status    | Compensation',
+          );
+          doc.text('-'.repeat(60));
+          let totalOvertimeHours = 0;
+          allOvertimeEntries.forEach((ot) => {
+            totalOvertimeHours += ot.hours;
+            const status = ot.approvedAt ? 'Approved' : 'Pending';
+            const compensation = ot.compensatedAt
+              ? 'Compensated'
+              : ot.compensationType === 'TIME_OFF'
+                ? 'Time Off'
+                : 'Pay';
+            doc.text(
+              `${ot.date.toISOString().split('T')[0]} | ${ot.hours.toFixed(1)}h | ${ot.type.padEnd(11)} | ${status.padEnd(9)} | ${compensation}`,
+            );
+          });
+          doc.moveDown();
+          doc.text(`Total Overtime This Month: ${totalOvertimeHours.toFixed(1)} hours`);
+          doc.moveDown();
+        }
+
+        // Annual Compliance Summary
+        const currentYear = new Date(data.period).getFullYear();
+        doc.fontSize(14).text(`Annual Compliance Summary (${currentYear})`, { underline: true });
+        doc.fontSize(10);
+        doc.text(`Annual Overtime Limit: ${data.annualOvertimeSummary.limit} hours`);
+        doc.text(
+          `Overtime Used: ${data.annualOvertimeSummary.totalOrdinary.toFixed(1)} hours (${data.annualOvertimeSummary.percentage.toFixed(0)}%)`,
+        );
+        doc.text(`Remaining: ${data.annualOvertimeSummary.remaining.toFixed(1)} hours`);
+        if (data.annualOvertimeSummary.totalForceMajeure > 0) {
+          doc.text(
+            `Force Majeure Overtime (exempt): ${data.annualOvertimeSummary.totalForceMajeure.toFixed(1)} hours`,
+          );
+        }
+        doc.moveDown();
+        
+        // Compliance warnings
+        if (data.annualOvertimeSummary.percentage > 75) {
+          doc.fontSize(11)
+            .fillColor('red')
+            .text('⚠️ WARNING: Exceeding recommended overtime limit');
+          doc.fillColor('black');
+        } else if (data.annualOvertimeSummary.percentage > 60) {
+          doc.fontSize(11)
+            .fillColor('orange')
+            .text('⚠️ Approaching annual overtime limit');
+          doc.fillColor('black');
+        }
         doc.moveDown();
 
         // Audit log summary
