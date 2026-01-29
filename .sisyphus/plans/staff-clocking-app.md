@@ -407,7 +407,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] Submit edit, approve, and verify audit trail
 
-- [ ] 8. Reporting + signed monthly PDF + CSV/XLSX exports
+- [x] 8. Reporting + signed monthly PDF + CSV/XLSX exports
 
   **What to do**:
   - Generate monthly reports per employee + company
