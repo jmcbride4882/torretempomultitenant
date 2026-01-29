@@ -24,7 +24,7 @@ export function BottomNav({ navItems = [], currentPath, onNavigate }: BottomNavP
 
   const renderIcon = (icon: string, isActive: boolean) => {
     const className = `w-6 h-6 transition-colors duration-200 ${
-      isActive ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'
+      isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300'
     }`;
 
     switch (icon) {
@@ -100,6 +100,28 @@ export function BottomNav({ navItems = [], currentPath, onNavigate }: BottomNavP
             />
           </svg>
         );
+      case 'calendar':
+        return (
+          <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+        );
+      case 'menu':
+        return (
+          <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        );
       default:
         return null;
     }
@@ -109,27 +131,27 @@ export function BottomNav({ navItems = [], currentPath, onNavigate }: BottomNavP
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-200 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] pb-[env(safe-area-inset-bottom)]"
+      className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] pb-[env(safe-area-inset-bottom)]"
       aria-label="Mobile navigation"
     >
-      <div className="flex items-stretch justify-around h-14">
+      <div className="flex items-stretch justify-around h-16">
         {visibleItems.map((item) => {
           const active = isActive(item.path);
           return (
             <button
               key={item.path}
               onClick={() => onNavigate(item.path)}
-              className={`group flex flex-col items-center justify-center flex-1 min-w-[64px] min-h-[48px] px-2 py-1 transition-colors duration-200 ${
+              className={`group flex flex-col items-center justify-center flex-1 min-w-[64px] min-h-[48px] px-2 py-2 transition-colors duration-200 ${
                 active
-                  ? 'bg-blue-50 text-blue-700'
-                  : 'text-slate-500 hover:bg-slate-50 active:bg-slate-100'
+                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                  : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-100 dark:active:bg-slate-700'
               }`}
               aria-current={active ? 'page' : undefined}
             >
               {renderIcon(item.icon, active)}
               <span
-                className={`mt-0.5 text-[10px] font-medium leading-tight truncate max-w-full ${
-                  active ? 'text-blue-700' : 'text-slate-500 group-hover:text-slate-700'
+                className={`mt-1 text-[11px] font-medium leading-tight truncate max-w-full ${
+                  active ? 'text-blue-700 dark:text-blue-300' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300'
                 }`}
               >
                 {item.label}
