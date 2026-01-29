@@ -1,0 +1,366 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "close": "Schließen",
+    "confirm": "Bestätigen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "submit": "Absenden",
+    "offline": "Offline - Daten werden bei Wiederverbindung synchronisiert"
+  },
+  "landing": {
+    "nav": {
+      "features": "Funktionen",
+      "pricing": "Preise",
+      "faq": "FAQ",
+      "login": "Anmelden",
+      "trial": "Kostenlos testen"
+    },
+    "hero": {
+      "title": "Zeiterfassung leicht gemacht",
+      "subtitle": "Spanisches Arbeitsrecht in 5 Minuten erfüllen. QR-Stempelung, Geolokalisierung und Offline-Modus für Ihr Team.",
+      "cta": "Kostenlos starten",
+      "demo": "Funktionen ansehen"
+    },
+    "trust": {
+      "retention": "5-Jahres-Aufbewahrung",
+      "noBiometrics": "Keine Biometrie"
+    },
+    "features": {
+      "title": "Alles, was Sie für die Zeiterfassung brauchen",
+      "subtitle": "Erfüllen Sie spanische Vorschriften ohne technische Komplikationen oder zusätzliche Hardware.",
+      "qr": {
+        "title": "QR-Stempelung",
+        "desc": "Scannen Sie den QR-Code Ihres Standorts und stempeln Sie in Sekunden von jedem Mobiltelefon."
+      },
+      "geo": {
+        "title": "Geolokalisierung",
+        "desc": "Automatische Validierung, dass der Mitarbeiter beim Stempeln am Arbeitsplatz ist."
+      },
+      "offline": {
+        "title": "Offline-Modus",
+        "desc": "Funktioniert ohne Internetverbindung. Stempelungen werden automatisch synchronisiert."
+      },
+      "approvals": {
+        "title": "Genehmigungen",
+        "desc": "Manager genehmigen Änderungen mit vollständiger Rückverfolgbarkeit."
+      },
+      "reports": {
+        "title": "PDF-Berichte",
+        "desc": "Generieren Sie monatliche, digital signierte Berichte für jeden Mitarbeiter."
+      },
+      "languages": {
+        "title": "Mehrsprachig",
+        "desc": "Verfügbar in Spanisch, Englisch, Französisch, Deutsch, Polnisch und Niederländisch."
+      }
+    },
+    "howItWorks": {
+      "title": "So funktioniert es",
+      "step1": {
+        "title": "Konto erstellen",
+        "desc": "Registrieren Sie sich in 2 Minuten. Keine Kreditkarte erforderlich."
+      },
+      "step2": {
+        "title": "Standorte hinzufügen",
+        "desc": "Richten Sie Ihre Arbeitszentren mit QR und Geofence ein."
+      },
+      "step3": {
+        "title": "Stempeln beginnen",
+        "desc": "Ihre Mitarbeiter stempeln sofort von ihrem Telefon."
+      }
+    },
+    "pricing": {
+      "title": "Einfache und transparente Preise",
+      "subtitle": "Keine versteckten Kosten. Jederzeit kündbar.",
+      "perEmployee": "/Mitarbeiter/Monat",
+      "starter": {
+        "name": "Starter",
+        "f1": "Bis zu 25 Mitarbeiter",
+        "f2": "1 Standort",
+        "f3": "QR-Stempelung",
+        "f4": "Grundberichte",
+        "f5": "E-Mail-Support",
+        "cta": "Kostenlos starten"
+      },
+      "pro": {
+        "name": "Professional",
+        "f1": "Bis zu 100 Mitarbeiter",
+        "f2": "5 Standorte",
+        "f3": "Geolokalisierung",
+        "f4": "Schichten und Zeitpläne",
+        "f5": "Genehmigungen",
+        "f6": "Prioritäts-Support",
+        "cta": "14 Tage testen"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Kontakt aufnehmen",
+        "f1": "Unbegrenzte Mitarbeiter",
+        "f2": "Unbegrenzte Standorte",
+        "f3": "API-Zugriff",
+        "f4": "SSO/SAML",
+        "f5": "Benutzerdefinierte Vereinbarungen",
+        "f6": "Dedizierter Account Manager",
+        "cta": "Vertrieb kontaktieren"
+      }
+    },
+    "faq": {
+      "title": "Häufig gestellte Fragen",
+      "legal": {
+        "q": "Ist dieses Stempelsystem legal?",
+        "a": "Ja. Torre Tempo erfüllt vollständig das RD-Ley 8/2019, das Unternehmen zur Aufzeichnung der Arbeitszeiten verpflichtet. Wir bewahren Aufzeichnungen 5 Jahre lang auf und sie stehen zur Inspektion bereit."
+      },
+      "offline": {
+        "q": "Funktioniert es ohne Internet?",
+        "a": "Ja. Stempelungen werden auf dem Gerät gespeichert und automatisch synchronisiert, wenn die Verbindung zurückkehrt. Sie verlieren niemals eine Aufzeichnung."
+      },
+      "data": {
+        "q": "Wo werden meine Daten gespeichert?",
+        "a": "Alle Daten werden auf Servern in der Europäischen Union gespeichert und entsprechen der DSGVO. Wir geben keine Daten an Dritte weiter."
+      },
+      "plan": {
+        "q": "Kann ich Tarife wechseln?",
+        "a": "Ja, Sie können jederzeit upgraden oder downgraden. Änderungen gelten im nächsten Abrechnungszyklus."
+      }
+    },
+    "cta": {
+      "title": "Starten Sie Ihre 14-tägige kostenlose Testversion",
+      "subtitle": "Keine Kreditkarte. Keine Verpflichtung. Jederzeit kündbar.",
+      "button": "Kostenloses Konto erstellen"
+    },
+    "footer": {
+      "tagline": "Einfache und legale Zeiterfassung für spanische Unternehmen.",
+      "product": "Produkt",
+      "legal": "Rechtliches",
+      "privacy": "Datenschutz",
+      "terms": "Bedingungen",
+      "cookies": "Cookies",
+      "contact": "Kontakt",
+      "rights": "Alle Rechte vorbehalten.",
+      "company": "Lakeside La Torre (Murcia) Group SL",
+      "cif": "CIF: B70822366"
+    }
+  },
+  "login": {
+    "title": "Anmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submit": "Anmelden",
+    "forgotPassword": "Passwort vergessen?",
+    "error": "Ungültige Anmeldedaten",
+    "noAccount": "Noch kein Konto?",
+    "signUp": "Registrieren"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Willkommen, {{name}}",
+    "todayHours": "Stunden heute",
+    "weekHours": "Stunden diese Woche",
+    "monthHours": "Stunden diesen Monat"
+  },
+  "clock": {
+    "title": "Stempeln",
+    "clockIn": "Kommen",
+    "clockOut": "Gehen",
+    "clockedIn": "Gestempelt seit {{time}}",
+    "clockedOut": "Nicht gestempelt",
+    "scanQR": "QR-Code scannen",
+    "locationRequired": "Sie müssen am Arbeitsplatz sein",
+    "success": {
+      "clockIn": "Kommen erfolgreich erfasst",
+      "clockOut": "Gehen erfolgreich erfasst"
+    },
+    "error": {
+      "geofence": "Sie befinden sich außerhalb des Arbeitsbereichs",
+      "qrInvalid": "Ungültiger QR-Code",
+      "alreadyClockedIn": "Sie haben bereits gestempelt",
+      "notClockedIn": "Sie haben nicht gestempelt"
+    }
+  },
+  "clocking": {
+    "title": "Stempeluhr",
+    "status": "Status",
+    "clockIn": "Kommen",
+    "clockOut": "Gehen",
+    "clockedIn": "Gestempelt",
+    "clockedOut": "Nicht gestempelt",
+    "clockInTime": "Kommenzeit",
+    "location": "Standort",
+    "offlineMode": "Offline-Modus - Stempelungen werden bei Wiederverbindung synchronisiert",
+    "offlineQueue": "Ausstehende Synchronisierung",
+    "pendingSync": "{{count}} Elemente ausstehend",
+    "retryAttempt": "Versuch {{count}}"
+  },
+  "entries": {
+    "title": "Meine Zeiteinträge",
+    "noEntries": "Keine Zeiteinträge",
+    "date": "Datum",
+    "clockIn": "Kommen",
+    "clockOut": "Gehen",
+    "duration": "Dauer",
+    "location": "Standort",
+    "status": "Status",
+    "requestEdit": "Änderung anfordern"
+  },
+  "approvals": {
+    "title": "Genehmigungen",
+    "editRequests": "Änderungsanfragen",
+    "createEditRequest": "Änderung anfordern",
+    "requestReason": "Grund für Änderung",
+    "requestedChanges": "Angeforderte Änderungen",
+    "approve": "Genehmigen",
+    "reject": "Ablehnen",
+    "reviewComment": "Prüfungskommentar",
+    "pending": "Ausstehend",
+    "approved": "Genehmigt",
+    "rejected": "Abgelehnt",
+    "status": "Status",
+    "submittedBy": "Eingereicht von",
+    "reviewedBy": "Geprüft von",
+    "submittedAt": "Eingereicht am",
+    "reviewedAt": "Geprüft am",
+    "noRequests": "Keine ausstehenden Anfragen",
+    "fieldName": "Feld",
+    "oldValue": "Aktueller Wert",
+    "newValue": "Neuer Wert",
+    "timeEntry": "Zeiteintrag",
+    "approveConfirm": "Sind Sie sicher, dass Sie diese Änderungsanfrage genehmigen möchten?",
+    "rejectConfirm": "Sind Sie sicher, dass Sie diese Änderungsanfrage ablehnen möchten?",
+    "fields": {
+      "clockIn": "Kommen",
+      "clockOut": "Gehen",
+      "breakMinutes": "Pausenminuten",
+      "locationId": "Standort"
+    }
+  },
+  "audit": {
+    "title": "Prüfprotokoll",
+    "action": "Aktion",
+    "timestamp": "Zeitstempel",
+    "user": "Benutzer",
+    "changes": "Änderungen",
+    "before": "Vorher",
+    "after": "Nachher",
+    "noChanges": "Keine Änderungen aufgezeichnet",
+    "viewHistory": "Verlauf anzeigen",
+    "actions": {
+      "TIME_ENTRY_CREATED": "Zeiteintrag erstellt",
+      "TIME_ENTRY_UPDATED": "Zeiteintrag aktualisiert",
+      "EDIT_REQUEST_CREATED": "Änderungsanfrage erstellt",
+      "EDIT_REQUEST_APPROVED": "Änderungsanfrage genehmigt",
+      "EDIT_REQUEST_REJECTED": "Änderungsanfrage abgelehnt"
+    }
+  },
+  "reports": {
+    "title": "Berichte",
+    "myReports": "Meine Berichte",
+    "generateReport": "Bericht generieren",
+    "month": "Monat",
+    "year": "Jahr",
+    "period": "Zeitraum",
+    "periodFormat": "Format: JJJJ-MM (z.B. 2026-01)",
+    "employee": "Mitarbeiter",
+    "employeeIdPlaceholder": "Mitarbeiter-ID",
+    "type": "Berichtstyp",
+    "monthlyEmployee": "Monatlicher Mitarbeiterbericht",
+    "monthlyCompany": "Monatlicher Unternehmensbericht",
+    "complianceExport": "Compliance-Export",
+    "monthlyReport": "Monatsbericht",
+    "totalHours": "Gesamtstunden",
+    "scheduledHours": "Geplante Stunden",
+    "difference": "Differenz",
+    "status": "Status",
+    "unsigned": "Nicht signiert",
+    "signed": "Signiert",
+    "signReport": "Bericht signieren",
+    "signature": "Unterschrift",
+    "signatureInstructions": "Zeichnen Sie unten Ihre Unterschrift, um diesen Bericht zu bestätigen",
+    "clearSignature": "Löschen",
+    "submitSignature": "Unterschrift absenden",
+    "downloadPDF": "PDF herunterladen",
+    "downloadCSV": "CSV herunterladen",
+    "downloadXLSX": "XLSX herunterladen",
+    "generatedBy": "Generiert von",
+    "generatedAt": "Generiert am",
+    "signedAt": "Signiert am",
+    "auditHash": "Audit-Hash",
+    "noReports": "Keine Berichte",
+    "signatureError": "Fehler beim Absenden der Unterschrift. Bitte versuchen Sie es erneut."
+  },
+  "schedule": {
+    "title": "Zeitplan",
+    "thisWeek": "Diese Woche",
+    "noShifts": "Keine geplanten Schichten"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "notifications": "Benachrichtigungen",
+    "logout": "Abmelden"
+  },
+  "warnings": {
+    "weeklyLimitWarning": "Warnung: Sie haben diese Woche {{hours}} Stunden gearbeitet (Limit: 40)",
+    "weeklyLimitReached": "Sie haben das wöchentliche Limit von 40 Stunden erreicht",
+    "dailyLimitWarning": "Warnung: Sie haben heute {{hours}} Stunden gearbeitet",
+    "dailyLimitReached": "Sie haben das tägliche Limit von 9 Stunden erreicht",
+    "annualLimitWarning": "Warnung: Sie haben dieses Jahr {{hours}} Stunden gearbeitet (Limit: 1.822)",
+    "restPeriod": "Sie müssen 12 Stunden zwischen den Schichten ruhen"
+  },
+  "locations": {
+    "title": "Standorte",
+    "addLocation": "Standort hinzufügen",
+    "editLocation": "Standort bearbeiten",
+    "deleteLocation": "Standort löschen",
+    "name": "Standortname",
+    "address": "Adresse",
+    "latitude": "Breitengrad",
+    "longitude": "Längengrad",
+    "radiusMeters": "Radius (Meter)",
+    "qrEnabled": "QR-Code aktiviert",
+    "isActive": "Aktiv",
+    "noLocations": "Keine Standorte",
+    "createFirst": "Erstellen Sie Ihren ersten Standort, um die Zeiterfassung zu starten",
+    "deleteConfirm": "Sind Sie sicher, dass Sie diesen Standort löschen möchten?",
+    "qrCode": "QR-Code",
+    "generateQR": "QR-Code generieren",
+    "downloadQR": "QR-Code herunterladen",
+    "printQR": "QR-Code drucken",
+    "showQR": "QR-Code anzeigen",
+    "scanQR": "QR-Code scannen",
+    "qrInstructions": "Drucken Sie diesen QR-Code und platzieren Sie ihn am Arbeitsplatz. Mitarbeiter scannen ihn zum Stempeln.",
+    "geofence": "Geofence",
+    "setCoordinates": "Koordinaten festlegen",
+    "mapInstructions": "Klicken Sie auf die Karte, um die Standortkoordinaten festzulegen, oder geben Sie sie manuell ein.",
+    "coordinatesSet": "Koordinaten erfolgreich festgelegt",
+    "outsideGeofence": "Sie befinden sich außerhalb des Arbeitsbereichs ({{distance}}m entfernt, Limit: {{radius}}m)",
+    "insideGeofence": "Sie befinden sich im Arbeitsbereich",
+    "locationRequired": "Bitte wählen Sie einen Standort",
+    "gpsPermissionRequired": "GPS-Berechtigung ist für die Geofence-Validierung erforderlich",
+    "gpsPermissionDenied": "GPS-Berechtigung verweigert. Bitte aktivieren Sie den Standortzugriff in Ihren Browsereinstellungen.",
+    "gettingLocation": "Standort wird abgerufen...",
+    "created": "Standort erfolgreich erstellt",
+    "updated": "Standort erfolgreich aktualisiert",
+    "deleted": "Standort erfolgreich gelöscht",
+    "error": "Fehler beim Verwalten des Standorts"
+  },
+  "qr": {
+    "title": "QR-Scanner",
+    "scanInstructions": "Richten Sie Ihre Kamera auf den QR-Code",
+    "scanning": "Scannen...",
+    "cameraPermissionRequired": "Kameraberechtigung ist zum Scannen von QR-Codes erforderlich",
+    "cameraPermissionDenied": "Kameraberechtigung verweigert. Bitte aktivieren Sie den Kamerazugriff in Ihren Browsereinstellungen.",
+    "validCode": "Gültiger QR-Code erkannt",
+    "invalidCode": "Ungültiger QR-Code",
+    "expiredCode": "QR-Code ist abgelaufen",
+    "scanSuccess": "QR-Code erfolgreich gescannt",
+    "scanError": "Fehler beim Scannen des QR-Codes",
+    "close": "Scanner schließen",
+    "switchCamera": "Kamera wechseln"
+  }
+}

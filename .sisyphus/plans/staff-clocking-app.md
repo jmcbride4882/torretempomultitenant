@@ -314,7 +314,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] Disable network, clock-in, then re-enable and verify sync
 
-- [ ] 5. QR + geofence validation + location management
+- [x] 5. QR + geofence validation + location management
 
   **What to do**:
   - Admin creates locations with geofence boundaries

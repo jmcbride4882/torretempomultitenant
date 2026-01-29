@@ -3,9 +3,12 @@ import {
   BadRequestException,
   NotFoundException,
   Logger,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../audit/audit.service';
+import { LocationsService } from '../locations/locations.service';
 import { ClockInDto } from './dto/clock-in.dto';
 import { ClockOutDto } from './dto/clock-out.dto';
 import { EntryOrigin, EntryStatus } from '@prisma/client';
@@ -17,6 +20,8 @@ export class TimeTrackingService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly auditService: AuditService,
+    @Inject(forwardRef(() => LocationsService))
+    private readonly locationsService: LocationsService,
   ) {}
 
   /**
@@ -46,6 +51,27 @@ export class TimeTrackingService {
       );
     }
 
+    // Validate QR token if provided
+    let validatedLocation = null;
+    if (dto.qrTokenId) {
+      validatedLocation = await this.locationsService.validateQRToken(
+        dto.qrTokenId,
+      );
+      this.logger.log(
+        `QR validation successful for location ${validatedLocation.id}`,
+      );
+    }
+
+    // Validate geofence if coordinates provided
+    if (dto.latitude && dto.longitude && dto.locationId) {
+      await this.locationsService.validateGeofence(
+        dto.locationId,
+        dto.latitude,
+        dto.longitude,
+      );
+      this.logger.log(`Geofence validation successful for location ${dto.locationId}`);
+    }
+
     // Determine origin
     let origin: EntryOrigin = EntryOrigin.MANUAL;
     if (dto.offlineId) {
@@ -56,12 +82,15 @@ export class TimeTrackingService {
       origin = EntryOrigin.GEOFENCE;
     }
 
+    // Use validated location ID if QR was scanned
+    const locationId = validatedLocation?.id || dto.locationId;
+
     // Create time entry
     const timeEntry = await this.prisma.timeEntry.create({
       data: {
         userId,
         tenantId,
-        locationId: dto.locationId,
+        locationId,
         clockIn: new Date(),
         origin,
         qrTokenId: dto.qrTokenId,

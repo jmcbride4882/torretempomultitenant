@@ -8,6 +8,7 @@ import { ClockingPage } from './features/clocking/ClockingPage';
 import { ApprovalsPage } from './features/approvals/ApprovalsPage';
 import { ReportsPage } from './features/reports/ReportsPage';
 import { MyReportsPage } from './features/reports/MyReportsPage';
+import { LocationsPage } from './features/locations/LocationsPage';
 
 // Login Page
 function LoginPage() {
@@ -220,6 +221,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <MyReportsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/app/locations"
+        element={
+          <ProtectedRoute>
+            <LocationsPage />
           </ProtectedRoute>
         }
       />

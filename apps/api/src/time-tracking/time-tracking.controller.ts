@@ -27,7 +27,13 @@ export class TimeTrackingController {
    */
   @Post('clock-in')
   async clockIn(@CurrentUser() user: any, @Body() dto: ClockInDto) {
-    return this.timeTrackingService.clockIn(user.id, user.tenantId, dto);
+    return this.timeTrackingService.clockIn(
+      user.id,
+      user.tenantId,
+      user.email,
+      user.role,
+      dto,
+    );
   }
 
   /**
@@ -36,7 +42,13 @@ export class TimeTrackingController {
    */
   @Post('clock-out')
   async clockOut(@CurrentUser() user: any, @Body() dto: ClockOutDto) {
-    return this.timeTrackingService.clockOut(user.id, user.tenantId, dto);
+    return this.timeTrackingService.clockOut(
+      user.id,
+      user.tenantId,
+      user.email,
+      user.role,
+      dto,
+    );
   }
 
   /**

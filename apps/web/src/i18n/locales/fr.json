@@ -1,0 +1,366 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "next": "Suivant",
+    "submit": "Soumettre",
+    "offline": "Hors ligne - Les données se synchroniseront à la reconnexion"
+  },
+  "landing": {
+    "nav": {
+      "features": "Fonctionnalités",
+      "pricing": "Tarifs",
+      "faq": "FAQ",
+      "login": "Se connecter",
+      "trial": "Essai gratuit"
+    },
+    "hero": {
+      "title": "Pointage simplifié",
+      "subtitle": "Conformité au droit du travail espagnol en 5 minutes. QR code, géolocalisation et mode hors ligne pour votre équipe.",
+      "cta": "Commencer gratuitement",
+      "demo": "Voir les fonctionnalités"
+    },
+    "trust": {
+      "retention": "Conservation 5 ans",
+      "noBiometrics": "Sans biométrie"
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin pour le pointage",
+      "subtitle": "Conformité aux réglementations espagnoles sans complications techniques ni matériel supplémentaire.",
+      "qr": {
+        "title": "Pointage QR",
+        "desc": "Scannez le code QR de votre lieu de travail et pointez en quelques secondes depuis n'importe quel téléphone."
+      },
+      "geo": {
+        "title": "Géolocalisation",
+        "desc": "Validation automatique de la présence de l'employé sur le lieu de travail lors du pointage."
+      },
+      "offline": {
+        "title": "Mode hors ligne",
+        "desc": "Fonctionne sans connexion Internet. Les pointages se synchronisent automatiquement."
+      },
+      "approvals": {
+        "title": "Approbations",
+        "desc": "Les managers approuvent les modifications avec traçabilité complète."
+      },
+      "reports": {
+        "title": "Rapports PDF",
+        "desc": "Générez des rapports mensuels signés numériquement par chaque employé."
+      },
+      "languages": {
+        "title": "Multilingue",
+        "desc": "Disponible en espagnol, anglais, français, allemand, polonais et néerlandais."
+      }
+    },
+    "howItWorks": {
+      "title": "Comment ça marche",
+      "step1": {
+        "title": "Créez votre compte",
+        "desc": "Inscrivez-vous en 2 minutes. Aucune carte de crédit requise."
+      },
+      "step2": {
+        "title": "Ajoutez des lieux",
+        "desc": "Configurez vos centres de travail avec QR et géorepérage."
+      },
+      "step3": {
+        "title": "Commencez à pointer",
+        "desc": "Vos employés pointent depuis leur téléphone instantanément."
+      }
+    },
+    "pricing": {
+      "title": "Tarification simple et transparente",
+      "subtitle": "Sans frais cachés. Annulez à tout moment.",
+      "perEmployee": "/employé/mois",
+      "starter": {
+        "name": "Démarrage",
+        "f1": "Jusqu'à 25 employés",
+        "f2": "1 lieu",
+        "f3": "Pointage QR",
+        "f4": "Rapports de base",
+        "f5": "Support par e-mail",
+        "cta": "Commencer gratuitement"
+      },
+      "pro": {
+        "name": "Professionnel",
+        "f1": "Jusqu'à 100 employés",
+        "f2": "5 lieux",
+        "f3": "Géolocalisation",
+        "f4": "Horaires et plannings",
+        "f5": "Approbations",
+        "f6": "Support prioritaire",
+        "cta": "Essayer 14 jours"
+      },
+      "enterprise": {
+        "name": "Entreprise",
+        "price": "Nous contacter",
+        "f1": "Employés illimités",
+        "f2": "Lieux illimités",
+        "f3": "Accès API",
+        "f4": "SSO/SAML",
+        "f5": "Conventions personnalisées",
+        "f6": "Gestionnaire de compte dédié",
+        "cta": "Contacter les ventes"
+      }
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "legal": {
+        "q": "Ce système de pointage est-il légal ?",
+        "a": "Oui. Torre Tempo est entièrement conforme au RD-Ley 8/2019 qui oblige les entreprises à enregistrer les heures de travail. Nous conservons les enregistrements pendant 5 ans et ils sont disponibles pour inspection."
+      },
+      "offline": {
+        "q": "Fonctionne-t-il sans Internet ?",
+        "a": "Oui. Les pointages sont sauvegardés sur l'appareil et se synchronisent automatiquement au retour de la connexion. Vous ne perdrez jamais un enregistrement."
+      },
+      "data": {
+        "q": "Où sont stockées mes données ?",
+        "a": "Toutes les données sont stockées sur des serveurs dans l'Union européenne, conformément au RGPD. Nous ne partageons pas de données avec des tiers."
+      },
+      "plan": {
+        "q": "Puis-je changer de forfait ?",
+        "a": "Oui, vous pouvez améliorer ou réduire votre forfait à tout moment. Les modifications s'appliquent au prochain cycle de facturation."
+      }
+    },
+    "cta": {
+      "title": "Commencez votre essai gratuit de 14 jours",
+      "subtitle": "Sans carte de crédit. Sans engagement. Annulez à tout moment.",
+      "button": "Créer un compte gratuit"
+    },
+    "footer": {
+      "tagline": "Pointage simple et légal pour les entreprises espagnoles.",
+      "product": "Produit",
+      "legal": "Légal",
+      "privacy": "Confidentialité",
+      "terms": "Conditions",
+      "cookies": "Cookies",
+      "contact": "Contact",
+      "rights": "Tous droits réservés.",
+      "company": "Lakeside La Torre (Murcia) Group SL",
+      "cif": "CIF: B70822366"
+    }
+  },
+  "login": {
+    "title": "Se connecter",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "forgotPassword": "Mot de passe oublié ?",
+    "error": "Identifiants invalides",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "signUp": "S'inscrire"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue, {{name}}",
+    "todayHours": "Heures aujourd'hui",
+    "weekHours": "Heures cette semaine",
+    "monthHours": "Heures ce mois"
+  },
+  "clock": {
+    "title": "Pointer",
+    "clockIn": "Arrivée",
+    "clockOut": "Départ",
+    "clockedIn": "Pointé depuis {{time}}",
+    "clockedOut": "Non pointé",
+    "scanQR": "Scanner le code QR",
+    "locationRequired": "Vous devez être sur le lieu de travail",
+    "success": {
+      "clockIn": "Arrivée enregistrée avec succès",
+      "clockOut": "Départ enregistré avec succès"
+    },
+    "error": {
+      "geofence": "Vous êtes en dehors de la zone de travail",
+      "qrInvalid": "Code QR invalide",
+      "alreadyClockedIn": "Vous avez déjà pointé votre arrivée",
+      "notClockedIn": "Vous n'avez pas pointé votre arrivée"
+    }
+  },
+  "clocking": {
+    "title": "Horloge de pointage",
+    "status": "Statut",
+    "clockIn": "Arrivée",
+    "clockOut": "Départ",
+    "clockedIn": "Pointé",
+    "clockedOut": "Non pointé",
+    "clockInTime": "Heure d'arrivée",
+    "location": "Lieu",
+    "offlineMode": "Mode hors ligne - Les pointages se synchroniseront à la reconnexion",
+    "offlineQueue": "En attente de synchronisation",
+    "pendingSync": "{{count}} éléments en attente",
+    "retryAttempt": "Tentative {{count}}"
+  },
+  "entries": {
+    "title": "Mes pointages",
+    "noEntries": "Aucun pointage",
+    "date": "Date",
+    "clockIn": "Arrivée",
+    "clockOut": "Départ",
+    "duration": "Durée",
+    "location": "Lieu",
+    "status": "Statut",
+    "requestEdit": "Demander une modification"
+  },
+  "approvals": {
+    "title": "Approbations",
+    "editRequests": "Demandes de modification",
+    "createEditRequest": "Demander une modification",
+    "requestReason": "Motif de la modification",
+    "requestedChanges": "Modifications demandées",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "reviewComment": "Commentaire de révision",
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "rejected": "Rejeté",
+    "status": "Statut",
+    "submittedBy": "Soumis par",
+    "reviewedBy": "Révisé par",
+    "submittedAt": "Soumis le",
+    "reviewedAt": "Révisé le",
+    "noRequests": "Aucune demande en attente",
+    "fieldName": "Champ",
+    "oldValue": "Valeur actuelle",
+    "newValue": "Nouvelle valeur",
+    "timeEntry": "Pointage",
+    "approveConfirm": "Êtes-vous sûr de vouloir approuver cette demande de modification ?",
+    "rejectConfirm": "Êtes-vous sûr de vouloir rejeter cette demande de modification ?",
+    "fields": {
+      "clockIn": "Arrivée",
+      "clockOut": "Départ",
+      "breakMinutes": "Minutes de pause",
+      "locationId": "Lieu"
+    }
+  },
+  "audit": {
+    "title": "Journal d'audit",
+    "action": "Action",
+    "timestamp": "Horodatage",
+    "user": "Utilisateur",
+    "changes": "Modifications",
+    "before": "Avant",
+    "after": "Après",
+    "noChanges": "Aucune modification enregistrée",
+    "viewHistory": "Voir l'historique",
+    "actions": {
+      "TIME_ENTRY_CREATED": "Pointage créé",
+      "TIME_ENTRY_UPDATED": "Pointage mis à jour",
+      "EDIT_REQUEST_CREATED": "Demande de modification créée",
+      "EDIT_REQUEST_APPROVED": "Demande de modification approuvée",
+      "EDIT_REQUEST_REJECTED": "Demande de modification rejetée"
+    }
+  },
+  "reports": {
+    "title": "Rapports",
+    "myReports": "Mes rapports",
+    "generateReport": "Générer un rapport",
+    "month": "Mois",
+    "year": "Année",
+    "period": "Période",
+    "periodFormat": "Format : AAAA-MM (ex : 2026-01)",
+    "employee": "Employé",
+    "employeeIdPlaceholder": "ID employé",
+    "type": "Type de rapport",
+    "monthlyEmployee": "Rapport mensuel employé",
+    "monthlyCompany": "Rapport mensuel entreprise",
+    "complianceExport": "Export de conformité",
+    "monthlyReport": "Rapport mensuel",
+    "totalHours": "Total heures",
+    "scheduledHours": "Heures planifiées",
+    "difference": "Différence",
+    "status": "Statut",
+    "unsigned": "Non signé",
+    "signed": "Signé",
+    "signReport": "Signer le rapport",
+    "signature": "Signature",
+    "signatureInstructions": "Dessinez votre signature ci-dessous pour reconnaître ce rapport",
+    "clearSignature": "Effacer",
+    "submitSignature": "Soumettre la signature",
+    "downloadPDF": "Télécharger PDF",
+    "downloadCSV": "Télécharger CSV",
+    "downloadXLSX": "Télécharger XLSX",
+    "generatedBy": "Généré par",
+    "generatedAt": "Généré le",
+    "signedAt": "Signé le",
+    "auditHash": "Hash d'audit",
+    "noReports": "Aucun rapport",
+    "signatureError": "Erreur lors de la soumission de la signature. Veuillez réessayer."
+  },
+  "schedule": {
+    "title": "Planning",
+    "thisWeek": "Cette semaine",
+    "noShifts": "Aucun horaire planifié"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "notifications": "Notifications",
+    "logout": "Se déconnecter"
+  },
+  "warnings": {
+    "weeklyLimitWarning": "Attention : Vous avez travaillé {{hours}} heures cette semaine (limite : 40)",
+    "weeklyLimitReached": "Vous avez atteint la limite hebdomadaire de 40 heures",
+    "dailyLimitWarning": "Attention : Vous avez travaillé {{hours}} heures aujourd'hui",
+    "dailyLimitReached": "Vous avez atteint la limite quotidienne de 9 heures",
+    "annualLimitWarning": "Attention : Vous avez travaillé {{hours}} heures cette année (limite : 1 822)",
+    "restPeriod": "Vous devez vous reposer 12 heures entre les postes"
+  },
+  "locations": {
+    "title": "Lieux",
+    "addLocation": "Ajouter un lieu",
+    "editLocation": "Modifier le lieu",
+    "deleteLocation": "Supprimer le lieu",
+    "name": "Nom du lieu",
+    "address": "Adresse",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "radiusMeters": "Rayon (mètres)",
+    "qrEnabled": "Code QR activé",
+    "isActive": "Actif",
+    "noLocations": "Aucun lieu",
+    "createFirst": "Créez votre premier lieu pour commencer à suivre le temps",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce lieu ?",
+    "qrCode": "Code QR",
+    "generateQR": "Générer le code QR",
+    "downloadQR": "Télécharger le code QR",
+    "printQR": "Imprimer le code QR",
+    "showQR": "Afficher le code QR",
+    "scanQR": "Scanner le code QR",
+    "qrInstructions": "Imprimez ce code QR et placez-le sur le lieu de travail. Les employés le scannent pour pointer.",
+    "geofence": "Géorepérage",
+    "setCoordinates": "Définir les coordonnées",
+    "mapInstructions": "Cliquez sur la carte pour définir les coordonnées du lieu, ou saisissez-les manuellement.",
+    "coordinatesSet": "Coordonnées définies avec succès",
+    "outsideGeofence": "Vous êtes en dehors de la zone de travail ({{distance}}m, limite : {{radius}}m)",
+    "insideGeofence": "Vous êtes dans la zone de travail",
+    "locationRequired": "Veuillez sélectionner un lieu",
+    "gpsPermissionRequired": "L'autorisation GPS est requise pour la validation du géorepérage",
+    "gpsPermissionDenied": "Autorisation GPS refusée. Veuillez activer l'accès à la localisation dans les paramètres de votre navigateur.",
+    "gettingLocation": "Obtention de votre position...",
+    "created": "Lieu créé avec succès",
+    "updated": "Lieu mis à jour avec succès",
+    "deleted": "Lieu supprimé avec succès",
+    "error": "Erreur lors de la gestion du lieu"
+  },
+  "qr": {
+    "title": "Scanner QR",
+    "scanInstructions": "Pointez votre caméra vers le code QR",
+    "scanning": "Scan en cours...",
+    "cameraPermissionRequired": "L'autorisation de la caméra est requise pour scanner les codes QR",
+    "cameraPermissionDenied": "Autorisation de caméra refusée. Veuillez activer l'accès à la caméra dans les paramètres de votre navigateur.",
+    "validCode": "Code QR valide détecté",
+    "invalidCode": "Code QR invalide",
+    "expiredCode": "Le code QR a expiré",
+    "scanSuccess": "Code QR scanné avec succès",
+    "scanError": "Erreur lors du scan du code QR",
+    "close": "Fermer le scanner",
+    "switchCamera": "Changer de caméra"
+  }
+}
