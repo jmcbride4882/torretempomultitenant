@@ -2,13 +2,47 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Viewport: Allow zoom for accessibility (max-scale=5.0, user-scalable=yes) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    
+    <!-- PWA Theme Color -->
     <meta name="theme-color" content="#1e40af" />
-    <meta name="description" content="Torre Tempo - Staff clocking system compliant with Spanish labor law" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1e3a8a" />
+    
+    <!-- SEO & Description -->
+    <meta name="description" content="Torre Tempo - Professional staff clocking system for Spanish labor law compliance. Track employee hours with QR codes and geofencing." />
+    <meta name="keywords" content="registro horario, control de presencia, fichaje, Spanish labor law, RD-Ley 8/2019" />
+    
+    <!-- Apple PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Torre Tempo" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png" />
+    
+    <!-- Microsoft PWA Meta Tags -->
+    <meta name="msapplication-TileColor" content="#1e40af" />
+    <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
+    <meta name="msapplication-config" content="none" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />
+    
+    <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.webmanifest" />
-    <title>Torre Tempo</title>
+    
+    <!-- Prevent phone number detection -->
+    <meta name="format-detection" content="telephone=no" />
+    
+    <!-- Mobile optimization -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Torre Tempo" />
+    
+    <title>Torre Tempo - Staff Clocking</title>
   </head>
   <body>
     <div id="root"></div>

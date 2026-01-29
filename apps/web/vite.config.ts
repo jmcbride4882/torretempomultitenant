@@ -8,11 +8,17 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      includeAssets: [
+        'favicon.svg',
+        'favicon.ico',
+        'apple-touch-icon.png',
+        'icons/*.png',
+      ],
       manifest: {
-        name: 'Torre Tempo',
+        name: 'Torre Tempo - Staff Clocking',
         short_name: 'Torre Tempo',
-        description: 'Staff clocking system compliant with Spanish labor law',
+        description:
+          'Professional staff clocking system for Spanish labor law compliance',
         theme_color: '#1e40af',
         background_color: '#ffffff',
         display: 'standalone',
@@ -21,20 +27,74 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: '/icons/icon-72x72.png',
+            sizes: '72x72',
+            type: 'image/png',
+          },
+          {
+            src: '/icons/icon-96x96.png',
+            sizes: '96x96',
+            type: 'image/png',
+          },
+          {
+            src: '/icons/icon-128x128.png',
+            sizes: '128x128',
+            type: 'image/png',
+          },
+          {
+            src: '/icons/icon-144x144.png',
+            sizes: '144x144',
+            type: 'image/png',
+          },
+          {
+            src: '/icons/icon-152x152.png',
+            sizes: '152x152',
+            type: 'image/png',
+          },
+          {
+            src: '/icons/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'any',
           },
           {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
+            src: '/icons/icon-384x384.png',
+            sizes: '384x384',
             type: 'image/png',
           },
           {
-            src: 'pwa-512x512.png',
+            src: '/icons/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable',
+            purpose: 'any',
+          },
+          {
+            src: '/icons/maskable-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: '/icons/maskable-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
+        screenshots: [
+          {
+            src: '/screenshots/mobile-clock-in.png',
+            sizes: '540x720',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: 'Clock in with one tap',
+          },
+          {
+            src: '/screenshots/mobile-dashboard.png',
+            sizes: '540x720',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: 'Employee dashboard',
           },
         ],
       },
