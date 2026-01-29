@@ -440,7 +440,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] Generate report for a test month and download PDF/CSV/XLSX
 
-- [ ] 9. i18n + language packs
+- [x] 9. i18n + language packs
 
   **What to do**:
   - Implement i18n framework
