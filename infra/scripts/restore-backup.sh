@@ -1,111 +1,182 @@
 #!/bin/bash
 # Torre Tempo - Database Restore Script
-# Restore database from a backup file
+# Restore database from a backup file with validation and health checks
+# Exit code 0 if restore successful, exit code 1 if failed
 
-set -e
+# ============================================================================
+# SOURCE CONFIGURATION AND UTILITIES
+# ============================================================================
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../config.sh"
+source "$SCRIPT_DIR/../lib/common.sh"
 
-# Colors
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m'
+# ============================================================================
+# HEADER
+# ============================================================================
+log_success "========================================"
+log_success "  Torre Tempo - Database Restore"
+log_success "========================================"
 
-# Configuration
-APP_DIR="${APP_DIR:-/opt/torre-tempo}"
-BACKUP_DIR="$APP_DIR/infra/backups"
-
-echo -e "${GREEN}========================================${NC}"
-echo -e "${GREEN}  Torre Tempo - Database Restore${NC}"
-echo -e "${GREEN}========================================${NC}"
-
-# Check if running as root
+# ============================================================================
+# VALIDATION
+# ============================================================================
 if [ "$EUID" -ne 0 ]; then
-    echo -e "${RED}Please run as root (sudo)${NC}"
-    exit 1
+    die "Please run as root (sudo)"
 fi
 
-# List available backups
-echo -e "\n${YELLOW}Available backups:${NC}"
-ls -lht "$BACKUP_DIR"/torre_tempo_*.sql.gz 2>/dev/null | head -10
+require_dir "$BACKUP_DIR"
+require_command docker
+require_command git
 
-# Prompt for backup file
-echo -e "\n${YELLOW}Enter the backup filename to restore:${NC}"
-echo -e "(e.g., torre_tempo_2026-01-29_02-00-00.sql.gz)"
+# ============================================================================
+# LIST AVAILABLE BACKUPS
+# ============================================================================
+log_info "Available backups:"
+ls -lht "$BACKUP_DIR"/torre_tempo_*.sql.gz 2>/dev/null | head -10 || log_warning "No backups found"
+
+# ============================================================================
+# PROMPT FOR BACKUP FILE
+# ============================================================================
+log_info "Enter the backup filename to restore:"
+log_info "(e.g., torre_tempo_2026-01-29_02-00-00.sql.gz)"
 read -p "> " BACKUP_FILE
 
-# Validate backup file exists
-if [ ! -f "$BACKUP_DIR/$BACKUP_FILE" ]; then
-    echo -e "${RED}Error: Backup file not found: $BACKUP_DIR/$BACKUP_FILE${NC}"
-    exit 1
+if [ -z "$BACKUP_FILE" ]; then
+    die "No backup file specified"
 fi
 
-# Confirm restoration
-echo -e "\n${RED}WARNING: This will REPLACE all current database data!${NC}"
-echo -e "Backup file: ${YELLOW}$BACKUP_FILE${NC}"
-echo -e "Size: ${YELLOW}$(du -h "$BACKUP_DIR/$BACKUP_FILE" | cut -f1)${NC}"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
+
+# ============================================================================
+# VALIDATE BACKUP FILE
+# ============================================================================
+log_info "Validating backup file..."
+
+# Check exists and not empty
+if [ ! -s "$BACKUP_PATH" ]; then
+    die "Backup file is empty or does not exist: $BACKUP_PATH"
+fi
+
+# Test gzip integrity
+if ! gzip -t "$BACKUP_PATH" 2>/dev/null; then
+    die "Backup file is corrupted (gzip test failed): $BACKUP_PATH"
+fi
+
+# Verify checksum if available
+if [ -f "${BACKUP_PATH}.sha256" ]; then
+    log_info "Verifying SHA256 checksum..."
+    if ! sha256sum -c "${BACKUP_PATH}.sha256" >/dev/null 2>&1; then
+        die "Checksum verification failed - backup may be corrupted"
+    fi
+    log_success "Checksum verified"
+fi
+
+log_success "Backup validation passed"
+
+# ============================================================================
+# CONFIRM RESTORATION
+# ============================================================================
+log_warning "WARNING: This will REPLACE all current database data!"
+log_info "Backup file: $BACKUP_FILE"
+log_info "Size: $(du -h "$BACKUP_PATH" | cut -f1)"
 echo ""
 read -p "Are you sure you want to restore? (type 'yes' to confirm): " CONFIRM
 
 if [ "$CONFIRM" != "yes" ]; then
-    echo -e "${YELLOW}Restore cancelled.${NC}"
+    log_warning "Restore cancelled"
     exit 0
 fi
 
-# Create a backup of current database before restoring
-echo -e "\n${YELLOW}Creating safety backup of current database...${NC}"
+# ============================================================================
+# CREATE SAFETY BACKUP
+# ============================================================================
+log_info "Creating safety backup of current database..."
 SAFETY_BACKUP="$BACKUP_DIR/pre-restore_$(date +%Y-%m-%d_%H-%M-%S).sql.gz"
-docker exec torre-tempo-db pg_dump -U postgres torre_tempo | gzip > "$SAFETY_BACKUP"
-echo -e "${GREEN}✓${NC} Safety backup created: $SAFETY_BACKUP"
 
-# Stop API to prevent connections during restore
-echo -e "\n${YELLOW}Stopping API container...${NC}"
-cd "$APP_DIR/infra"
-docker compose -f docker-compose.prod.yml stop api
-echo -e "${GREEN}✓${NC} API stopped"
-
-# Restore database
-echo -e "\n${YELLOW}Restoring database from backup...${NC}"
-gunzip -c "$BACKUP_DIR/$BACKUP_FILE" | docker exec -i torre-tempo-db psql -U postgres -d torre_tempo
-
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}✓${NC} Database restored successfully"
+if docker_is_running "$CONTAINER_DB"; then
+    docker exec "$CONTAINER_DB" pg_dump -U postgres torre_tempo 2>/dev/null | gzip > "$SAFETY_BACKUP" || {
+        die "Failed to create safety backup"
+    }
+    log_success "Safety backup created: $SAFETY_BACKUP"
 else
-    echo -e "${RED}✗${NC} Database restore failed!"
-    echo -e "${YELLOW}Rolling back to safety backup...${NC}"
-    gunzip -c "$SAFETY_BACKUP" | docker exec -i torre-tempo-db psql -U postgres -d torre_tempo
-    echo -e "${GREEN}✓${NC} Rolled back to safety backup"
-    exit 1
+    die "Database container is not running: $CONTAINER_DB"
 fi
 
-# Restart API
-echo -e "\n${YELLOW}Starting API container...${NC}"
-docker compose -f docker-compose.prod.yml start api
-echo -e "${GREEN}✓${NC} API started"
+# ============================================================================
+# STOP API CONTAINER
+# ============================================================================
+log_info "Stopping API container..."
+cd "$APP_DIR/infra" || die "Failed to change to infra directory"
+docker compose -f docker-compose.prod.yml stop api >/dev/null 2>&1 || log_warning "API container stop had issues"
+log_success "API stopped"
 
-# Wait for API to be healthy
-echo -e "\n${YELLOW}Waiting for API to be healthy...${NC}"
-sleep 5
-
-# Check API health
-for i in {1..30}; do
-    if curl -sf http://localhost:4000/api/health > /dev/null 2>&1; then
-        echo -e "${GREEN}✓${NC} API is healthy"
-        break
+# ============================================================================
+# RESTORE DATABASE
+# ============================================================================
+log_info "Restoring database from backup..."
+if gunzip -c "$BACKUP_PATH" | docker exec -i "$CONTAINER_DB" psql -U postgres -d torre_tempo >/dev/null 2>&1; then
+    log_success "Database restored successfully"
+else
+    log_error "Database restore failed!"
+    log_info "Rolling back to safety backup..."
+    if gunzip -c "$SAFETY_BACKUP" | docker exec -i "$CONTAINER_DB" psql -U postgres -d torre_tempo >/dev/null 2>&1; then
+        log_success "Rolled back to safety backup"
+    else
+        log_error "Rollback failed - manual intervention required"
     fi
-    echo -n "."
-    sleep 2
-done
+    die "Restore failed and was rolled back"
+fi
 
-echo -e "\n${GREEN}========================================${NC}"
-echo -e "${GREEN}  Restore Complete!${NC}"
-echo -e "${GREEN}========================================${NC}"
+# ============================================================================
+# RESTART API CONTAINER
+# ============================================================================
+log_info "Starting API container..."
+docker compose -f docker-compose.prod.yml start api >/dev/null 2>&1 || die "Failed to start API container"
+log_success "API started"
+
+# ============================================================================
+# WAIT FOR CONTAINER TO BE HEALTHY
+# ============================================================================
+log_info "Waiting for containers to be healthy..."
+docker_wait_healthy "$CONTAINER_API" 60 || die "API failed to become healthy"
+
+# ============================================================================
+# RUN COMPREHENSIVE HEALTH CHECKS
+# ============================================================================
+log_info "Running comprehensive health checks..."
+if "$SCRIPT_DIR/health-check.sh"; then
+    log_success "All health checks passed"
+else
+    log_error "Health checks failed after restore, rolling back..."
+    
+    # Rollback to safety backup
+    log_info "Rolling back database to safety backup..."
+    if gunzip -c "$SAFETY_BACKUP" | docker exec -i "$CONTAINER_DB" psql -U postgres -d torre_tempo >/dev/null 2>&1; then
+        log_success "Database rolled back to safety backup"
+    else
+        log_error "Rollback failed - manual intervention required"
+    fi
+    
+    # Restart API
+    log_info "Restarting API container..."
+    docker compose -f docker-compose.prod.yml restart api >/dev/null 2>&1 || log_warning "API restart had issues"
+    
+    die "Restore failed and was rolled back to safety backup"
+fi
+
+# ============================================================================
+# SUCCESS OUTPUT
+# ============================================================================
+log_success "========================================"
+log_success "  Restore Complete!"
+log_success "========================================"
 echo ""
-echo -e "Database has been restored from:"
-echo -e "  ${YELLOW}$BACKUP_FILE${NC}"
+log_info "Database has been restored from:"
+log_info "  $BACKUP_FILE"
 echo ""
-echo -e "Safety backup saved at:"
-echo -e "  ${YELLOW}$SAFETY_BACKUP${NC}"
+log_info "Safety backup saved at:"
+log_info "  $SAFETY_BACKUP"
 echo ""
-echo -e "Verify the restoration:"
-echo -e "  ${YELLOW}curl https://time.lsltgroup.es/api/health${NC}"
+log_info "Verify the restoration:"
+log_info "  curl https://$PRIMARY_DOMAIN/api/health"
 echo ""
