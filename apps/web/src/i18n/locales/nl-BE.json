@@ -1,0 +1,366 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "error": "Fout",
+    "success": "Succes",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "close": "Sluiten",
+    "confirm": "Bevestigen",
+    "back": "Terug",
+    "next": "Volgende",
+    "submit": "Indienen",
+    "offline": "Offline - Gegevens worden gesynchroniseerd bij herverbinding"
+  },
+  "landing": {
+    "nav": {
+      "features": "Functies",
+      "pricing": "Prijzen",
+      "faq": "Veelgestelde vragen",
+      "login": "Aanmelden",
+      "trial": "Gratis proefperiode"
+    },
+    "hero": {
+      "title": "Tijdregistratie vereenvoudigd",
+      "subtitle": "Voldoe aan de Spaanse arbeidswet in 5 minuten. QR-klokken, geolocatie en offline modus voor uw team.",
+      "cta": "Gratis starten",
+      "demo": "Bekijk functies"
+    },
+    "trust": {
+      "retention": "5 jaar bewaren",
+      "noBiometrics": "Geen biometrie"
+    },
+    "features": {
+      "title": "Alles wat u nodig hebt voor tijdregistratie",
+      "subtitle": "Voldoe aan Spaanse regelgeving zonder technische complicaties of extra hardware.",
+      "qr": {
+        "title": "QR-klokken",
+        "desc": "Scan de QR-code van uw locatie en klok binnen enkele seconden vanaf elke mobiele telefoon."
+      },
+      "geo": {
+        "title": "Geolocatie",
+        "desc": "Automatische validatie dat de werknemer op de werkplek is bij het klokken."
+      },
+      "offline": {
+        "title": "Offline modus",
+        "desc": "Werkt zonder internetverbinding. Klokslagen synchroniseren automatisch."
+      },
+      "approvals": {
+        "title": "Goedkeuringen",
+        "desc": "Managers keuren wijzigingen goed met volledige traceerbaarheid."
+      },
+      "reports": {
+        "title": "PDF-rapporten",
+        "desc": "Genereer maandelijkse rapporten digitaal ondertekend door elke werknemer."
+      },
+      "languages": {
+        "title": "Meertalig",
+        "desc": "Beschikbaar in Spaans, Engels, Frans, Duits, Pools en Nederlands."
+      }
+    },
+    "howItWorks": {
+      "title": "Hoe het werkt",
+      "step1": {
+        "title": "Maak uw account aan",
+        "desc": "Registreer binnen 2 minuten. Geen creditcard vereist."
+      },
+      "step2": {
+        "title": "Voeg locaties toe",
+        "desc": "Configureer uw werkcentra met QR en geofence."
+      },
+      "step3": {
+        "title": "Begin met klokken",
+        "desc": "Uw werknemers klokken direct vanaf hun telefoon."
+      }
+    },
+    "pricing": {
+      "title": "Eenvoudige en transparante prijzen",
+      "subtitle": "Geen verborgen kosten. Altijd opzegbaar.",
+      "perEmployee": "/werknemer/maand",
+      "starter": {
+        "name": "Starter",
+        "f1": "Tot 25 werknemers",
+        "f2": "1 locatie",
+        "f3": "QR-klokken",
+        "f4": "Basisrapporten",
+        "f5": "E-mailondersteuning",
+        "cta": "Gratis starten"
+      },
+      "pro": {
+        "name": "Professional",
+        "f1": "Tot 100 werknemers",
+        "f2": "5 locaties",
+        "f3": "Geolocatie",
+        "f4": "Diensten en roosters",
+        "f5": "Goedkeuringen",
+        "f6": "Prioriteitsondersteuning",
+        "cta": "14 dagen proberen"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Neem contact op",
+        "f1": "Onbeperkt werknemers",
+        "f2": "Onbeperkt locaties",
+        "f3": "API-toegang",
+        "f4": "SSO/SAML",
+        "f5": "Aangepaste overeenkomsten",
+        "f6": "Toegewijde accountmanager",
+        "cta": "Neem contact op met verkoop"
+      }
+    },
+    "faq": {
+      "title": "Veelgestelde vragen",
+      "legal": {
+        "q": "Is dit kloksysteem legaal?",
+        "a": "Ja. Torre Tempo voldoet volledig aan RD-Ley 8/2019 die bedrijven verplicht werktijden te registreren. We bewaren gegevens 5 jaar en ze zijn beschikbaar voor inspectie."
+      },
+      "offline": {
+        "q": "Werkt het zonder internet?",
+        "a": "Ja. Klokslagen worden opgeslagen op het apparaat en synchroniseren automatisch wanneer de verbinding terugkeert. U verliest nooit een registratie."
+      },
+      "data": {
+        "q": "Waar worden mijn gegevens opgeslagen?",
+        "a": "Alle gegevens worden opgeslagen op servers binnen de Europese Unie, in overeenstemming met AVG. We delen geen gegevens met derden."
+      },
+      "plan": {
+        "q": "Kan ik van abonnement wisselen?",
+        "a": "Ja, u kunt op elk moment upgraden of downgraden. Wijzigingen gelden in de volgende factureringscyclus."
+      }
+    },
+    "cta": {
+      "title": "Start uw gratis proefperiode van 14 dagen",
+      "subtitle": "Geen creditcard. Geen verplichtingen. Altijd opzegbaar.",
+      "button": "Gratis account aanmaken"
+    },
+    "footer": {
+      "tagline": "Eenvoudige en legale tijdregistratie voor Spaanse bedrijven.",
+      "product": "Product",
+      "legal": "Juridisch",
+      "privacy": "Privacy",
+      "terms": "Voorwaarden",
+      "cookies": "Cookies",
+      "contact": "Contact",
+      "rights": "Alle rechten voorbehouden.",
+      "company": "Lakeside La Torre (Murcia) Group SL",
+      "cif": "CIF: B70822366"
+    }
+  },
+  "login": {
+    "title": "Aanmelden",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "submit": "Aanmelden",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "error": "Ongeldige inloggegevens",
+    "noAccount": "Nog geen account?",
+    "signUp": "Registreren"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welkom, {{name}}",
+    "todayHours": "Uren vandaag",
+    "weekHours": "Uren deze week",
+    "monthHours": "Uren deze maand"
+  },
+  "clock": {
+    "title": "Klokken",
+    "clockIn": "Inklokken",
+    "clockOut": "Uitklokken",
+    "clockedIn": "Ingeklokt sinds {{time}}",
+    "clockedOut": "Niet ingeklokt",
+    "scanQR": "Scan QR-code",
+    "locationRequired": "U moet op de werkplek zijn",
+    "success": {
+      "clockIn": "Inklokken succesvol geregistreerd",
+      "clockOut": "Uitklokken succesvol geregistreerd"
+    },
+    "error": {
+      "geofence": "U bevindt zich buiten het werkgebied",
+      "qrInvalid": "Ongeldige QR-code",
+      "alreadyClockedIn": "U bent al ingeklokt",
+      "notClockedIn": "U bent niet ingeklokt"
+    }
+  },
+  "clocking": {
+    "title": "Klokregistratie",
+    "status": "Status",
+    "clockIn": "Inklokken",
+    "clockOut": "Uitklokken",
+    "clockedIn": "Ingeklokt",
+    "clockedOut": "Niet ingeklokt",
+    "clockInTime": "Inkloktijd",
+    "location": "Locatie",
+    "offlineMode": "Offline modus - Klokslagen worden gesynchroniseerd bij herverbinding",
+    "offlineQueue": "Wachtend op synchronisatie",
+    "pendingSync": "{{count}} items wachtend",
+    "retryAttempt": "Poging {{count}}"
+  },
+  "entries": {
+    "title": "Mijn tijdsregistraties",
+    "noEntries": "Geen tijdsregistraties",
+    "date": "Datum",
+    "clockIn": "Inklokken",
+    "clockOut": "Uitklokken",
+    "duration": "Duur",
+    "location": "Locatie",
+    "status": "Status",
+    "requestEdit": "Wijziging aanvragen"
+  },
+  "approvals": {
+    "title": "Goedkeuringen",
+    "editRequests": "Wijzigingsverzoeken",
+    "createEditRequest": "Wijziging aanvragen",
+    "requestReason": "Reden voor wijziging",
+    "requestedChanges": "Gevraagde wijzigingen",
+    "approve": "Goedkeuren",
+    "reject": "Afwijzen",
+    "reviewComment": "Beoordelingsopmerking",
+    "pending": "In behandeling",
+    "approved": "Goedgekeurd",
+    "rejected": "Afgewezen",
+    "status": "Status",
+    "submittedBy": "Ingediend door",
+    "reviewedBy": "Beoordeeld door",
+    "submittedAt": "Ingediend op",
+    "reviewedAt": "Beoordeeld op",
+    "noRequests": "Geen verzoeken in behandeling",
+    "fieldName": "Veld",
+    "oldValue": "Huidige waarde",
+    "newValue": "Nieuwe waarde",
+    "timeEntry": "Tijdsregistratie",
+    "approveConfirm": "Weet u zeker dat u dit wijzigingsverzoek wilt goedkeuren?",
+    "rejectConfirm": "Weet u zeker dat u dit wijzigingsverzoek wilt afwijzen?",
+    "fields": {
+      "clockIn": "Inklokken",
+      "clockOut": "Uitklokken",
+      "breakMinutes": "Pauze minuten",
+      "locationId": "Locatie"
+    }
+  },
+  "audit": {
+    "title": "Auditlogboek",
+    "action": "Actie",
+    "timestamp": "Tijdstempel",
+    "user": "Gebruiker",
+    "changes": "Wijzigingen",
+    "before": "Voor",
+    "after": "Na",
+    "noChanges": "Geen wijzigingen geregistreerd",
+    "viewHistory": "Bekijk geschiedenis",
+    "actions": {
+      "TIME_ENTRY_CREATED": "Tijdsregistratie aangemaakt",
+      "TIME_ENTRY_UPDATED": "Tijdsregistratie bijgewerkt",
+      "EDIT_REQUEST_CREATED": "Wijzigingsverzoek aangemaakt",
+      "EDIT_REQUEST_APPROVED": "Wijzigingsverzoek goedgekeurd",
+      "EDIT_REQUEST_REJECTED": "Wijzigingsverzoek afgewezen"
+    }
+  },
+  "reports": {
+    "title": "Rapporten",
+    "myReports": "Mijn rapporten",
+    "generateReport": "Rapport genereren",
+    "month": "Maand",
+    "year": "Jaar",
+    "period": "Periode",
+    "periodFormat": "Formaat: JJJJ-MM (bijv. 2026-01)",
+    "employee": "Werknemer",
+    "employeeIdPlaceholder": "Werknemer-ID",
+    "type": "Rapporttype",
+    "monthlyEmployee": "Maandelijks werknemersrapport",
+    "monthlyCompany": "Maandelijks bedrijfsrapport",
+    "complianceExport": "Compliance-export",
+    "monthlyReport": "Maandrapport",
+    "totalHours": "Totaal uren",
+    "scheduledHours": "Geplande uren",
+    "difference": "Verschil",
+    "status": "Status",
+    "unsigned": "Niet ondertekend",
+    "signed": "Ondertekend",
+    "signReport": "Rapport ondertekenen",
+    "signature": "Handtekening",
+    "signatureInstructions": "Teken hieronder uw handtekening om dit rapport te bevestigen",
+    "clearSignature": "Wissen",
+    "submitSignature": "Handtekening indienen",
+    "downloadPDF": "PDF downloaden",
+    "downloadCSV": "CSV downloaden",
+    "downloadXLSX": "XLSX downloaden",
+    "generatedBy": "Gegenereerd door",
+    "generatedAt": "Gegenereerd op",
+    "signedAt": "Ondertekend op",
+    "auditHash": "Audit-hash",
+    "noReports": "Geen rapporten",
+    "signatureError": "Fout bij indienen van handtekening. Probeer opnieuw."
+  },
+  "schedule": {
+    "title": "Rooster",
+    "thisWeek": "Deze week",
+    "noShifts": "Geen geplande diensten"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "language": "Taal",
+    "notifications": "Meldingen",
+    "logout": "Afmelden"
+  },
+  "warnings": {
+    "weeklyLimitWarning": "Waarschuwing: U hebt deze week {{hours}} uur gewerkt (limiet: 40)",
+    "weeklyLimitReached": "U hebt de wekelijkse limiet van 40 uur bereikt",
+    "dailyLimitWarning": "Waarschuwing: U hebt vandaag {{hours}} uur gewerkt",
+    "dailyLimitReached": "U hebt de dagelijkse limiet van 9 uur bereikt",
+    "annualLimitWarning": "Waarschuwing: U hebt dit jaar {{hours}} uur gewerkt (limiet: 1.822)",
+    "restPeriod": "U moet 12 uur rusten tussen diensten"
+  },
+  "locations": {
+    "title": "Locaties",
+    "addLocation": "Locatie toevoegen",
+    "editLocation": "Locatie bewerken",
+    "deleteLocation": "Locatie verwijderen",
+    "name": "Locatienaam",
+    "address": "Adres",
+    "latitude": "Breedtegraad",
+    "longitude": "Lengtegraad",
+    "radiusMeters": "Straal (meters)",
+    "qrEnabled": "QR-code ingeschakeld",
+    "isActive": "Actief",
+    "noLocations": "Geen locaties",
+    "createFirst": "Maak uw eerste locatie aan om tijd te gaan registreren",
+    "deleteConfirm": "Weet u zeker dat u deze locatie wilt verwijderen?",
+    "qrCode": "QR-code",
+    "generateQR": "QR-code genereren",
+    "downloadQR": "QR-code downloaden",
+    "printQR": "QR-code afdrukken",
+    "showQR": "QR-code tonen",
+    "scanQR": "QR-code scannen",
+    "qrInstructions": "Druk deze QR-code af en plaats hem op de werkplek. Werknemers scannen hem om te klokken.",
+    "geofence": "Geofence",
+    "setCoordinates": "Coördinaten instellen",
+    "mapInstructions": "Klik op de kaart om de locatiecoördinaten in te stellen, of voer ze handmatig in.",
+    "coordinatesSet": "Coördinaten succesvol ingesteld",
+    "outsideGeofence": "U bevindt zich buiten het werkgebied ({{distance}}m verwijderd, limiet: {{radius}}m)",
+    "insideGeofence": "U bevindt zich binnen het werkgebied",
+    "locationRequired": "Selecteer een locatie",
+    "gpsPermissionRequired": "GPS-toestemming is vereist voor geofence-validatie",
+    "gpsPermissionDenied": "GPS-toestemming geweigerd. Schakel locatietoegang in uw browserinstellingen in.",
+    "gettingLocation": "Locatie ophalen...",
+    "created": "Locatie succesvol aangemaakt",
+    "updated": "Locatie succesvol bijgewerkt",
+    "deleted": "Locatie succesvol verwijderd",
+    "error": "Fout bij beheren van locatie"
+  },
+  "qr": {
+    "title": "QR-scanner",
+    "scanInstructions": "Richt uw camera op de QR-code",
+    "scanning": "Scannen...",
+    "cameraPermissionRequired": "Cameratoestemming is vereist om QR-codes te scannen",
+    "cameraPermissionDenied": "Cameratoestemming geweigerd. Schakel cameratoegang in uw browserinstellingen in.",
+    "validCode": "Geldige QR-code gedetecteerd",
+    "invalidCode": "Ongeldige QR-code",
+    "expiredCode": "QR-code is verlopen",
+    "scanSuccess": "QR-code succesvol gescand",
+    "scanError": "Fout bij scannen van QR-code",
+    "close": "Scanner sluiten",
+    "switchCamera": "Camera wisselen"
+  }
+}

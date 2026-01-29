@@ -9,6 +9,7 @@ import { ApprovalsPage } from './features/approvals/ApprovalsPage';
 import { ReportsPage } from './features/reports/ReportsPage';
 import { MyReportsPage } from './features/reports/MyReportsPage';
 import { LocationsPage } from './features/locations/LocationsPage';
+import { LanguageSwitcher } from './components/LanguageSwitcher';
 
 // Login Page
 function LoginPage() {
@@ -39,6 +40,9 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <div className="max-w-md w-full p-8">
         <div className="text-center mb-8">
           <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -134,6 +138,7 @@ function DashboardPage() {
             <a href="/app/clock" className="text-sm font-medium text-gray-600 hover:text-gray-900">Fichar</a>
             <a href="/app/entries" className="text-sm font-medium text-gray-600 hover:text-gray-900">Registros</a>
             <a href="/app/approvals" className="text-sm font-medium text-gray-600 hover:text-gray-900">Approvals</a>
+            <LanguageSwitcher />
           </nav>
         </div>
       </header>

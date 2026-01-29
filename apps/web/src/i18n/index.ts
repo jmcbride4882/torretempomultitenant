@@ -5,11 +5,18 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // Import translations
 import es from './locales/es.json';
 import en from './locales/en.json';
+import fr from './locales/fr.json';
+import de from './locales/de.json';
+import pl from './locales/pl.json';
+import nlBE from './locales/nl-BE.json';
 
 const resources = {
   es: { translation: es },
   en: { translation: en },
-  // fr, de, pl, nl-BE will be added as language packs
+  fr: { translation: fr },
+  de: { translation: de },
+  pl: { translation: pl },
+  'nl-BE': { translation: nlBE },
 };
 
 i18n
