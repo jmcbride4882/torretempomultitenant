@@ -260,7 +260,7 @@ export function AdminDashboard() {
         ) : (
           <div className="divide-y divide-slate-100">
             {locations.slice(0, 5).map((location) => (
-              <div key={location.id} className="px-5 py-3 flex items-center justify-between">
+              <div key={location.id} className="px-5 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className={`w-2 h-2 rounded-full ${location.isActive ? 'bg-green-500' : 'bg-slate-300'}`} />
                   <div>
@@ -289,7 +289,7 @@ export function AdminDashboard() {
           </div>
           <div className="divide-y divide-slate-100 max-h-80 overflow-y-auto">
             {recentActivity.map((activity) => (
-              <div key={activity.id} className="px-5 py-3 flex items-start gap-3">
+              <div key={activity.id} className="px-5 py-4 flex items-start gap-3">
                 <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-xs font-medium text-slate-600">
                     {activity.user.firstName.charAt(0)}{activity.user.lastName.charAt(0)}

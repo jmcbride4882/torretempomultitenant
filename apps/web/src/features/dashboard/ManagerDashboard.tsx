@@ -167,7 +167,7 @@ export function ManagerDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <button
             onClick={() => navigate('/app/reports')}
-            className="flex items-center gap-3 px-4 py-3 bg-white/10 hover:bg-white/20 rounded-xl transition-colors text-left"
+            className="flex items-center gap-3 px-5 py-4 bg-white/10 hover:bg-white/20 rounded-xl transition-colors text-left"
           >
             <div className="p-2 bg-white/20 rounded-lg">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -196,7 +196,7 @@ export function ManagerDashboard() {
 
           <button
             onClick={() => navigate('/app/schedules')}
-            className="flex items-center gap-3 px-4 py-3 bg-white/10 hover:bg-white/20 rounded-xl transition-colors text-left"
+            className="flex items-center gap-3 px-5 py-4 bg-white/10 hover:bg-white/20 rounded-xl transition-colors text-left"
           >
             <div className="p-2 bg-white/20 rounded-lg">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -226,7 +226,7 @@ export function ManagerDashboard() {
           ) : (
             <div className="divide-y divide-slate-100 max-h-80 overflow-y-auto">
               {clockedInMembers.map((member) => (
-                <div key={member.id} className="px-5 py-3 flex items-center gap-4">
+                <div key={member.id} className="px-5 py-4 flex items-center gap-4">
                   <div className="relative">
                     <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
                       <span className="text-sm font-medium text-slate-600">
@@ -270,7 +270,7 @@ export function ManagerDashboard() {
           ) : (
             <div className="divide-y divide-slate-100 max-h-80 overflow-y-auto">
               {pendingRequests.slice(0, 5).map((request) => (
-                <div key={request.id} className="px-5 py-3">
+                <div key={request.id} className="px-5 py-4">
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-sm font-medium text-slate-900">
                       {request.requestedBy.firstName} {request.requestedBy.lastName}

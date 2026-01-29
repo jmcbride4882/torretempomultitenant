@@ -261,7 +261,7 @@ export function EmployeeDashboard() {
           ) : (
             <div className="divide-y divide-slate-100">
               {recentEntries.slice(0, 4).map((entry) => (
-                <div key={entry.id} className="px-5 py-3 flex items-center justify-between">
+                <div key={entry.id} className="px-5 py-4 flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-slate-900">
                       {new Date(entry.clockIn).toLocaleDateString()}
@@ -299,7 +299,7 @@ export function EmployeeDashboard() {
           ) : (
             <div className="divide-y divide-slate-100">
               {upcomingShifts.slice(0, 4).map((schedule) => (
-                <div key={schedule.id} className="px-5 py-3 flex items-center justify-between">
+                <div key={schedule.id} className="px-5 py-4 flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-slate-900">
                       {schedule.shift.name}
