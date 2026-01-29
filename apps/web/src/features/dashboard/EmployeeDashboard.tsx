@@ -236,10 +236,13 @@ export function EmployeeDashboard() {
             </div>
           </div>
         </div>
-      </div>
+       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+       {/* Overtime Balance Widget */}
+       <OvertimeBalanceWidget />
+
+       {/* Main Content Grid */}
+       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Entries */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
@@ -344,6 +347,78 @@ export function EmployeeDashboard() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Overtime Balance Widget Component
+function OvertimeBalanceWidget() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  interface OvertimeBalance {
+    totalHours: number;
+    remainingHours: number;
+    annualLimit: number;
+  }
+
+  const { data: balance, isLoading } = useQuery<OvertimeBalance>({
+    queryKey: ['overtime-balance'],
+    queryFn: () => api.get('/overtime/balance'),
+  });
+
+  function getProgressColor(hours: number): string {
+    if (hours < 60) return 'bg-green-500';
+    if (hours < 75) return 'bg-amber-500';
+    return 'bg-red-500';
+  }
+
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div className="h-20 bg-slate-100 rounded animate-pulse" />
+      </div>
+    );
+  }
+
+  if (!balance) return null;
+
+  return (
+    <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold text-slate-900">{t('overtime.balance')}</h3>
+        <button
+          onClick={() => navigate('/app/overtime')}
+          className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+        >
+          {t('common.viewDetails')}
+        </button>
+      </div>
+
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-slate-600">
+            {balance.totalHours.toFixed(1)} / {balance.annualLimit}h
+          </span>
+          <span className="text-xs text-slate-500">
+            {balance.remainingHours.toFixed(1)}h {t('common.remaining')}
+          </span>
+        </div>
+
+        <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+          <div
+            className={`h-2 rounded-full transition-all ${getProgressColor(
+              balance.totalHours
+            )}`}
+            style={{
+              width: `${Math.min(
+                (balance.totalHours / balance.annualLimit) * 100,
+                100
+              )}%`,
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
