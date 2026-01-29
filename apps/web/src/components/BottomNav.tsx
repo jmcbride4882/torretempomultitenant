@@ -109,8 +109,7 @@ export function BottomNav({ navItems, currentPath, onNavigate }: BottomNavProps)
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-200 shadow-[0_-2px_10px_rgba(0,0,0,0.1)]"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-200 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] pb-[env(safe-area-inset-bottom)]"
       aria-label="Mobile navigation"
     >
       <div className="flex items-stretch justify-around h-14">

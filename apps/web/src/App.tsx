@@ -203,7 +203,7 @@ function AppShell({ children }: AppShellProps) {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link to="/app/dashboard" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-sm">
+              <div className="w-11 h-11 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-sm">
                 <span className="text-white font-bold text-sm">TT</span>
               </div>
               <span className="font-bold text-lg text-slate-900 hidden sm:block">Torre Tempo</span>
@@ -255,7 +255,7 @@ function AppShell({ children }: AppShellProps) {
               {/* Mobile menu button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+                className="md:hidden p-3 text-slate-600 hover:bg-slate-100 rounded-lg"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {mobileMenuOpen ? (

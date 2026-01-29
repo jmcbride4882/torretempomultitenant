@@ -244,7 +244,7 @@ export function AdminDashboard() {
           <h3 className="font-semibold text-slate-900">{t('dashboard.admin.activeLocations')}</h3>
           <button
             onClick={() => navigate('/app/locations')}
-            className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+            className="text-sm text-blue-600 hover:text-blue-700 font-medium px-4 py-2.5 rounded-lg hover:bg-blue-50 transition-colors"
           >
             {t('dashboard.admin.manageLocations')}
           </button>
