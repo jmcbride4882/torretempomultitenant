@@ -9,6 +9,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import { LocationsService } from '../locations/locations.service';
+import { ComplianceService } from '../compliance/compliance.service';
 import { ClockInDto } from './dto/clock-in.dto';
 import { ClockOutDto } from './dto/clock-out.dto';
 import { EntryOrigin, EntryStatus } from '@prisma/client';
@@ -20,6 +21,7 @@ export class TimeTrackingService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly auditService: AuditService,
+    private readonly complianceService: ComplianceService,
     @Inject(forwardRef(() => LocationsService))
     private readonly locationsService: LocationsService,
   ) {}
@@ -48,6 +50,34 @@ export class TimeTrackingService {
     if (activeEntry) {
       throw new BadRequestException(
         'User is already clocked in. Please clock out first.',
+      );
+    }
+
+    // Validate Spanish labor law compliance (RD-Ley 8/2019)
+    const complianceCheck = await this.complianceService.validateClockInAllowed(
+      userId,
+      tenantId,
+    );
+
+    if (!complianceCheck.isCompliant) {
+      const violations = complianceCheck.violations
+        .map((v) => v.message)
+        .join('; ');
+      this.logger.warn(
+        `Clock-in blocked for user ${userId}: ${violations}`,
+      );
+      throw new BadRequestException(
+        `Clock-in not allowed: ${violations}`,
+      );
+    }
+
+    // Log warnings if any
+    if (complianceCheck.warnings.length > 0) {
+      const warnings = complianceCheck.warnings
+        .map((w) => w.message)
+        .join('; ');
+      this.logger.warn(
+        `Clock-in warnings for user ${userId}: ${warnings}`,
       );
     }
 

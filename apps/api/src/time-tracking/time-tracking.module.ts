@@ -5,12 +5,14 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AuthModule } from '../auth/auth.module';
 import { AuditModule } from '../audit/audit.module';
 import { LocationsModule } from '../locations/locations.module';
+import { ComplianceModule } from '../compliance/compliance.module';
 
 @Module({
   imports: [
     PrismaModule,
     AuthModule,
     AuditModule,
+    ComplianceModule,
     forwardRef(() => LocationsModule),
   ],
   controllers: [TimeTrackingController],
