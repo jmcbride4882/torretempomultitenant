@@ -281,7 +281,13 @@
     "offlineMode": "Offline Mode - Clock-ins will sync when you reconnect",
     "offlineQueue": "Pending Sync",
     "pendingSync": "{{count}} items pending sync",
-    "retryAttempt": "Retry attempt {{count}}"
+    "retryAttempt": "Retry attempt {{count}}",
+    "timeElapsed": "Time elapsed",
+    "elapsedTime": "Elapsed time: {{time}}",
+    "recentEntries": "Recent Entries",
+    "getLocation": "Get Location",
+    "locationTimeout": "Location request timed out",
+    "locationUnavailable": "Location unavailable"
   },
   "entries": {
     "title": "My Time Entries",
@@ -532,5 +538,58 @@
     "scanError": "Error scanning QR code",
     "close": "Close Scanner",
     "switchCamera": "Switch Camera"
+  },
+  "users": {
+    "title": "User Management",
+    "name": "Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "passwordHint": "Minimum 8 characters",
+    "employeeCode": "Employee Code",
+    "employeeCodePlaceholder": "Optional code for internal reference",
+    "role": "Role",
+    "status": "Status",
+    "statusHint": "Inactive users cannot log in",
+    "active": "Active",
+    "inactive": "Inactive",
+    "actions": "Actions",
+    "create": "Create Employee",
+    "edit": "Edit Employee",
+    "add": "Add",
+    "addEmployee": "Add Employee",
+    "deactivate": "Deactivate",
+    "deactivateTitle": "Deactivate User",
+    "deactivateMessage": "Are you sure you want to deactivate {{name}}? They will no longer be able to log in.",
+    "searchPlaceholder": "Search by name or email...",
+    "noUsers": "No users yet",
+    "noUsersFound": "No users found",
+    "noUsersDescription": "Add your first employee to get started",
+    "totalCount": "{{count}} users total",
+    "pagination": "Showing {{start}} to {{end}} of {{total}} users",
+    "roleNote": "Note",
+    "roleNoteDescription": "New users are always created as employees. Role changes must be made by an administrator.",
+    "createSuccess": "Employee created successfully",
+    "createError": "Failed to create employee",
+    "updateSuccess": "Employee updated successfully",
+    "updateError": "Failed to update employee",
+    "deactivateSuccess": "Employee deactivated successfully",
+    "deactivateError": "Failed to deactivate employee",
+    "roles": {
+      "admin": "Admin",
+      "manager": "Manager",
+      "employee": "Employee"
+    },
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "passwordMismatch": "Passwords do not match"
+    }
   }
 }

@@ -281,7 +281,13 @@
     "offlineMode": "Modo sin conexión - Los fichajes se sincronizarán al reconectar",
     "offlineQueue": "Pendiente de Sincronización",
     "pendingSync": "{{count}} elementos pendientes",
-    "retryAttempt": "Intento de reintento {{count}}"
+    "retryAttempt": "Intento de reintento {{count}}",
+    "timeElapsed": "Tiempo transcurrido",
+    "elapsedTime": "Tiempo transcurrido: {{time}}",
+    "recentEntries": "Fichajes Recientes",
+    "getLocation": "Obtener Ubicación",
+    "locationTimeout": "Tiempo de espera de ubicación agotado",
+    "locationUnavailable": "Ubicación no disponible"
   },
   "entries": {
     "title": "Mis registros",
@@ -385,5 +391,58 @@
     "scanError": "Error al escanear codigo QR",
     "close": "Cerrar Escaner",
     "switchCamera": "Cambiar Camara"
+  },
+  "users": {
+    "title": "Gestion de Usuarios",
+    "name": "Nombre",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "email": "Correo electronico",
+    "password": "Contrasena",
+    "confirmPassword": "Confirmar contrasena",
+    "passwordHint": "Minimo 8 caracteres",
+    "employeeCode": "Codigo de empleado",
+    "employeeCodePlaceholder": "Codigo opcional para referencia interna",
+    "role": "Rol",
+    "status": "Estado",
+    "statusHint": "Los usuarios inactivos no pueden iniciar sesion",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "actions": "Acciones",
+    "create": "Crear Empleado",
+    "edit": "Editar Empleado",
+    "add": "Anadir",
+    "addEmployee": "Anadir Empleado",
+    "deactivate": "Desactivar",
+    "deactivateTitle": "Desactivar Usuario",
+    "deactivateMessage": "¿Estas seguro de que deseas desactivar a {{name}}? Ya no podra iniciar sesion.",
+    "searchPlaceholder": "Buscar por nombre o email...",
+    "noUsers": "Aun no hay usuarios",
+    "noUsersFound": "No se encontraron usuarios",
+    "noUsersDescription": "Anade tu primer empleado para empezar",
+    "totalCount": "{{count}} usuarios en total",
+    "pagination": "Mostrando {{start}} a {{end}} de {{total}} usuarios",
+    "roleNote": "Nota",
+    "roleNoteDescription": "Los nuevos usuarios siempre se crean como empleados. Los cambios de rol deben ser realizados por un administrador.",
+    "createSuccess": "Empleado creado correctamente",
+    "createError": "Error al crear empleado",
+    "updateSuccess": "Empleado actualizado correctamente",
+    "updateError": "Error al actualizar empleado",
+    "deactivateSuccess": "Empleado desactivado correctamente",
+    "deactivateError": "Error al desactivar empleado",
+    "roles": {
+      "admin": "Administrador",
+      "manager": "Responsable",
+      "employee": "Empleado"
+    },
+    "validation": {
+      "firstNameRequired": "El nombre es obligatorio",
+      "lastNameRequired": "Los apellidos son obligatorios",
+      "emailRequired": "El correo electronico es obligatorio",
+      "emailInvalid": "Por favor introduce un correo electronico valido",
+      "passwordRequired": "La contrasena es obligatoria",
+      "passwordMinLength": "La contrasena debe tener al menos 8 caracteres",
+      "passwordMismatch": "Las contrasenas no coinciden"
+    }
   }
 }
