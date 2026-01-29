@@ -365,6 +365,24 @@
     "thisWeek": "Esta semana",
     "noShifts": "No hay turnos programados"
   },
+  "scheduling": {
+    "weeklyRota": "Horario Semanal",
+    "staff": "Personal",
+    "openShifts": "Turnos Abiertos",
+    "openShiftsDescription": "{{count}} turno(s) disponible(s) para reclamar",
+    "open": "Abierto",
+    "acceptShift": "Aceptar Turno",
+    "shiftAccepted": "Turno aceptado correctamente",
+    "noOpenShifts": "No hay turnos abiertos disponibles",
+    "selectedCount": "{{count}} seleccionado(s)",
+    "unpublishedCount": "{{count}} sin publicar",
+    "publishSelected": "Publicar Seleccionados",
+    "unassigned": "Sin asignar",
+    "noStaff": "No se encontraron miembros del personal",
+    "draft": "Borrador",
+    "published": "Publicado",
+    "breakMinutes": "Minutos de Descanso"
+  },
   "settings": {
     "title": "Configuracion",
     "language": "Idioma",
@@ -412,6 +430,13 @@
     "dailyLimitReached": "Has alcanzado el limite diario de 9 horas",
     "annualLimitWarning": "Atencion: Has trabajado {{hours}} horas este ano (limite: 1.822)",
     "restPeriod": "Debes descansar 12 horas entre turnos"
+  },
+  "compliance": {
+    "checking": "Comprobando cumplimiento...",
+    "notChecked": "Cumplimiento no verificado",
+    "compliant": "Cumple con la ley laboral",
+    "blocking": "Violacion bloqueante - no se puede continuar",
+    "warning": "Advertencia - proceder con precaucion"
   },
   "locations": {
     "title": "Ubicaciones",

@@ -561,6 +561,138 @@ export class SchedulingService {
   // ============================================
 
   /**
+   * Get open shifts (unassigned schedules where userId is null)
+   */
+  async getOpenShifts(
+    tenantId: string,
+    startDate?: string,
+    endDate?: string,
+  ) {
+    // Build where clause for date filtering
+    const dateFilter: { gte?: Date; lte?: Date } = {};
+    if (startDate) {
+      dateFilter.gte = new Date(startDate);
+    }
+    if (endDate) {
+      dateFilter.lte = new Date(endDate);
+    }
+
+    const schedules = await this.prisma.schedule.findMany({
+      where: {
+        tenantId,
+        userId: { equals: null },
+        isPublished: true,
+        ...(startDate || endDate ? { date: dateFilter } : {}),
+      },
+      orderBy: {
+        date: 'asc',
+      },
+      include: {
+        shift: {
+          select: {
+            id: true,
+            name: true,
+            startTime: true,
+            endTime: true,
+            breakMins: true,
+          },
+        },
+        location: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    return schedules;
+  }
+
+  /**
+   * Accept an open shift (employee self-assignment)
+   */
+  async acceptShift(
+    tenantId: string,
+    scheduleId: string,
+    userId: string,
+  ) {
+    // Verify schedule exists and belongs to tenant
+    const schedule = await this.prisma.schedule.findFirst({
+      where: {
+        id: scheduleId,
+        tenantId,
+      },
+    });
+
+    if (!schedule) {
+      throw new NotFoundException('Schedule not found');
+    }
+
+    // Verify the shift is open (unassigned)
+    if (schedule.userId !== null) {
+      throw new BadRequestException('This shift is already assigned');
+    }
+
+    // Verify the shift is published
+    if (!schedule.isPublished) {
+      throw new BadRequestException('This shift is not available for acceptance');
+    }
+
+    // Check if user already has a schedule for that date
+    const existingSchedule = await this.prisma.schedule.findFirst({
+      where: {
+        userId,
+        date: schedule.date,
+        tenantId,
+      },
+    });
+
+    if (existingSchedule) {
+      throw new BadRequestException('You already have a shift scheduled for this date');
+    }
+
+    // Assign the shift to the user
+    const updatedSchedule = await this.prisma.schedule.update({
+      where: { id: scheduleId },
+      data: {
+        userId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        shift: {
+          select: {
+            id: true,
+            name: true,
+            startTime: true,
+            endTime: true,
+            breakMins: true,
+          },
+        },
+        location: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    this.logger.log(
+      `Shift accepted: ${scheduleId} by user ${userId}`,
+    );
+
+    return updatedSchedule;
+  }
+
+  /**
    * Compare scheduled hours vs actual time entries
    */
   async getScheduledVsActual(

@@ -194,6 +194,43 @@ export class SchedulingController {
   }
 
   // ============================================
+  // OPEN SHIFTS (Self-Accept)
+  // ============================================
+
+  /**
+   * Get all open shifts (unassigned schedules)
+   * GET /api/scheduling/open-shifts
+   * Available to all authenticated users
+   */
+  @Get('open-shifts')
+  async getOpenShifts(
+    @CurrentUser() user: { tenantId: string },
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    return this.schedulingService.getOpenShifts(
+      user.tenantId,
+      startDate,
+      endDate,
+    );
+  }
+
+  /**
+   * Accept an open shift (employee self-assignment)
+   * POST /api/scheduling/schedules/:id/accept
+   * Only EMPLOYEE role can accept open shifts
+   */
+  @Post('schedules/:id/accept')
+  @UseGuards(RolesGuard)
+  @Roles(Role.EMPLOYEE)
+  async acceptShift(
+    @CurrentUser() user: { tenantId: string; id: string },
+    @Param('id') id: string,
+  ) {
+    return this.schedulingService.acceptShift(user.tenantId, id, user.id);
+  }
+
+  // ============================================
   // EMPLOYEE VIEW
   // ============================================
 

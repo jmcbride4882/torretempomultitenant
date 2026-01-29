@@ -510,7 +510,20 @@
     "filterByDate": "Filter by Date",
     "allLocations": "All Locations",
     "allEmployees": "All Employees",
-    "clearFilters": "Clear Filters"
+    "clearFilters": "Clear Filters",
+    "weeklyRota": "Weekly Rota",
+    "staff": "Staff",
+    "openShifts": "Open Shifts",
+    "openShiftsDescription": "{{count}} shift(s) available to claim",
+    "open": "Open",
+    "acceptShift": "Accept Shift",
+    "shiftAccepted": "Shift accepted successfully",
+    "noOpenShifts": "No open shifts available",
+    "selectedCount": "{{count}} selected",
+    "unpublishedCount": "{{count}} unpublished",
+    "publishSelected": "Publish Selected",
+    "unassigned": "Unassigned",
+    "noStaff": "No staff members found"
   },
   "settings": {
     "title": "Settings",
@@ -559,6 +572,13 @@
     "dailyLimitReached": "You have reached the daily limit of 9 hours",
     "annualLimitWarning": "Warning: You have worked {{hours}} hours this year (limit: 1,822)",
     "restPeriod": "You must rest 12 hours between shifts"
+  },
+  "compliance": {
+    "checking": "Checking compliance...",
+    "notChecked": "Compliance not checked",
+    "compliant": "Compliant with labor law",
+    "blocking": "Blocking violation - cannot proceed",
+    "warning": "Warning - proceed with caution"
   },
   "locations": {
     "title": "Locations",

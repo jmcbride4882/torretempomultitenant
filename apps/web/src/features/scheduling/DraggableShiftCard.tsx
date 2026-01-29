@@ -1,5 +1,5 @@
 import { useDraggable } from '@dnd-kit/core';
-import { ShiftCard } from './ShiftCard';
+import { ShiftCard, ComplianceCheckResult } from './ShiftCard';
 
 interface Schedule {
   id: string;
@@ -17,12 +17,16 @@ interface DraggableShiftCardProps {
   schedule: Schedule;
   isSelected: boolean;
   onToggleSelect: () => void;
+  complianceResult?: ComplianceCheckResult | null;
+  complianceLoading?: boolean;
 }
 
 export function DraggableShiftCard({
   schedule,
   isSelected,
   onToggleSelect,
+  complianceResult,
+  complianceLoading,
 }: DraggableShiftCardProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: schedule.id,
@@ -56,6 +60,8 @@ export function DraggableShiftCard({
         shift={schedule.shift}
         isPublished={schedule.isPublished}
         isDragging={isDragging}
+        complianceResult={complianceResult}
+        complianceLoading={complianceLoading}
       />
     </div>
   );
