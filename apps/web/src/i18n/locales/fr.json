@@ -157,6 +157,9 @@
     "noAccount": "Vous n'avez pas de compte ?",
     "signUp": "S'inscrire"
   },
+  "navigation": {
+    "systemAdmin": "Admin Système"
+  },
   "dashboard": {
     "title": "Tableau de bord",
     "welcome": "Bienvenue, {{name}}",

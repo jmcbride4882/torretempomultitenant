@@ -157,6 +157,9 @@
     "noAccount": "Nog geen account?",
     "signUp": "Registreren"
   },
+  "navigation": {
+    "systemAdmin": "Systeembeheer"
+  },
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Welkom, {{name}}",

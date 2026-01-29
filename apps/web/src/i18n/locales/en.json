@@ -157,6 +157,9 @@
     "noAccount": "Don't have an account?",
     "signUp": "Sign up"
   },
+  "navigation": {
+    "systemAdmin": "System Admin"
+  },
 "dashboard": {
     "title": "Dashboard",
     "welcome": "Welcome, {{name}}",
