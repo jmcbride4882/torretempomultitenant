@@ -503,7 +503,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] Install PWA and verify offline indicator
 
-- [ ] 11. Deployment on Ubuntu 25.04
+- [x] 11. Deployment on Ubuntu 25.04
 
   **What to do**:
   - Dockerized deployment (web + API + DB + Redis)
