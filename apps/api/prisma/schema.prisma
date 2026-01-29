@@ -162,6 +162,7 @@ model TimeEntry {
   updatedAt DateTime @updatedAt
 
   editRequests EditRequest[]
+  breaks       BreakEntry[]
 
   @@index([tenantId, userId, clockIn])
   @@map("time_entries")
@@ -178,6 +179,20 @@ enum EntryStatus {
   ACTIVE
   EDITED // Modified via approval
   DELETED // Soft delete
+}
+
+model BreakEntry {
+  id          String    @id @default(uuid()) @db.Uuid
+  timeEntryId String    @db.Uuid
+  timeEntry   TimeEntry @relation(fields: [timeEntryId], references: [id], onDelete: Cascade)
+  
+  startedAt   DateTime
+  endedAt     DateTime?
+  
+  createdAt   DateTime  @default(now())
+  
+  @@index([timeEntryId])
+  @@map("break_entries")
 }
 
 // ============================================
