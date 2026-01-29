@@ -170,7 +170,7 @@ function AppShell({ children }: AppShellProps) {
 
   // Navigation items based on role
   const navItems = [
-    { path: '/app/dashboard', label: 'Dashboard', icon: 'home', roles: [Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN] },
+    { path: '/app/dashboard', label: t('dashboard.title'), icon: 'home', roles: [Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN] },
     { path: '/app/system', label: t('navigation.systemAdmin'), icon: 'globe', roles: [Role.GLOBAL_ADMIN] },
     { path: '/app/tenants', label: t('tenants.title'), icon: 'building', roles: [Role.GLOBAL_ADMIN] },
     { path: '/app/clock', label: t('clocking.title'), icon: 'clock', roles: [Role.EMPLOYEE, Role.MANAGER, Role.ADMIN] },
