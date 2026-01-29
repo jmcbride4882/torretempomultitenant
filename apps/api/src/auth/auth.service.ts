@@ -76,11 +76,11 @@ export class AuthService {
         lastName: user.lastName,
         role: user.role,
         tenantId: user.tenantId,
-        tenant: {
+        tenant: user.tenant ? {
           id: user.tenant.id,
           name: user.tenant.name,
           slug: user.tenant.slug,
-        },
+        } : null,
       },
     };
   }
