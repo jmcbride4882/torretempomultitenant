@@ -87,13 +87,13 @@ Deliver a compliant, intuitive, mobile-first time tracking and scheduling system
 - i18n with language pack support
 
 ### Definition of Done
-- [ ] Clock-in/out captures start/end time per employee and is exportable
-- [ ] Records are accessible to employees and exportable for inspector access
-- [ ] Monthly PDF report includes in-app signature + audit trail
-- [ ] CSV/XLSX exports generated on demand
-- [ ] Data retention job preserves 5 years and purges beyond
-- [ ] Multi-tenant isolation verified (no cross-tenant data access)
-- [ ] Offline queue syncs reliably and flags conflicts
+- [x] Clock-in/out captures start/end time per employee and is exportable
+- [x] Records are accessible to employees and exportable for inspector access
+- [x] Monthly PDF report includes in-app signature + audit trail
+- [x] CSV/XLSX exports generated on demand
+- [x] Data retention job preserves 5 years and purges beyond
+- [x] Multi-tenant isolation verified (no cross-tenant data access)
+- [x] Offline queue syncs reliably and flags conflicts
 
 ### Must Have
 - Registro horario: daily start/end per worker, accessible to employee/inspector
@@ -555,7 +555,7 @@ npm run dev
 ```
 
 ### Final Checklist
-- [ ] All Must Have items complete
-- [ ] Must NOT Have items not implemented
-- [ ] Legal compliance evidence (exportable records + audit logs)
-- [ ] PWA works on modern desktop + mobile browsers
+- [x] All Must Have items complete
+- [x] Must NOT Have items not implemented
+- [x] Legal compliance evidence (exportable records + audit logs)
+- [x] PWA works on modern desktop + mobile browsers
