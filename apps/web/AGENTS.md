@@ -1,7 +1,7 @@
 # apps/web - Torre Tempo Frontend
 
-**Generated:** 2026-01-28 21:43
-**Commit:** 0255da4
+**Generated:** 2026-01-29 09:14
+**Commit:** 2c40d20
 **Branch:** main
 
 ## OVERVIEW
@@ -18,6 +18,7 @@ web/
 │   ├── i18n/
 │   ├── lib/
 │   ├── components/
+│   │   └── BottomNav.tsx    # Mobile nav <768px
 │   └── hooks/
 └── vite.config.ts
 ```
@@ -28,6 +29,7 @@ web/
 |------|----------|-------|
 | Add route/page | `src/App.tsx` | Inline routes/components |
 | Landing page | `src/features/landing/LandingPage.tsx` | Public marketing |
+| Mobile bottom nav | `src/components/BottomNav.tsx` | Thumb-friendly nav for <768px |
 | Auth state | `src/lib/store.ts` | Zustand store |
 | i18n config | `src/i18n/index.ts` | i18next setup |
 | Locales | `src/i18n/locales/` | JSON translations |
@@ -36,6 +38,7 @@ web/
 ## CONVENTIONS
 - Tailwind utility classes only; no inline styles.
 - Mobile-first layouts.
+- Bottom nav replaces hamburger menu on <768px; huge clock buttons (96px dashboard, 80px clocking).
 - Use path alias `@/*`.
 - Query cache configured in `src/main.tsx`.
 
@@ -47,3 +50,4 @@ web/
 ## NOTES
 - Service worker registration lives in `src/main.tsx`.
 - Dev proxy maps `/api` → `http://localhost:4000`.
+- PWA icons regenerated with Torre Tempo branding (2c40d20).

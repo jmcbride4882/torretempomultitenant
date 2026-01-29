@@ -1,7 +1,7 @@
 # PROJECT KNOWLEDGE BASE
 
-**Generated:** 2026-01-28 21:43
-**Commit:** 0255da4
+**Generated:** 2026-01-29 09:14
+**Commit:** 2c40d20
 **Branch:** main
 
 ## OVERVIEW
@@ -12,7 +12,8 @@ Torre Tempo is a multi-tenant staff clocking system for Spanish labor-law compli
 ```
 torre-tempo/
 ├── apps/
-│   ├── web/              # React + Vite PWA
+│   ├── web/              # React + Vite PWA (mobile-first)
+│   │   └── src/components/BottomNav.tsx  # Mobile navigation
 │   └── api/              # NestJS API
 ├── packages/
 │   └── shared/           # Shared types/constants
@@ -26,6 +27,7 @@ torre-tempo/
 |------|----------|-------|
 | Add UI route/screen | `apps/web/src/App.tsx` | Routes inline for now |
 | Landing marketing page | `apps/web/src/features/landing/LandingPage.tsx` | Public site |
+| Mobile navigation | `apps/web/src/components/BottomNav.tsx` | Bottom nav for <768px |
 | Auth/API endpoints | `apps/api/src/auth/` | Service + DTOs; controller wiring still stub |
 | DB schema | `apps/api/prisma/schema.prisma` | Multi-tenant models |
 | Shared domain types | `packages/shared/src/index.ts` | Enums, interfaces, constants |
@@ -36,6 +38,7 @@ torre-tempo/
 - Web path alias: `@/*` → `apps/web/src/*`.
 - API has global `/api` prefix + ValidationPipe (`apps/api/src/main.ts`).
 - i18n locales live in `apps/web/src/i18n/locales`.
+- Mobile-first: Bottom nav on <768px, huge buttons (96px dashboard, 80px clocking), touch targets ≥44px.
 
 ## ANTI-PATTERNS (THIS PROJECT)
 - No queries without `tenantId` filter on tenant-scoped tables.
@@ -62,3 +65,4 @@ npm test
 - No CI workflows in `.github/workflows` (none present).
 - Tests are configured (Jest/Vitest/Playwright) but none exist yet.
 - `apps/*/dist` and `packages/shared/dist` are build outputs; avoid manual edits.
+- PWA service worker registration is in `apps/web/src/main.tsx`.
