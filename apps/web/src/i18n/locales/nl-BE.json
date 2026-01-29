@@ -639,6 +639,25 @@
        "lastNameRequired": "Achternaam beheerder is verplicht",
        "maxWeeklyHoursRange": "Max. wekelijkse uren moet tussen 1 en 168 zijn",
        "maxAnnualHoursRange": "Max. jaarlijkse uren moet tussen 1 en 8760 zijn"
+     },
+     "notFound": "Huurder Niet Gevonden",
+     "notFoundDescription": "De huurder die u zoekt bestaat niet of is verwijderd",
+     "totalUsers": "Totaal Gebruikers",
+     "activeUsers": "Actieve Gebruikers",
+     "totalLocations": "Totaal Locaties",
+     "identifier": "Identificatie",
+     "statistics": "Statistieken",
+     "active": "Actief",
+     "lastUpdated": "Laatst Bijgewerkt",
+     "none": "Geen",
+     "hours": "uren",
+     "locales": {
+       "es": "Spaans",
+       "en": "Engels",
+       "fr": "Frans",
+       "de": "Duits",
+       "pl": "Pools",
+       "nlBE": "Nederlands (Belgisch)"
      }
    }
  }

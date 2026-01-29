@@ -720,17 +720,36 @@
      "viewingTenant": "Viewing {{name}}",
      "maxWeeklyHoursRange": "Must be between 1 and 168 hours",
      "maxAnnualHoursRange": "Must be between 1 and 8760 hours",
-     "validation": {
-       "nameRequired": "Company name is required",
-       "emailRequired": "Admin email is required",
-       "emailInvalid": "Please enter a valid email address",
-       "passwordRequired": "Admin password is required",
-       "passwordMinLength": "Password must be at least 8 characters",
-       "passwordMismatch": "Passwords do not match",
-       "firstNameRequired": "Admin first name is required",
-       "lastNameRequired": "Admin last name is required",
-       "maxWeeklyHoursRange": "Max weekly hours must be between 1 and 168",
-       "maxAnnualHoursRange": "Max annual hours must be between 1 and 8760"
-     }
+      "validation": {
+        "nameRequired": "Company name is required",
+        "emailRequired": "Admin email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordRequired": "Admin password is required",
+        "passwordMinLength": "Password must be at least 8 characters",
+        "passwordMismatch": "Passwords do not match",
+        "firstNameRequired": "Admin first name is required",
+        "lastNameRequired": "Admin last name is required",
+        "maxWeeklyHoursRange": "Max weekly hours must be between 1 and 168",
+        "maxAnnualHoursRange": "Max annual hours must be between 1 and 8760"
+      },
+      "notFound": "Tenant Not Found",
+      "notFoundDescription": "The tenant you are looking for does not exist or has been deleted",
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "totalLocations": "Total Locations",
+      "identifier": "Identifier",
+      "statistics": "Statistics",
+      "active": "Active",
+      "lastUpdated": "Last Updated",
+      "none": "None",
+      "hours": "hours",
+      "locales": {
+        "es": "Spanish",
+        "en": "English",
+        "fr": "French",
+        "de": "German",
+        "pl": "Polish",
+        "nlBE": "Dutch (Belgian)"
+      }
    }
  }

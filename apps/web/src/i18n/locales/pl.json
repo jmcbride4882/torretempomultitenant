@@ -639,6 +639,25 @@
        "lastNameRequired": "Nazwisko administratora jest wymagane",
        "maxWeeklyHoursRange": "Maks. tygodniowe godziny muszą być między 1 a 168",
        "maxAnnualHoursRange": "Maks. roczne godziny muszą być między 1 a 8760"
+     },
+     "notFound": "Dzierżawca Nie Znaleziony",
+     "notFoundDescription": "Dzierżawca, którego szukasz, nie istnieje lub został usunięty",
+     "totalUsers": "Łączna Liczba Użytkowników",
+     "activeUsers": "Aktywni Użytkownicy",
+     "totalLocations": "Łączna Liczba Lokalizacji",
+     "identifier": "Identyfikator",
+     "statistics": "Statystyki",
+     "active": "Aktywny",
+     "lastUpdated": "Ostatnia Aktualizacja",
+     "none": "Brak",
+     "hours": "godzin",
+     "locales": {
+       "es": "Hiszpański",
+       "en": "Angielski",
+       "fr": "Francuski",
+       "de": "Niemiecki",
+       "pl": "Polski",
+       "nlBE": "Niderlandzki (Belgijski)"
      }
    }
  }

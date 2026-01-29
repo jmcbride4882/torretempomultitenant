@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../../lib/api';
 
 // ============================================
@@ -597,6 +598,7 @@ function TenantCard({ tenant, onView }: TenantCardProps) {
 
 export function TenantManagementPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   
   // State
@@ -656,8 +658,7 @@ export function TenantManagementPage() {
   };
 
   const handleViewTenant = (tenant: Tenant) => {
-    // For now, just show a toast - can be expanded to navigate to tenant details
-    showToast(t('tenants.viewingTenant', { name: tenant.name }), 'success');
+    navigate(`/app/tenants/${tenant.id}`);
   };
 
   // Calculate pagination

@@ -573,17 +573,36 @@
      "viewingTenant": "Viendo {{name}}",
      "maxWeeklyHoursRange": "Debe estar entre 1 y 168 horas",
      "maxAnnualHoursRange": "Debe estar entre 1 y 8760 horas",
-     "validation": {
-       "nameRequired": "El nombre de empresa es obligatorio",
-       "emailRequired": "El email del administrador es obligatorio",
-       "emailInvalid": "Por favor introduce un email valido",
-       "passwordRequired": "La contrasena del administrador es obligatoria",
-       "passwordMinLength": "La contrasena debe tener al menos 8 caracteres",
-       "passwordMismatch": "Las contrasenas no coinciden",
-       "firstNameRequired": "El nombre del administrador es obligatorio",
-       "lastNameRequired": "Los apellidos del administrador son obligatorios",
-       "maxWeeklyHoursRange": "Las horas maximas semanales deben estar entre 1 y 168",
-       "maxAnnualHoursRange": "Las horas maximas anuales deben estar entre 1 y 8760"
-     }
+      "validation": {
+        "nameRequired": "El nombre de empresa es obligatorio",
+        "emailRequired": "El email del administrador es obligatorio",
+        "emailInvalid": "Por favor introduce un email valido",
+        "passwordRequired": "La contrasena del administrador es obligatoria",
+        "passwordMinLength": "La contrasena debe tener al menos 8 caracteres",
+        "passwordMismatch": "Las contrasenas no coinciden",
+        "firstNameRequired": "El nombre del administrador es obligatorio",
+        "lastNameRequired": "Los apellidos del administrador son obligatorios",
+        "maxWeeklyHoursRange": "Las horas maximas semanales deben estar entre 1 y 168",
+        "maxAnnualHoursRange": "Las horas maximas anuales deben estar entre 1 y 8760"
+      },
+      "notFound": "Empresa No Encontrada",
+      "notFoundDescription": "La empresa que buscas no existe o ha sido eliminada",
+      "totalUsers": "Total de Usuarios",
+      "activeUsers": "Usuarios Activos",
+      "totalLocations": "Total de Ubicaciones",
+      "identifier": "Identificador",
+      "statistics": "Estadisticas",
+      "active": "Activos",
+      "lastUpdated": "Ultima Actualizacion",
+      "none": "Ninguno",
+      "hours": "horas",
+      "locales": {
+        "es": "Espanol",
+        "en": "Ingles",
+        "fr": "Frances",
+        "de": "Aleman",
+        "pl": "Polaco",
+        "nlBE": "Holandes (Belga)"
+      }
    }
  }

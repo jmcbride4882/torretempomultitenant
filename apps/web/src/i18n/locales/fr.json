@@ -639,6 +639,25 @@
        "lastNameRequired": "Le nom de famille de l'administrateur est requis",
        "maxWeeklyHoursRange": "Les heures hebdomadaires doivent être entre 1 et 168",
        "maxAnnualHoursRange": "Les heures annuelles doivent être entre 1 et 8760"
+     },
+     "notFound": "Locataire Non Trouvé",
+     "notFoundDescription": "Le locataire que vous recherchez n'existe pas ou a été supprimé",
+     "totalUsers": "Total des Utilisateurs",
+     "activeUsers": "Utilisateurs Actifs",
+     "totalLocations": "Total des Lieux",
+     "identifier": "Identifiant",
+     "statistics": "Statistiques",
+     "active": "Actifs",
+     "lastUpdated": "Dernière Mise à Jour",
+     "none": "Aucun",
+     "hours": "heures",
+     "locales": {
+       "es": "Espagnol",
+       "en": "Anglais",
+       "fr": "Français",
+       "de": "Allemand",
+       "pl": "Polonais",
+       "nlBE": "Néerlandais (Belge)"
      }
    }
  }

@@ -14,6 +14,7 @@ import { UsersPage } from './features/users/UsersPage';
 import { EmployeeDashboard, ManagerDashboard, AdminDashboard, GlobalAdminDashboard } from './features/dashboard';
 import { TenantSettingsPage } from './features/settings/TenantSettingsPage';
 import { TenantManagementPage } from './features/tenants/TenantManagementPage';
+import { TenantDetailPage } from './features/tenants/TenantDetailPage';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { InstallPrompt, OfflineIndicator } from './components/pwa';
 import { SyncStatus } from './components/pwa/SyncStatus';
@@ -459,6 +460,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <TenantManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/app/tenants/:id"
+          element={
+            <ProtectedRoute>
+              <TenantDetailPage />
             </ProtectedRoute>
           }
         />

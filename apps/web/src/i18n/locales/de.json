@@ -639,6 +639,25 @@
        "lastNameRequired": "Nachname des Administrators ist erforderlich",
        "maxWeeklyHoursRange": "Max. Wochenstunden müssen zwischen 1 und 168 liegen",
        "maxAnnualHoursRange": "Max. Jahresstunden müssen zwischen 1 und 8760 liegen"
+     },
+     "notFound": "Mandant Nicht Gefunden",
+     "notFoundDescription": "Der gesuchte Mandant existiert nicht oder wurde gelöscht",
+     "totalUsers": "Gesamtnutzer",
+     "activeUsers": "Aktive Nutzer",
+     "totalLocations": "Gesamtstandorte",
+     "identifier": "Kennung",
+     "statistics": "Statistiken",
+     "active": "Aktiv",
+     "lastUpdated": "Zuletzt Aktualisiert",
+     "none": "Keine",
+     "hours": "Stunden",
+     "locales": {
+       "es": "Spanisch",
+       "en": "Englisch",
+       "fr": "Französisch",
+       "de": "Deutsch",
+       "pl": "Polnisch",
+       "nlBE": "Niederländisch (Belgisch)"
      }
    }
  }
