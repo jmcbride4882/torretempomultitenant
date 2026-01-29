@@ -4,6 +4,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { TimeTrackingModule } from './time-tracking/time-tracking.module';
 import { ApprovalsModule } from './approvals/approvals.module';
+import { ReportsModule } from './reports/reports.module';
+import { LocationsModule } from './locations/locations.module';
 import { HealthController } from './health.controller';
 import { TenantMiddleware } from './common/middleware/tenant.middleware';
 
@@ -17,10 +19,10 @@ import { TenantMiddleware } from './common/middleware/tenant.middleware';
     AuthModule,
     TimeTrackingModule,
     ApprovalsModule,
+    ReportsModule,
+    LocationsModule,
     // Wave 2 modules (remaining):
-    // LocationsModule,
     // SchedulingModule,
-    // ReportsModule,
   ],
   controllers: [HealthController],
 })

@@ -6,6 +6,8 @@ import { authApi } from './lib/api';
 import LandingPage from './features/landing/LandingPage';
 import { ClockingPage } from './features/clocking/ClockingPage';
 import { ApprovalsPage } from './features/approvals/ApprovalsPage';
+import { ReportsPage } from './features/reports/ReportsPage';
+import { MyReportsPage } from './features/reports/MyReportsPage';
 
 // Login Page
 function LoginPage() {
@@ -205,11 +207,29 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/app/reports"
+        element={
+          <ProtectedRoute>
+            <ReportsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/app/my-reports"
+        element={
+          <ProtectedRoute>
+            <MyReportsPage />
+          </ProtectedRoute>
+        }
+      />
       
       {/* Redirects */}
       <Route path="/dashboard" element={<Navigate to="/app/dashboard" replace />} />
       <Route path="/clock" element={<Navigate to="/app/clock" replace />} />
       <Route path="/approvals" element={<Navigate to="/app/approvals" replace />} />
+      <Route path="/reports" element={<Navigate to="/app/reports" replace />} />
+      <Route path="/my-reports" element={<Navigate to="/app/my-reports" replace />} />
     </Routes>
   );
 }
