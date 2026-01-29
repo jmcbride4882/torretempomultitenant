@@ -6,6 +6,7 @@ import { AuthModule } from '../auth/auth.module';
 import { AuditModule } from '../audit/audit.module';
 import { LocationsModule } from '../locations/locations.module';
 import { ComplianceModule } from '../compliance/compliance.module';
+import { OvertimeModule } from '../overtime/overtime.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ComplianceModule } from '../compliance/compliance.module';
     AuthModule,
     AuditModule,
     ComplianceModule,
+    OvertimeModule,
     forwardRef(() => LocationsModule),
   ],
   controllers: [TimeTrackingController],

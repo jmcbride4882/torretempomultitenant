@@ -10,6 +10,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import { LocationsService } from '../locations/locations.service';
 import { ComplianceService } from '../compliance/compliance.service';
+import { OvertimeService } from '../overtime/overtime.service';
 import { ClockInDto } from './dto/clock-in.dto';
 import { ClockOutDto } from './dto/clock-out.dto';
 import { EntryOrigin, EntryStatus } from '@prisma/client';
@@ -23,6 +24,7 @@ export class TimeTrackingService {
     private readonly prisma: PrismaService,
     private readonly auditService: AuditService,
     private readonly complianceService: ComplianceService,
+    private readonly overtimeService: OvertimeService,
     @Inject(forwardRef(() => LocationsService))
     private readonly locationsService: LocationsService,
   ) {}
@@ -215,26 +217,69 @@ export class TimeTrackingService {
       },
     });
 
-    this.logger.log(`User ${userId} clocked out at ${timeEntry.clockOut}`);
+     this.logger.log(`User ${userId} clocked out at ${timeEntry.clockOut}`);
 
-    // Log to audit
-    await this.auditService.logTimeEntryUpdate(
-      tenantId,
-      timeEntry.id,
-      userId,
-      userEmail,
-      userRole,
-      {
-        clockOut: null,
-        breakMinutes: null,
-      },
-      {
-        clockOut: timeEntry.clockOut?.toISOString(),
-        breakMinutes: timeEntry.breakMinutes,
-      },
-    );
+     // Log to audit
+     await this.auditService.logTimeEntryUpdate(
+       tenantId,
+       timeEntry.id,
+       userId,
+       userEmail,
+       userRole,
+       {
+         clockOut: null,
+         breakMinutes: null,
+       },
+       {
+         clockOut: timeEntry.clockOut?.toISOString(),
+         breakMinutes: timeEntry.breakMinutes,
+       },
+     );
 
-    return timeEntry;
+     // Detect overtime
+     try {
+       const overtime = await this.overtimeService.detectOvertime(
+         timeEntry.id,
+       );
+
+       if (overtime) {
+         this.logger.log(
+           `Overtime detected for user ${userId}: ${overtime.hours}h`,
+         );
+
+         // Check annual limit
+         const annualOvertime = await this.overtimeService.getAnnualOvertime(
+           userId,
+         );
+
+         if (annualOvertime > 80) {
+           this.logger.warn(
+             `Annual overtime limit exceeded for user ${userId}: ${annualOvertime.toFixed(2)}h / 80h`,
+           );
+
+           // Log compliance violation to audit
+           await this.auditService.logTimeEntryUpdate(
+             tenantId,
+             timeEntry.id,
+             userId,
+             userEmail,
+             userRole,
+             { complianceStatus: 'OK' },
+             {
+               complianceStatus: 'OVERTIME_LIMIT_EXCEEDED',
+               details: `Annual overtime: ${annualOvertime.toFixed(2)}h / 80h limit`,
+             },
+           );
+         }
+       }
+     } catch (error) {
+       this.logger.error(
+         `Error detecting overtime for user ${userId}: ${error.message}`,
+       );
+       // Don't fail the clock-out if overtime detection fails
+     }
+
+     return timeEntry;
   }
 
   /**
