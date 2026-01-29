@@ -314,20 +314,21 @@ function TenantFormModal({ onSubmit, onClose, isLoading }: TenantFormProps) {
                 <label htmlFor="maxWeeklyHours" className="block text-sm font-medium text-slate-700 mb-1.5">
                   {t('tenants.maxWeeklyHours')}
                 </label>
-                <input
-                  id="maxWeeklyHours"
-                  type="number"
-                  inputMode="numeric"
-                  min={1}
-                  max={168}
-                  value={formData.maxWeeklyHours}
-                  onChange={(e) => setFormData({ ...formData, maxWeeklyHours: parseInt(e.target.value) || 40 })}
-                  className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    errors.maxWeeklyHours ? 'border-red-300 bg-red-50' : 'border-slate-200'
-                  }`}
-                  aria-invalid={!!errors.maxWeeklyHours}
-                  aria-describedby={errors.maxWeeklyHours ? 'maxWeeklyHours-error' : undefined}
-                />
+                 <input
+                   id="maxWeeklyHours"
+                   type="number"
+                   inputMode="numeric"
+                   min={1}
+                   max={168}
+                   value={formData.maxWeeklyHours}
+                   onChange={(e) => setFormData({ ...formData, maxWeeklyHours: parseInt(e.target.value) || 40 })}
+                   className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                     errors.maxWeeklyHours ? 'border-red-300 bg-red-50' : 'border-slate-200'
+                   }`}
+                   placeholder={t('tenants.maxWeeklyHoursPlaceholder')}
+                   aria-invalid={!!errors.maxWeeklyHours}
+                   aria-describedby={errors.maxWeeklyHours ? 'maxWeeklyHours-error' : undefined}
+                 />
                 {errors.maxWeeklyHours && (
                   <p id="maxWeeklyHours-error" className="mt-1.5 text-sm text-red-600">{errors.maxWeeklyHours}</p>
                 )}
@@ -338,20 +339,21 @@ function TenantFormModal({ onSubmit, onClose, isLoading }: TenantFormProps) {
                 <label htmlFor="maxAnnualHours" className="block text-sm font-medium text-slate-700 mb-1.5">
                   {t('tenants.maxAnnualHours')}
                 </label>
-                <input
-                  id="maxAnnualHours"
-                  type="number"
-                  inputMode="numeric"
-                  min={1}
-                  max={8760}
-                  value={formData.maxAnnualHours}
-                  onChange={(e) => setFormData({ ...formData, maxAnnualHours: parseInt(e.target.value) || 1822 })}
-                  className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    errors.maxAnnualHours ? 'border-red-300 bg-red-50' : 'border-slate-200'
-                  }`}
-                  aria-invalid={!!errors.maxAnnualHours}
-                  aria-describedby={errors.maxAnnualHours ? 'maxAnnualHours-error' : undefined}
-                />
+                 <input
+                   id="maxAnnualHours"
+                   type="number"
+                   inputMode="numeric"
+                   min={1}
+                   max={8760}
+                   value={formData.maxAnnualHours}
+                   onChange={(e) => setFormData({ ...formData, maxAnnualHours: parseInt(e.target.value) || 1822 })}
+                   className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                     errors.maxAnnualHours ? 'border-red-300 bg-red-50' : 'border-slate-200'
+                   }`}
+                   placeholder={t('tenants.maxAnnualHoursPlaceholder')}
+                   aria-invalid={!!errors.maxAnnualHours}
+                   aria-describedby={errors.maxAnnualHours ? 'maxAnnualHours-error' : undefined}
+                 />
                 {errors.maxAnnualHours && (
                   <p id="maxAnnualHours-error" className="mt-1.5 text-sm text-red-600">{errors.maxAnnualHours}</p>
                 )}
@@ -373,17 +375,18 @@ function TenantFormModal({ onSubmit, onClose, isLoading }: TenantFormProps) {
                 <label htmlFor="adminFirstName" className="block text-sm font-medium text-slate-700 mb-1.5">
                   {t('tenants.adminFirstName')} <span className="text-red-500">*</span>
                 </label>
-                <input
-                  id="adminFirstName"
-                  type="text"
-                  value={formData.adminFirstName}
-                  onChange={(e) => setFormData({ ...formData, adminFirstName: e.target.value })}
-                  className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    errors.adminFirstName ? 'border-red-300 bg-red-50' : 'border-slate-200'
-                  }`}
-                  aria-invalid={!!errors.adminFirstName}
-                  aria-describedby={errors.adminFirstName ? 'adminFirstName-error' : undefined}
-                />
+                 <input
+                   id="adminFirstName"
+                   type="text"
+                   value={formData.adminFirstName}
+                   onChange={(e) => setFormData({ ...formData, adminFirstName: e.target.value })}
+                   className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                     errors.adminFirstName ? 'border-red-300 bg-red-50' : 'border-slate-200'
+                   }`}
+                   placeholder={t('tenants.adminFirstNamePlaceholder')}
+                   aria-invalid={!!errors.adminFirstName}
+                   aria-describedby={errors.adminFirstName ? 'adminFirstName-error' : undefined}
+                 />
                 {errors.adminFirstName && (
                   <p id="adminFirstName-error" className="mt-1.5 text-sm text-red-600">{errors.adminFirstName}</p>
                 )}
@@ -394,17 +397,18 @@ function TenantFormModal({ onSubmit, onClose, isLoading }: TenantFormProps) {
                 <label htmlFor="adminLastName" className="block text-sm font-medium text-slate-700 mb-1.5">
                   {t('tenants.adminLastName')} <span className="text-red-500">*</span>
                 </label>
-                <input
-                  id="adminLastName"
-                  type="text"
-                  value={formData.adminLastName}
-                  onChange={(e) => setFormData({ ...formData, adminLastName: e.target.value })}
-                  className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    errors.adminLastName ? 'border-red-300 bg-red-50' : 'border-slate-200'
-                  }`}
-                  aria-invalid={!!errors.adminLastName}
-                  aria-describedby={errors.adminLastName ? 'adminLastName-error' : undefined}
-                />
+                 <input
+                   id="adminLastName"
+                   type="text"
+                   value={formData.adminLastName}
+                   onChange={(e) => setFormData({ ...formData, adminLastName: e.target.value })}
+                   className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                     errors.adminLastName ? 'border-red-300 bg-red-50' : 'border-slate-200'
+                   }`}
+                   placeholder={t('tenants.adminLastNamePlaceholder')}
+                   aria-invalid={!!errors.adminLastName}
+                   aria-describedby={errors.adminLastName ? 'adminLastName-error' : undefined}
+                 />
                 {errors.adminLastName && (
                   <p id="adminLastName-error" className="mt-1.5 text-sm text-red-600">{errors.adminLastName}</p>
                 )}
@@ -441,17 +445,18 @@ function TenantFormModal({ onSubmit, onClose, isLoading }: TenantFormProps) {
                 <label htmlFor="adminPassword" className="block text-sm font-medium text-slate-700 mb-1.5">
                   {t('tenants.adminPassword')} <span className="text-red-500">*</span>
                 </label>
-                <input
-                  id="adminPassword"
-                  type="password"
-                  value={formData.adminPassword}
-                  onChange={(e) => setFormData({ ...formData, adminPassword: e.target.value })}
-                  className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    errors.adminPassword ? 'border-red-300 bg-red-50' : 'border-slate-200'
-                  }`}
-                  aria-invalid={!!errors.adminPassword}
-                  aria-describedby={errors.adminPassword ? 'adminPassword-error' : undefined}
-                />
+                 <input
+                   id="adminPassword"
+                   type="password"
+                   value={formData.adminPassword}
+                   onChange={(e) => setFormData({ ...formData, adminPassword: e.target.value })}
+                   className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                     errors.adminPassword ? 'border-red-300 bg-red-50' : 'border-slate-200'
+                   }`}
+                   placeholder={t('tenants.adminPasswordPlaceholder')}
+                   aria-invalid={!!errors.adminPassword}
+                   aria-describedby={errors.adminPassword ? 'adminPassword-error' : undefined}
+                 />
                 {errors.adminPassword && (
                   <p id="adminPassword-error" className="mt-1.5 text-sm text-red-600">{errors.adminPassword}</p>
                 )}
@@ -463,17 +468,18 @@ function TenantFormModal({ onSubmit, onClose, isLoading }: TenantFormProps) {
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 mb-1.5">
                   {t('tenants.confirmPassword')} <span className="text-red-500">*</span>
                 </label>
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-slate-200'
-                  }`}
-                  aria-invalid={!!errors.confirmPassword}
-                  aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
-                />
+                 <input
+                   id="confirmPassword"
+                   type="password"
+                   value={formData.confirmPassword}
+                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                   className={`w-full px-4 h-12 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                     errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-slate-200'
+                   }`}
+                   placeholder={t('tenants.confirmPasswordPlaceholder')}
+                   aria-invalid={!!errors.confirmPassword}
+                   aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
+                 />
                 {errors.confirmPassword && (
                   <p id="confirmPassword-error" className="mt-1.5 text-sm text-red-600">{errors.confirmPassword}</p>
                 )}

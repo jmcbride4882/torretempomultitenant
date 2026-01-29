@@ -16,6 +16,13 @@ interface TenantWithCounts {
   };
 }
 
+interface TenantsResponse {
+  tenants: TenantWithCounts[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
 interface GlobalStats {
   totalTenants: number;
   totalUsers: number;
@@ -47,39 +54,46 @@ export function GlobalAdminDashboard() {
   });
 
   // Get all tenants
-  const { data: tenants = [], isLoading: loadingTenants } = useQuery<TenantWithCounts[]>({
+  const { data: tenantsData, isLoading: loadingTenants } = useQuery<TenantsResponse>({
     queryKey: ['tenants'],
     queryFn: async () => {
       try {
         return await api.get('/tenants');
       } catch {
         // Return mock data if endpoint doesn't exist yet
-        return [
-          {
-            id: '1',
-            name: 'Hotel Costa Brava',
-            slug: 'costa-brava',
-            createdAt: '2025-01-15T10:30:00Z',
-            _count: { users: 24, locations: 3 },
-          },
-          {
-            id: '2',
-            name: 'Restaurante El Sol',
-            slug: 'el-sol',
-            createdAt: '2025-02-20T14:15:00Z',
-            _count: { users: 12, locations: 1 },
-          },
-          {
-            id: '3',
-            name: 'Comercial Martinez',
-            slug: 'martinez',
-            createdAt: '2025-03-10T09:00:00Z',
-            _count: { users: 45, locations: 5 },
-          },
-        ];
+        return {
+          tenants: [
+            {
+              id: '1',
+              name: 'Hotel Costa Brava',
+              slug: 'costa-brava',
+              createdAt: '2025-01-15T10:30:00Z',
+              _count: { users: 24, locations: 3 },
+            },
+            {
+              id: '2',
+              name: 'Restaurante El Sol',
+              slug: 'el-sol',
+              createdAt: '2025-02-20T14:15:00Z',
+              _count: { users: 12, locations: 1 },
+            },
+            {
+              id: '3',
+              name: 'Comercial Martinez',
+              slug: 'martinez',
+              createdAt: '2025-03-10T09:00:00Z',
+              _count: { users: 45, locations: 5 },
+            },
+          ],
+          total: 3,
+          page: 1,
+          pageSize: 50,
+        };
       }
     },
   });
+
+  const tenants = tenantsData?.tenants || [];
 
   const isLoading = loadingStats || loadingTenants;
 
