@@ -9,6 +9,8 @@ import { ApprovalsPage } from './features/approvals/ApprovalsPage';
 import { ReportsPage } from './features/reports/ReportsPage';
 import { MyReportsPage } from './features/reports/MyReportsPage';
 import { LocationsPage } from './features/locations/LocationsPage';
+import { SchedulingPage } from './features/scheduling/SchedulingPage';
+import { MySchedulePage } from './features/scheduling/MySchedulePage';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 
 // Login Page
@@ -234,6 +236,22 @@ export default function App() {
         element={
           <ProtectedRoute>
             <LocationsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/app/scheduling"
+        element={
+          <ProtectedRoute>
+            <SchedulingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/app/my-schedule"
+        element={
+          <ProtectedRoute>
+            <MySchedulePage />
           </ProtectedRoute>
         }
       />

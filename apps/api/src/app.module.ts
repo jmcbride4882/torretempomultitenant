@@ -6,6 +6,7 @@ import { TimeTrackingModule } from './time-tracking/time-tracking.module';
 import { ApprovalsModule } from './approvals/approvals.module';
 import { ReportsModule } from './reports/reports.module';
 import { LocationsModule } from './locations/locations.module';
+import { SchedulingModule } from './scheduling/scheduling.module';
 import { HealthController } from './health.controller';
 import { TenantMiddleware } from './common/middleware/tenant.middleware';
 
@@ -21,8 +22,7 @@ import { TenantMiddleware } from './common/middleware/tenant.middleware';
     ApprovalsModule,
     ReportsModule,
     LocationsModule,
-    // Wave 2 modules (remaining):
-    // SchedulingModule,
+    SchedulingModule,
   ],
   controllers: [HealthController],
 })

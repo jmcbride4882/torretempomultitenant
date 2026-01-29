@@ -345,7 +345,7 @@ Critical Path: Task 1 → Task 3 → Task 4 → Task 8
   **Manual Verification**:
   - [ ] Scan QR inside/outside geofence and confirm results
 
-- [ ] 6. Scheduling module
+- [x] 6. Scheduling module
 
   **What to do**:
   - Create shifts and schedules per location/team
