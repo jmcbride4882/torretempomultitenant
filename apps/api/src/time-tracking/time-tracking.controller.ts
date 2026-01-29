@@ -6,10 +6,10 @@ import {
   UseGuards,
   Query,
   ParseIntPipe,
+  Param,
 } from '@nestjs/common';
 import { TimeTrackingService } from './time-tracking.service';
-import { ClockInDto } from './dto/clock-in.dto';
-import { ClockOutDto } from './dto/clock-out.dto';
+import { ClockInDto, ClockOutDto, StartBreakDto, EndBreakDto } from './dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -99,5 +99,32 @@ export class TimeTrackingController {
       pageNum,
       pageSizeNum,
     );
+  }
+
+  /**
+   * Start a break
+   * POST /api/time-tracking/breaks/start
+   */
+  @Post('breaks/start')
+  async startBreak(@CurrentUser() user: any, @Body() dto: StartBreakDto) {
+    return this.timeTrackingService.startBreak(dto.timeEntryId, user.id);
+  }
+
+  /**
+   * End a break
+   * POST /api/time-tracking/breaks/end
+   */
+  @Post('breaks/end')
+  async endBreak(@CurrentUser() user: any, @Body() dto: EndBreakDto) {
+    return this.timeTrackingService.endBreak(dto.breakId, user.id);
+  }
+
+  /**
+   * Get breaks for a time entry
+   * GET /api/time-tracking/breaks/:timeEntryId
+   */
+  @Get('breaks/:timeEntryId')
+  async getBreaks(@Param('timeEntryId') timeEntryId: string) {
+    return this.timeTrackingService.getBreaks(timeEntryId);
   }
 }

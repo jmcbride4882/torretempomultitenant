@@ -13,6 +13,7 @@ import { ComplianceService } from '../compliance/compliance.service';
 import { ClockInDto } from './dto/clock-in.dto';
 import { ClockOutDto } from './dto/clock-out.dto';
 import { EntryOrigin, EntryStatus } from '@prisma/client';
+import { differenceInMinutes } from 'date-fns';
 
 @Injectable()
 export class TimeTrackingService {
@@ -362,5 +363,116 @@ export class TimeTrackingService {
       page,
       pageSize,
     };
+  }
+
+  /**
+   * Start a break for an active time entry
+   */
+  async startBreak(timeEntryId: string, userId: string) {
+    // Verify time entry exists and belongs to user
+    const timeEntry = await this.prisma.timeEntry.findFirst({
+      where: {
+        id: timeEntryId,
+        userId,
+        clockOut: null, // Must be clocked in
+      },
+    });
+
+    if (!timeEntry) {
+      throw new NotFoundException('Active time entry not found');
+    }
+
+    // Check if already on break
+    const activeBreak = await this.prisma.breakEntry.findFirst({
+      where: {
+        timeEntryId,
+        endedAt: null,
+      },
+    });
+
+    if (activeBreak) {
+      throw new BadRequestException('Already on break');
+    }
+
+    // Create break entry
+    const breakEntry = await this.prisma.breakEntry.create({
+      data: {
+        timeEntryId,
+        startedAt: new Date(),
+      },
+    });
+
+    this.logger.log(`Break started for time entry ${timeEntryId}`);
+
+    // TODO: Audit log
+    // await this.auditService.logBreakStarted(breakEntry);
+
+    return breakEntry;
+  }
+
+  /**
+   * End an active break
+   */
+  async endBreak(breakId: string, userId: string) {
+    // Verify break exists and belongs to user
+    const breakEntry = await this.prisma.breakEntry.findFirst({
+      where: {
+        id: breakId,
+        timeEntry: {
+          userId,
+        },
+        endedAt: null,
+      },
+      include: {
+        timeEntry: true,
+      },
+    });
+
+    if (!breakEntry) {
+      throw new NotFoundException('Active break not found');
+    }
+
+    // Validate minimum break duration (15 minutes)
+    const breakDurationMinutes = differenceInMinutes(new Date(), breakEntry.startedAt);
+    if (breakDurationMinutes < 15) {
+      throw new BadRequestException(
+        `Break must be at least 15 minutes (current: ${breakDurationMinutes} minutes)`
+      );
+    }
+
+    // Update break entry
+    const updatedBreak = await this.prisma.breakEntry.update({
+      where: { id: breakId },
+      data: { endedAt: new Date() },
+    });
+
+    this.logger.log(`Break ended for time entry ${breakEntry.timeEntryId}`);
+
+    // TODO: Audit log
+    // await this.auditService.logBreakEnded(updatedBreak);
+
+    return updatedBreak;
+  }
+
+  /**
+   * Get breaks for a time entry
+   */
+  async getBreaks(timeEntryId: string) {
+    return this.prisma.breakEntry.findMany({
+      where: { timeEntryId },
+      orderBy: { startedAt: 'asc' },
+    });
+  }
+
+  /**
+   * Get active break for a time entry
+   */
+  async getActiveBreak(timeEntryId: string) {
+    return this.prisma.breakEntry.findFirst({
+      where: {
+        timeEntryId,
+        endedAt: null,
+      },
+    });
   }
 }
