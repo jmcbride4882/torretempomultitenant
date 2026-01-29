@@ -12,7 +12,8 @@
     "back": "Back",
     "next": "Next",
     "submit": "Submit",
-    "offline": "Offline - Data will sync when you reconnect"
+    "offline": "Offline - Data will sync when you reconnect",
+    "minutes": "min"
   },
   "landing": {
     "internal": {
@@ -328,7 +329,18 @@
     "recentEntries": "Recent Entries",
     "getLocation": "Get Location",
     "locationTimeout": "Location request timed out",
-    "locationUnavailable": "Location unavailable"
+    "locationUnavailable": "Location unavailable",
+    "breaks": "Breaks",
+    "startBreak": "Start Break",
+    "endBreak": "End Break",
+    "onBreak": "On Break",
+    "breakStarted": "Break started at",
+    "breakEnded": "Break ended",
+    "breakMinimum": "Minimum 15 minutes required",
+    "breaksToday": "Breaks Today",
+    "ongoing": "Ongoing",
+    "breakStartFailed": "Failed to start break",
+    "breakEndFailed": "Failed to end break"
   },
   "entries": {
     "title": "My Time Entries",

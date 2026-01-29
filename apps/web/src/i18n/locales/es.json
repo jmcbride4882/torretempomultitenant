@@ -12,7 +12,8 @@
     "back": "Volver",
     "next": "Siguiente",
     "submit": "Enviar",
-    "offline": "Sin conexion - Los datos se sincronizaran cuando vuelva a conectarse"
+    "offline": "Sin conexion - Los datos se sincronizaran cuando vuelva a conectarse",
+    "minutes": "min"
   },
   "landing": {
     "internal": {
@@ -328,7 +329,18 @@
     "recentEntries": "Fichajes Recientes",
     "getLocation": "Obtener Ubicación",
     "locationTimeout": "Tiempo de espera de ubicación agotado",
-    "locationUnavailable": "Ubicación no disponible"
+    "locationUnavailable": "Ubicación no disponible",
+    "breaks": "Descansos",
+    "startBreak": "Iniciar Descanso",
+    "endBreak": "Finalizar Descanso",
+    "onBreak": "En Descanso",
+    "breakStarted": "Descanso iniciado a las",
+    "breakEnded": "Descanso finalizado",
+    "breakMinimum": "Mínimo 15 minutos requeridos",
+    "breaksToday": "Descansos Hoy",
+    "ongoing": "En curso",
+    "breakStartFailed": "Error al iniciar descanso",
+    "breakEndFailed": "Error al finalizar descanso"
   },
   "entries": {
     "title": "Mis registros",
