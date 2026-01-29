@@ -580,7 +580,7 @@ export class SchedulingService {
     const schedules = await this.prisma.schedule.findMany({
       where: {
         tenantId,
-        userId: { equals: null },
+        userId: { equals: undefined },
         isPublished: true,
         ...(startDate || endDate ? { date: dateFilter } : {}),
       },
