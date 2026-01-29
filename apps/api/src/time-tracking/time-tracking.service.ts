@@ -5,6 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { AuditService } from '../audit/audit.service';
 import { ClockInDto } from './dto/clock-in.dto';
 import { ClockOutDto } from './dto/clock-out.dto';
 import { EntryOrigin, EntryStatus } from '@prisma/client';
@@ -13,13 +14,22 @@ import { EntryOrigin, EntryStatus } from '@prisma/client';
 export class TimeTrackingService {
   private readonly logger = new Logger(TimeTrackingService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly auditService: AuditService,
+  ) {}
 
   /**
    * Clock in a user
    * Creates a new time entry with clockIn timestamp
    */
-  async clockIn(userId: string, tenantId: string, dto: ClockInDto) {
+  async clockIn(
+    userId: string,
+    tenantId: string,
+    userEmail: string,
+    userRole: string,
+    dto: ClockInDto,
+  ) {
     // Check if user already has an active time entry
     const activeEntry = await this.prisma.timeEntry.findFirst({
       where: {
@@ -73,6 +83,20 @@ export class TimeTrackingService {
 
     this.logger.log(`User ${userId} clocked in at ${timeEntry.clockIn}`);
 
+    // Log to audit
+    await this.auditService.logTimeEntryCreation(
+      tenantId,
+      timeEntry.id,
+      userId,
+      userEmail,
+      userRole,
+      {
+        clockIn: timeEntry.clockIn.toISOString(),
+        locationId: timeEntry.locationId,
+        origin: timeEntry.origin,
+      },
+    );
+
     return timeEntry;
   }
 
@@ -80,7 +104,13 @@ export class TimeTrackingService {
    * Clock out a user
    * Updates the active time entry with clockOut timestamp
    */
-  async clockOut(userId: string, tenantId: string, dto: ClockOutDto) {
+  async clockOut(
+    userId: string,
+    tenantId: string,
+    userEmail: string,
+    userRole: string,
+    dto: ClockOutDto,
+  ) {
     // Find active time entry
     const activeEntry = await this.prisma.timeEntry.findFirst({
       where: {
@@ -126,6 +156,23 @@ export class TimeTrackingService {
     });
 
     this.logger.log(`User ${userId} clocked out at ${timeEntry.clockOut}`);
+
+    // Log to audit
+    await this.auditService.logTimeEntryUpdate(
+      tenantId,
+      timeEntry.id,
+      userId,
+      userEmail,
+      userRole,
+      {
+        clockOut: null,
+        breakMinutes: null,
+      },
+      {
+        clockOut: timeEntry.clockOut?.toISOString(),
+        breakMinutes: timeEntry.breakMinutes,
+      },
+    );
 
     return timeEntry;
   }

@@ -210,13 +210,52 @@
   },
   "approvals": {
     "title": "Approvals",
+    "editRequests": "Edit Requests",
+    "createEditRequest": "Request Edit",
+    "requestReason": "Reason for Edit",
+    "requestedChanges": "Requested Changes",
+    "approve": "Approve",
+    "reject": "Reject",
+    "reviewComment": "Review Comment",
     "pending": "Pending",
     "approved": "Approved",
     "rejected": "Rejected",
-    "approve": "Approve",
-    "reject": "Reject",
-    "reason": "Reason",
-    "noRequests": "No pending requests"
+    "status": "Status",
+    "submittedBy": "Submitted By",
+    "reviewedBy": "Reviewed By",
+    "submittedAt": "Submitted At",
+    "reviewedAt": "Reviewed At",
+    "noRequests": "No pending requests",
+    "fieldName": "Field",
+    "oldValue": "Current Value",
+    "newValue": "New Value",
+    "timeEntry": "Time Entry",
+    "approveConfirm": "Are you sure you want to approve this edit request?",
+    "rejectConfirm": "Are you sure you want to reject this edit request?",
+    "fields": {
+      "clockIn": "Clock In",
+      "clockOut": "Clock Out",
+      "breakMinutes": "Break Minutes",
+      "locationId": "Location"
+    }
+  },
+  "audit": {
+    "title": "Audit Log",
+    "action": "Action",
+    "timestamp": "Timestamp",
+    "user": "User",
+    "changes": "Changes",
+    "before": "Before",
+    "after": "After",
+    "noChanges": "No changes recorded",
+    "viewHistory": "View History",
+    "actions": {
+      "TIME_ENTRY_CREATED": "Time Entry Created",
+      "TIME_ENTRY_UPDATED": "Time Entry Updated",
+      "EDIT_REQUEST_CREATED": "Edit Request Created",
+      "EDIT_REQUEST_APPROVED": "Edit Request Approved",
+      "EDIT_REQUEST_REJECTED": "Edit Request Rejected"
+    }
   },
   "reports": {
     "title": "Reports",

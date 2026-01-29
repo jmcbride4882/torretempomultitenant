@@ -5,6 +5,7 @@ import { useAuthStore } from './lib/store';
 import { authApi } from './lib/api';
 import LandingPage from './features/landing/LandingPage';
 import { ClockingPage } from './features/clocking/ClockingPage';
+import { ApprovalsPage } from './features/approvals/ApprovalsPage';
 
 // Login Page
 function LoginPage() {
@@ -129,6 +130,7 @@ function DashboardPage() {
             <a href="/app/dashboard" className="text-sm font-medium text-blue-600">Dashboard</a>
             <a href="/app/clock" className="text-sm font-medium text-gray-600 hover:text-gray-900">Fichar</a>
             <a href="/app/entries" className="text-sm font-medium text-gray-600 hover:text-gray-900">Registros</a>
+            <a href="/app/approvals" className="text-sm font-medium text-gray-600 hover:text-gray-900">Approvals</a>
           </nav>
         </div>
       </header>
@@ -195,10 +197,19 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/app/approvals"
+        element={
+          <ProtectedRoute>
+            <ApprovalsPage />
+          </ProtectedRoute>
+        }
+      />
       
       {/* Redirects */}
       <Route path="/dashboard" element={<Navigate to="/app/dashboard" replace />} />
       <Route path="/clock" element={<Navigate to="/app/clock" replace />} />
+      <Route path="/approvals" element={<Navigate to="/app/approvals" replace />} />
     </Routes>
   );
 }
