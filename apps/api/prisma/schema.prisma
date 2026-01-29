@@ -57,11 +57,13 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  timeEntries  TimeEntry[]
-  editRequests EditRequest[] @relation("RequestedBy")
-  approvals    EditRequest[] @relation("ApprovedBy")
-  schedules    Schedule[]
-  signatures   Signature[]
+  timeEntries       TimeEntry[]
+  editRequests      EditRequest[] @relation("RequestedBy")
+  approvals         EditRequest[] @relation("ApprovedBy")
+  schedules         Schedule[]
+  signatures        Signature[]
+  overtimeEntries   OvertimeEntry[]
+  approvedOvertimes OvertimeEntry[] @relation("OvertimeApprovedBy")
 
   @@unique([tenantId, email])
   @@map("users")
@@ -161,8 +163,9 @@ model TimeEntry {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  editRequests EditRequest[]
-  breaks       BreakEntry[]
+  editRequests    EditRequest[]
+  breaks          BreakEntry[]
+  overtimeEntries OvertimeEntry[]
 
   @@index([tenantId, userId, clockIn])
   @@map("time_entries")
@@ -193,6 +196,43 @@ model BreakEntry {
   
   @@index([timeEntryId])
   @@map("break_entries")
+}
+
+model OvertimeEntry {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  userId      String   @db.Uuid
+  user        User     @relation(fields: [userId], references: [id])
+  
+  timeEntryId String   @db.Uuid
+  timeEntry   TimeEntry @relation(fields: [timeEntryId], references: [id])
+  
+  hours       Float    // Overtime hours
+  type        OvertimeType @default(ORDINARY)
+  
+  // Compensation
+  compensationType CompensationType @default(TIME_OFF)
+  compensatedAt    DateTime?
+  
+  // Approval
+  approvedById String?  @db.Uuid
+  approvedBy   User?    @relation("OvertimeApprovedBy", fields: [approvedById], references: [id])
+  approvedAt   DateTime?
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([tenantId, userId, createdAt])
+  @@map("overtime_entries")
+}
+
+enum OvertimeType {
+  ORDINARY      // Normal overtime
+  FORCE_MAJEURE // Emergency/force majeure (exempt from 80h limit)
+}
+
+enum CompensationType {
+  TIME_OFF // Compensated with time off (within 4 months)
+  PAY      // Compensated with pay (175% minimum)
 }
 
 // ============================================
