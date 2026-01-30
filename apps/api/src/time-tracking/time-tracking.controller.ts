@@ -33,6 +33,8 @@ export class TimeTrackingController {
    * POST /api/time-tracking/clock-in
    */
   @Post('clock-in')
+  @UseGuards(RolesGuard)
+  @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async clockIn(@CurrentUser() user: any, @Body() dto: ClockInDto) {
     return this.timeTrackingService.clockIn(
       user.id,
@@ -48,6 +50,8 @@ export class TimeTrackingController {
    * POST /api/time-tracking/clock-out
    */
   @Post('clock-out')
+  @UseGuards(RolesGuard)
+  @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async clockOut(@CurrentUser() user: any, @Body() dto: ClockOutDto) {
     return this.timeTrackingService.clockOut(
       user.id,
@@ -63,6 +67,8 @@ export class TimeTrackingController {
    * GET /api/time-tracking/current
    */
   @Get('current')
+  @UseGuards(RolesGuard)
+  @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async getCurrentEntry(@CurrentUser() user: any) {
     return this.timeTrackingService.getCurrentEntry(user.id, user.tenantId);
   }
@@ -72,6 +78,8 @@ export class TimeTrackingController {
    * GET /api/time-tracking/entries
    */
   @Get('entries')
+  @UseGuards(RolesGuard)
+  @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async getMyEntries(
     @CurrentUser() user: any,
     @Query('page') page?: string,
@@ -93,7 +101,7 @@ export class TimeTrackingController {
    */
   @Get('all')
   @UseGuards(RolesGuard)
-  @Roles(Role.MANAGER, Role.ADMIN)
+  @Roles(Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async getAllEntries(
     @CurrentUser() user: any,
     @Query('page') page?: string,
@@ -113,6 +121,8 @@ export class TimeTrackingController {
    * POST /api/time-tracking/breaks/start
    */
   @Post('breaks/start')
+  @UseGuards(RolesGuard)
+  @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async startBreak(@CurrentUser() user: any, @Body() dto: StartBreakDto) {
     return this.timeTrackingService.startBreak(dto.timeEntryId, user.id);
   }
@@ -122,6 +132,8 @@ export class TimeTrackingController {
    * POST /api/time-tracking/breaks/end
    */
   @Post('breaks/end')
+  @UseGuards(RolesGuard)
+  @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async endBreak(@CurrentUser() user: any, @Body() dto: EndBreakDto) {
     return this.timeTrackingService.endBreak(dto.breakId, user.id);
   }
@@ -131,6 +143,8 @@ export class TimeTrackingController {
    * GET /api/time-tracking/breaks/:timeEntryId
    */
   @Get('breaks/:timeEntryId')
+  @UseGuards(RolesGuard)
+  @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async getBreaks(@Param('timeEntryId') timeEntryId: string) {
     return this.timeTrackingService.getBreaks(timeEntryId);
   }
@@ -141,7 +155,7 @@ export class TimeTrackingController {
    */
   @Get('clocked-in')
   @UseGuards(RolesGuard)
-  @Roles(Role.MANAGER, Role.ADMIN)
+  @Roles(Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async getClockedInEmployees(
     @CurrentUser() user: any,
   ): Promise<ClockedInEmployeeDto[]> {
@@ -154,7 +168,7 @@ export class TimeTrackingController {
    */
   @Get('team-stats')
   @UseGuards(RolesGuard)
-  @Roles(Role.MANAGER, Role.ADMIN)
+  @Roles(Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async getTeamStats(@CurrentUser() user: any): Promise<TeamStatsDto> {
     return this.timeTrackingService.getTeamStats(user.tenantId);
   }
