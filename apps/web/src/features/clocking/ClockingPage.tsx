@@ -343,26 +343,26 @@ export function ClockingPage() {
     }
   }, [currentEntry?.id]);
 
-  const fetchActiveBreak = async () => {
-    if (!currentEntry?.id) return;
-    try {
-      const response = await api.get<any[]>(`/time-tracking/breaks/${currentEntry.id}`);
-      const activeBreak = response.find((b: any) => !b.endedAt);
-      setActiveBreak(activeBreak || null);
-    } catch (error) {
-      console.error('Failed to fetch active break:', error);
-    }
-  };
+   const fetchActiveBreak = async () => {
+     if (!currentEntry?.id) return;
+     try {
+       const response = await api.get<any[]>(`/time-tracking/breaks/${currentEntry.id}`);
+       const activeBreak = response.find((b: any) => !b.endedAt);
+       setActiveBreak(activeBreak || null);
+     } catch {
+       // Failed to fetch active break - continue with null state
+     }
+   };
 
-  const fetchBreaks = async () => {
-    if (!currentEntry?.id) return;
-    try {
-      const response = await api.get<any[]>(`/time-tracking/breaks/${currentEntry.id}`);
-      setBreaks(response);
-    } catch (error) {
-      console.error('Failed to fetch breaks:', error);
-    }
-  };
+   const fetchBreaks = async () => {
+     if (!currentEntry?.id) return;
+     try {
+       const response = await api.get<any[]>(`/time-tracking/breaks/${currentEntry.id}`);
+       setBreaks(response);
+     } catch {
+       // Failed to fetch breaks - continue with empty state
+     }
+   };
 
   const startBreakMutation = useMutation({
     mutationFn: async (timeEntryId: string) => {

@@ -441,20 +441,29 @@ export class TimeTrackingService {
       throw new BadRequestException('Already on break');
     }
 
-    // Create break entry
-    const breakEntry = await this.prisma.breakEntry.create({
-      data: {
-        timeEntryId,
-        startedAt: new Date(),
-      },
-    });
+     // Create break entry
+     const breakEntry = await this.prisma.breakEntry.create({
+       data: {
+         timeEntryId,
+         startedAt: new Date(),
+       },
+     });
 
-    this.logger.log(`Break started for time entry ${timeEntryId}`);
+     this.logger.log(`Break started for time entry ${timeEntryId}`);
 
-    // TODO: Audit log
-    // await this.auditService.logBreakStarted(breakEntry);
+     // Log to audit
+     await this.auditService.createLog({
+       tenantId: timeEntry.tenantId,
+       action: 'CREATE',
+       entity: 'BREAK_ENTRY',
+       entityId: breakEntry.id,
+       actorId: userId,
+       changes: {
+         startedAt: breakEntry.startedAt.toISOString(),
+       },
+     });
 
-    return breakEntry;
+     return breakEntry;
   }
 
   /**
@@ -487,18 +496,27 @@ export class TimeTrackingService {
       );
     }
 
-    // Update break entry
-    const updatedBreak = await this.prisma.breakEntry.update({
-      where: { id: breakId },
-      data: { endedAt: new Date() },
-    });
+     // Update break entry
+     const updatedBreak = await this.prisma.breakEntry.update({
+       where: { id: breakId },
+       data: { endedAt: new Date() },
+     });
 
-    this.logger.log(`Break ended for time entry ${breakEntry.timeEntryId}`);
+     this.logger.log(`Break ended for time entry ${breakEntry.timeEntryId}`);
 
-    // TODO: Audit log
-    // await this.auditService.logBreakEnded(updatedBreak);
+     // Log to audit
+     await this.auditService.createLog({
+       tenantId: breakEntry.timeEntry.tenantId,
+       action: 'UPDATE',
+       entity: 'BREAK_ENTRY',
+       entityId: breakId,
+       actorId: userId,
+       changes: {
+         endedAt: updatedBreak.endedAt?.toISOString(),
+       },
+     });
 
-    return updatedBreak;
+     return updatedBreak;
   }
 
   /**

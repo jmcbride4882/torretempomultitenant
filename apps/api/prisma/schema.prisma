@@ -15,11 +15,11 @@ datasource db {
 // ============================================
 
 model Tenant {
-  id        String   @id @default(uuid()) @db.Uuid
-  name      String
-  slug      String   @unique
-  timezone  String   @default("Europe/Madrid")
-  locale    String   @default("es")
+  id       String @id @default(uuid()) @db.Uuid
+  name     String
+  slug     String @unique
+  timezone String @default("Europe/Madrid")
+  locale   String @default("es")
 
   // Convenio settings
   convenioCode   String? // e.g., "30000805011981"
@@ -58,8 +58,8 @@ model User {
   updatedAt DateTime @updatedAt
 
   timeEntries       TimeEntry[]
-  editRequests      EditRequest[] @relation("RequestedBy")
-  approvals         EditRequest[] @relation("ApprovedBy")
+  editRequests      EditRequest[]   @relation("RequestedBy")
+  approvals         EditRequest[]   @relation("ApprovedBy")
   schedules         Schedule[]
   signatures        Signature[]
   overtimeEntries   OvertimeEntry[]
@@ -157,6 +157,11 @@ model TimeEntry {
   syncedAt     DateTime?
   conflictFlag Boolean   @default(false)
 
+  // Schedule integration
+  scheduleId        String?   @db.Uuid
+  schedule          Schedule? @relation(fields: [scheduleId], references: [id])
+  validationWarning String?
+
   // Status
   status EntryStatus @default(ACTIVE)
 
@@ -188,51 +193,51 @@ model BreakEntry {
   id          String    @id @default(uuid()) @db.Uuid
   timeEntryId String    @db.Uuid
   timeEntry   TimeEntry @relation(fields: [timeEntryId], references: [id], onDelete: Cascade)
-  
-  startedAt   DateTime
-  endedAt     DateTime?
-  
-  createdAt   DateTime  @default(now())
-  
+
+  startedAt DateTime
+  endedAt   DateTime?
+
+  createdAt DateTime @default(now())
+
   @@index([timeEntryId])
   @@map("break_entries")
 }
 
 model OvertimeEntry {
-  id          String   @id @default(uuid()) @db.Uuid
-  tenantId    String   @db.Uuid
-  userId      String   @db.Uuid
-  user        User     @relation(fields: [userId], references: [id])
-  
-  timeEntryId String   @db.Uuid
+  id       String @id @default(uuid()) @db.Uuid
+  tenantId String @db.Uuid
+  userId   String @db.Uuid
+  user     User   @relation(fields: [userId], references: [id])
+
+  timeEntryId String    @db.Uuid
   timeEntry   TimeEntry @relation(fields: [timeEntryId], references: [id])
-  
-  hours       Float    // Overtime hours
-  type        OvertimeType @default(ORDINARY)
-  
+
+  hours Float // Overtime hours
+  type  OvertimeType @default(ORDINARY)
+
   // Compensation
   compensationType CompensationType @default(TIME_OFF)
   compensatedAt    DateTime?
-  
+
   // Approval
-  approvedById String?  @db.Uuid
-  approvedBy   User?    @relation("OvertimeApprovedBy", fields: [approvedById], references: [id])
+  approvedById String?   @db.Uuid
+  approvedBy   User?     @relation("OvertimeApprovedBy", fields: [approvedById], references: [id])
   approvedAt   DateTime?
-  
-  createdAt   DateTime @default(now())
-  
+
+  createdAt DateTime @default(now())
+
   @@index([tenantId, userId, createdAt])
   @@map("overtime_entries")
 }
 
 enum OvertimeType {
-  ORDINARY      // Normal overtime
+  ORDINARY // Normal overtime
   FORCE_MAJEURE // Emergency/force majeure (exempt from 80h limit)
 }
 
 enum CompensationType {
   TIME_OFF // Compensated with time off (within 4 months)
-  PAY      // Compensated with pay (175% minimum)
+  PAY // Compensated with pay (175% minimum)
 }
 
 // ============================================
@@ -346,6 +351,8 @@ model Schedule {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  timeEntries TimeEntry[]
 
   // Removed unique constraint on userId+date since userId can be null for open shifts
   // Multiple open shifts can exist for the same date

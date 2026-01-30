@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 import { Role } from '@torre-tempo/shared';
 import { useAuthStore, useUIStore } from '../../lib/store';
+import { api } from '../../lib/api';
 import { TopNav } from './TopNav';
 import { Sidebar } from './Sidebar';
 import { Breadcrumbs } from './Breadcrumbs';
@@ -10,6 +12,11 @@ import { BottomNav } from '../BottomNav';
 
 interface AppLayoutProps {
   children: React.ReactNode;
+}
+
+interface EditRequest {
+  id: string;
+  status: string;
 }
 
 /**
@@ -26,22 +33,28 @@ export function AppLayout({ children }: AppLayoutProps) {
   const isSidebarOpen = useUIStore((state) => state.isSidebarOpen);
   
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [pendingApprovals, setPendingApprovals] = useState(0);
 
-  // Mock fetch pending approvals - replace with actual API call
-  useEffect(() => {
-    // TODO: Fetch actual pending approvals count
-    // GET /api/approvals/edit-requests?status=PENDING
-    const isManagerOrAbove = 
-      user?.role === Role.MANAGER || 
-      user?.role === Role.ADMIN || 
-      user?.role === Role.GLOBAL_ADMIN;
-    
-    if (isManagerOrAbove) {
-      // Simulated count - replace with API call
-      setPendingApprovals(3);
-    }
-  }, [user]);
+  // Check if user is manager or above
+  const isManagerOrAbove = 
+    user?.role === Role.MANAGER || 
+    user?.role === Role.ADMIN || 
+    user?.role === Role.GLOBAL_ADMIN;
+
+  // Fetch pending approvals with real-time polling
+  const { data: pendingApprovalsList = [] } = useQuery<EditRequest[]>({
+    queryKey: ['pending-approvals'],
+    queryFn: async () => {
+      try {
+        return await api.get<EditRequest[]>('/approvals/edit-requests?status=PENDING');
+      } catch {
+        return [];
+      }
+    },
+    refetchInterval: 30000, // Poll every 30s
+    enabled: isManagerOrAbove, // Only fetch if user is manager or above
+  });
+
+  const pendingApprovals = pendingApprovalsList.length;
 
   // Close mobile menu when route changes
   useEffect(() => {

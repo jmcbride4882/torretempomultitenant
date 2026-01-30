@@ -18,7 +18,6 @@ export function QRScanner({ onScan, onClose }: QRScannerProps) {
   };
 
   const handleError = (err: Error) => {
-    console.error('QR scan error:', err);
     if (err.message.includes('Permission')) {
       setError(t('qr.cameraPermissionDenied'));
     } else {
