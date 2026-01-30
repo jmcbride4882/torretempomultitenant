@@ -218,3 +218,64 @@ All documentation is production-ready and can be:
 - Included in onboarding materials
 - Referenced for training sessions
 
+## Branding and Copyright Verification (2026-01-30)
+
+### Verified Implementation
+All LSLT Group branding requirements were already implemented:
+
+1. **Footer in AppLayout.tsx** (lines 285-290)
+   - Shows: "© 2026 LSLT Group | Developed by John McBride"
+   - Styling: text-xs, centered, slate-500 color
+   - Responsive: Uses Tailwind responsive padding classes
+   - Dark mode supported: dark:text-slate-400, dark:bg-slate-900
+
+2. **Footer Visibility**
+   - Only on authenticated pages (inside AppLayout)
+   - NOT on landing page (LandingPage rendered standalone)
+   - Route structure confirmed in App.tsx
+
+3. **README.md Updated**
+   - Title: "LSLT Group Internal Staff Clocking System"
+   - Clear internal deployment messaging
+   - No commercial/SaaS language
+   - Developer credit: John McBride
+   - Support email: info@lsltgroup.es
+
+### Build Verification
+- npm run build: SUCCESS
+- All packages compiled (shared, api, web)
+- PWA service worker generated
+
+
+## Landing Page Internal Simplification (2026-01-30)
+
+### Changes Made
+1. Added `landing.internal.staffLogin` i18n key to both locale files:
+   - es.json: "Acceso Personal"
+   - en.json: "Staff Login"
+
+2. Updated hero CTA in LandingPage.tsx to use `t('landing.internal.staffLogin')` instead of `t('landing.hero.cta')`
+
+### Pre-existing State (Already Implemented)
+- **Internal badge**: Already present in hero section using `landing.internal.badge`
+- **No pricing section**: Component never had pricing section (only i18n keys existed unused)
+- **Hero CTA already linked to /login**: Was using generic `landing.hero.cta` key
+- **Footer already branded**: Shows LSLT Group and developer attribution
+
+### Landing Page Structure (Post-Change)
+1. Navbar - Features, FAQ links, language toggle, Login button
+2. Hero - Internal badge, title, subtitle, "Staff Login" CTA, "See Features" secondary CTA
+3. Trust Badges - RD-Ley 8/2019, RGPD, 5-year retention, No biometrics
+4. Features Section - 6 feature cards (QR, Geo, Offline, Approvals, Reports, Multi-language)
+5. How It Works - 3-step process
+6. FAQ Section - 4 questions about legal compliance, offline, data storage, plan changes
+7. CTA Section - "Ready to clock in?" with Login button
+8. Footer - LSLT Group branding, product/legal links, contact info
+
+### Verification
+- Build passes: `npm run build` succeeded in apps/web
+- No pricing section visible
+- No "Free Trial" CTAs anywhere
+- "Staff Login" / "Acceso Personal" button links to /login
+- Internal staff badge prominently displayed
+

@@ -17,7 +17,8 @@
   },
   "landing": {
     "internal": {
-      "badge": "Solo para Personal de LSLT Group"
+      "badge": "Solo para Personal de LSLT Group",
+      "staffLogin": "Acceso Personal"
     },
     "nav": {
       "features": "Caracteristicas",

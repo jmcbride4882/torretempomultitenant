@@ -112,7 +112,7 @@ export default function LandingPage() {
               to="/login"
               className="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-medium hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/30"
             >
-              {t('landing.hero.cta')}
+              {t('landing.internal.staffLogin')}
             </Link>
             <a
               href="#features"

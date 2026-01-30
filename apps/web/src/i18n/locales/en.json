@@ -17,7 +17,8 @@
   },
   "landing": {
     "internal": {
-      "badge": "For LSLT Group Staff Only"
+      "badge": "For LSLT Group Staff Only",
+      "staffLogin": "Staff Login"
     },
     "nav": {
       "features": "Features",
