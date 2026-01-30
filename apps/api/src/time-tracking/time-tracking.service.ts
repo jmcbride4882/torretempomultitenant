@@ -13,7 +13,9 @@ import { ComplianceService } from '../compliance/compliance.service';
 import { OvertimeService } from '../overtime/overtime.service';
 import { ClockInDto } from './dto/clock-in.dto';
 import { ClockOutDto } from './dto/clock-out.dto';
-import { EntryOrigin, EntryStatus } from '@prisma/client';
+import { TeamStatsDto } from './dto/team-stats.dto';
+import { ClockedInEmployeeDto } from './dto/clocked-in-employee.dto';
+import { EntryOrigin, EntryStatus, Role } from '@prisma/client';
 import { differenceInMinutes } from 'date-fns';
 
 @Injectable()
@@ -519,5 +521,382 @@ export class TimeTrackingService {
         endedAt: null,
       },
     });
+  }
+
+  /**
+   * Get list of currently clocked-in employees
+   * Returns employee details with clock-in time and duration
+   */
+  async getClockedInEmployees(tenantId: string): Promise<ClockedInEmployeeDto[]> {
+    const activeEntries = await this.prisma.timeEntry.findMany({
+      where: {
+        tenantId,
+        clockOut: null,
+        status: EntryStatus.ACTIVE,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        location: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        clockIn: 'desc',
+      },
+    });
+
+    const now = new Date();
+
+    return activeEntries.map((entry) => {
+      const clockIn = new Date(entry.clockIn);
+      const durationMs = now.getTime() - clockIn.getTime();
+      const durationMinutes = Math.round(durationMs / 60000);
+
+      return {
+        userId: entry.user.id,
+        userName: `${entry.user.firstName} ${entry.user.lastName}`,
+        location: entry.location?.name ?? null,
+        clockInTime: entry.clockIn.toISOString(),
+        duration: durationMinutes,
+      };
+    });
+  }
+
+  /**
+   * Get team statistics for manager dashboard
+   * Returns real-time stats: total employees, clocked in, hours today/week, overtime
+   */
+  async getTeamStats(tenantId: string): Promise<TeamStatsDto> {
+    // Get tenant with timezone for date calculations
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { timezone: true },
+    });
+
+    if (!tenant) {
+      throw new NotFoundException('Tenant not found');
+    }
+
+    const now = new Date();
+    const timezone = tenant.timezone;
+
+    // Calculate today's range in tenant timezone
+    const { start: todayStart, end: todayEnd } = this.getZonedDayRange(
+      now,
+      timezone,
+    );
+
+    // Calculate this week's range (Mon-Sun) in tenant timezone
+    const weekStart = this.getZonedStartOfWeek(now, timezone);
+    const weekEnd = this.addZonedDays(weekStart, timezone, 7);
+
+    // Execute all queries in parallel for performance
+    const [
+      totalEmployees,
+      clockedIn,
+      todayEntries,
+      weekEntries,
+      overtimeEntries,
+    ] = await Promise.all([
+      // Count total employees (EMPLOYEE or MANAGER role)
+      this.prisma.user.count({
+        where: {
+          tenantId,
+          isActive: true,
+          role: { in: [Role.EMPLOYEE, Role.MANAGER] },
+        },
+      }),
+
+      // Count currently clocked in users
+      this.prisma.timeEntry.count({
+        where: {
+          tenantId,
+          clockOut: null,
+          status: EntryStatus.ACTIVE,
+        },
+      }),
+
+      // Get all time entries for today
+      this.prisma.timeEntry.findMany({
+        where: {
+          tenantId,
+          status: EntryStatus.ACTIVE,
+          clockIn: { lt: todayEnd },
+          OR: [{ clockOut: { gte: todayStart } }, { clockOut: null }],
+        },
+        select: {
+          clockIn: true,
+          clockOut: true,
+          breakMinutes: true,
+        },
+      }),
+
+      // Get all time entries for this week
+      this.prisma.timeEntry.findMany({
+        where: {
+          tenantId,
+          status: EntryStatus.ACTIVE,
+          clockIn: { lt: weekEnd },
+          OR: [{ clockOut: { gte: weekStart } }, { clockOut: null }],
+        },
+        select: {
+          clockIn: true,
+          clockOut: true,
+          breakMinutes: true,
+        },
+      }),
+
+      // Get approved overtime for this week
+      this.prisma.overtimeEntry.findMany({
+        where: {
+          tenantId,
+          approvedAt: { not: null },
+          createdAt: { gte: weekStart, lt: weekEnd },
+        },
+        select: {
+          hours: true,
+        },
+      }),
+    ]);
+
+    // Calculate total hours today
+    const totalHoursToday = this.calculateTotalHours(
+      todayEntries,
+      todayStart,
+      todayEnd,
+      now,
+    );
+
+    // Calculate total hours this week
+    const totalHoursWeek = this.calculateTotalHours(
+      weekEntries,
+      weekStart,
+      weekEnd,
+      now,
+    );
+
+    // Sum approved overtime hours
+    const overtimeHours = overtimeEntries.reduce(
+      (sum, entry) => sum + entry.hours,
+      0,
+    );
+
+    return {
+      totalEmployees,
+      clockedIn,
+      totalHoursToday: Math.round(totalHoursToday * 100) / 100, // Round to 2 decimals
+      totalHoursWeek: Math.round(totalHoursWeek * 100) / 100,
+      overtimeHours: Math.round(overtimeHours * 100) / 100,
+    };
+  }
+
+  /**
+   * Calculate total worked hours from time entries within a date range
+   * Accounts for partial overlaps and subtracts break minutes
+   */
+  private calculateTotalHours(
+    entries: Array<{
+      clockIn: Date;
+      clockOut: Date | null;
+      breakMinutes: number | null;
+    }>,
+    rangeStart: Date,
+    rangeEnd: Date,
+    now: Date,
+  ): number {
+    let totalMinutes = 0;
+
+    for (const entry of entries) {
+      const entryEnd = entry.clockOut ?? now;
+
+      // Calculate overlap between entry and range
+      const overlapStart =
+        entry.clockIn > rangeStart ? entry.clockIn : rangeStart;
+      const overlapEnd = entryEnd < rangeEnd ? entryEnd : rangeEnd;
+
+      if (overlapEnd <= overlapStart) {
+        continue; // No overlap
+      }
+
+      const overlapMinutes = differenceInMinutes(overlapEnd, overlapStart);
+      const totalEntryMinutes = differenceInMinutes(entryEnd, entry.clockIn);
+      const breakMinutes = entry.breakMinutes ?? 0;
+
+      // Proportionally allocate break time to the overlap
+      if (breakMinutes > 0 && totalEntryMinutes > 0) {
+        const ratio = overlapMinutes / totalEntryMinutes;
+        const allocatedBreak = Math.min(breakMinutes * ratio, overlapMinutes);
+        totalMinutes += Math.max(0, overlapMinutes - allocatedBreak);
+      } else {
+        totalMinutes += overlapMinutes;
+      }
+    }
+
+    return totalMinutes / 60; // Convert to hours
+  }
+
+  /**
+   * Get today's date range in tenant timezone
+   */
+  private getZonedDayRange(date: Date, timeZone: string) {
+    const start = this.getZonedStartOfDay(date, timeZone);
+    const nextDate = this.addZonedDays(date, timeZone, 1);
+    const end = this.getZonedStartOfDay(nextDate, timeZone);
+    return { start, end };
+  }
+
+  /**
+   * Get start of week (Monday) in tenant timezone
+   */
+  private getZonedStartOfWeek(date: Date, timeZone: string): Date {
+    const weekday = this.getZonedWeekday(date, timeZone);
+    const weekStartsOn = 1; // Monday
+    const daysSinceWeekStart = (weekday - weekStartsOn + 7) % 7;
+    const weekStartDate = this.addZonedDays(date, timeZone, -daysSinceWeekStart);
+    return this.getZonedStartOfDay(weekStartDate, timeZone);
+  }
+
+  /**
+   * Get weekday (0=Sun, 1=Mon, ..., 6=Sat) in tenant timezone
+   */
+  private getZonedWeekday(date: Date, timeZone: string): number {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      weekday: 'short',
+    });
+    const weekday = formatter.format(date);
+    const map: Record<string, number> = {
+      Sun: 0,
+      Mon: 1,
+      Tue: 2,
+      Wed: 3,
+      Thu: 4,
+      Fri: 5,
+      Sat: 6,
+    };
+    return map[weekday] ?? 0;
+  }
+
+  /**
+   * Get start of day (00:00:00) in tenant timezone
+   */
+  private getZonedStartOfDay(date: Date, timeZone: string): Date {
+    const parts = this.getZonedDateParts(date, timeZone);
+    return this.zonedTimeToUtc(
+      {
+        year: parts.year,
+        month: parts.month,
+        day: parts.day,
+        hour: 0,
+        minute: 0,
+        second: 0,
+      },
+      timeZone,
+    );
+  }
+
+  /**
+   * Add days to a date in tenant timezone (handles DST correctly)
+   */
+  private addZonedDays(date: Date, timeZone: string, days: number): Date {
+    const parts = this.getZonedDateParts(date, timeZone);
+    const midday = this.zonedTimeToUtc(
+      {
+        year: parts.year,
+        month: parts.month,
+        day: parts.day,
+        hour: 12,
+        minute: 0,
+        second: 0,
+      },
+      timeZone,
+    );
+    return new Date(midday.getTime() + days * 24 * 60 * 60 * 1000);
+  }
+
+  /**
+   * Parse date into components in tenant timezone
+   */
+  private getZonedDateParts(date: Date, timeZone: string) {
+    const formatter = new Intl.DateTimeFormat('en-CA', {
+      timeZone,
+      hourCycle: 'h23',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+
+    const parts = formatter.formatToParts(date);
+    const values: Record<string, string> = {};
+
+    for (const part of parts) {
+      if (part.type !== 'literal') {
+        values[part.type] = part.value;
+      }
+    }
+
+    return {
+      year: Number(values.year),
+      month: Number(values.month),
+      day: Number(values.day),
+      hour: Number(values.hour),
+      minute: Number(values.minute),
+      second: Number(values.second),
+    };
+  }
+
+  /**
+   * Convert zoned time components to UTC Date
+   */
+  private zonedTimeToUtc(
+    parts: {
+      year: number;
+      month: number;
+      day: number;
+      hour?: number;
+      minute?: number;
+      second?: number;
+    },
+    timeZone: string,
+  ): Date {
+    const utcDate = new Date(
+      Date.UTC(
+        parts.year,
+        parts.month - 1,
+        parts.day,
+        parts.hour ?? 0,
+        parts.minute ?? 0,
+        parts.second ?? 0,
+      ),
+    );
+    const offset = this.getTimeZoneOffsetMs(utcDate, timeZone);
+    return new Date(utcDate.getTime() - offset);
+  }
+
+  /**
+   * Get timezone offset in milliseconds
+   */
+  private getTimeZoneOffsetMs(date: Date, timeZone: string): number {
+    const parts = this.getZonedDateParts(date, timeZone);
+    const utcTime = Date.UTC(
+      parts.year,
+      parts.month - 1,
+      parts.day,
+      parts.hour,
+      parts.minute,
+      parts.second,
+    );
+    return utcTime - date.getTime();
   }
 }

@@ -556,6 +556,47 @@ export class SchedulingService {
     );
   }
 
+  /**
+   * Get team schedules for next 7 days (Manager Dashboard)
+   */
+  async getTeamSchedules(tenantId: string) {
+    const today = new Date();
+    const sevenDaysLater = new Date();
+    sevenDaysLater.setDate(today.getDate() + 7);
+
+    const schedules = await this.prisma.schedule.findMany({
+      where: {
+        tenantId,
+        date: {
+          gte: today,
+          lte: sevenDaysLater,
+        },
+        isPublished: true,
+      },
+      include: {
+        user: { select: { firstName: true, lastName: true } },
+        shift: {
+          select: {
+            name: true,
+          },
+          include: {
+            location: { select: { name: true } },
+          },
+        },
+      },
+      orderBy: { date: 'asc' },
+    });
+
+    return schedules
+      .filter((schedule) => schedule.user && schedule.shift.location)
+      .map((schedule) => ({
+        date: schedule.date.toISOString().split('T')[0],
+        user: `${schedule.user!.firstName} ${schedule.user!.lastName}`,
+        shift: schedule.shift.name,
+        location: schedule.shift.location!.name,
+      }));
+  }
+
   // ============================================
   // COMPLIANCE: Scheduled vs Actual Hours
   // ============================================

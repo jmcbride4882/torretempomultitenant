@@ -278,7 +278,7 @@ export function ManagerDashboard() {
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => navigate('/app/team')}
-                className="flex items-center justify-center gap-3 px-6 py-4 bg-white text-slate-800 hover:bg-slate-100 rounded-xl transition-all font-semibold shadow-lg hover:shadow-xl active:scale-95"
+                className="flex items-center justify-center gap-3 px-6 py-4 bg-white text-slate-800 hover:bg-slate-100 rounded-xl transition-all font-semibold shadow-lg hover:shadow-xl active:scale-95 min-h-[52px] text-base md:text-sm"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -287,7 +287,7 @@ export function ManagerDashboard() {
               </button>
               <button
                 onClick={() => navigate('/app/reports')}
-                className="flex items-center justify-center gap-3 px-6 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all font-semibold backdrop-blur-sm"
+                className="flex items-center justify-center gap-3 px-6 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all font-semibold backdrop-blur-sm min-h-[52px] text-base md:text-sm"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -296,7 +296,7 @@ export function ManagerDashboard() {
               </button>
               <button
                 onClick={() => navigate('/app/schedules')}
-                className="flex items-center justify-center gap-3 px-6 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all font-semibold backdrop-blur-sm"
+                className="flex items-center justify-center gap-3 px-6 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all font-semibold backdrop-blur-sm min-h-[52px] text-base md:text-sm"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -313,7 +313,7 @@ export function ManagerDashboard() {
           ═══════════════════════════════════════════════════════════════════ */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Hours This Week */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className={`p-3 rounded-xl ${hoursStatus.bg}`}>
@@ -322,17 +322,17 @@ export function ManagerDashboard() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('dashboard.manager.totalHoursThisWeek')}
                 </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                <p className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
                   {teamStats?.totalHoursThisWeek ?? 0}h
                 </p>
               </div>
             </div>
           </div>
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-            <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center justify-between text-sm md:text-xs">
               <span className="text-slate-500 dark:text-slate-400">
                 Expected: {teamStats?.expectedHoursThisWeek ?? 480}h
               </span>
@@ -340,9 +340,9 @@ export function ManagerDashboard() {
                 {Math.round(((teamStats?.totalHoursThisWeek ?? 0) / (teamStats?.expectedHoursThisWeek ?? 480)) * 100)}%
               </span>
             </div>
-            <div className="mt-2 w-full bg-slate-200 dark:bg-slate-600 rounded-full h-1.5 overflow-hidden">
+            <div className="mt-2 w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2 md:h-1.5 overflow-hidden">
               <div
-                className={`h-1.5 rounded-full transition-all duration-500 ${hoursStatus.status === 'good' ? 'bg-emerald-500' : hoursStatus.status === 'warning' ? 'bg-amber-500' : 'bg-red-500'}`}
+                className={`h-2 md:h-1.5 rounded-full transition-all duration-500 ${hoursStatus.status === 'good' ? 'bg-emerald-500' : hoursStatus.status === 'warning' ? 'bg-amber-500' : 'bg-red-500'}`}
                 style={{ width: `${Math.min(((teamStats?.totalHoursThisWeek ?? 0) / (teamStats?.expectedHoursThisWeek ?? 480)) * 100, 100)}%` }}
               />
             </div>
@@ -352,7 +352,7 @@ export function ManagerDashboard() {
         {/* Pending Approvals */}
         <button
           onClick={() => navigate('/app/approvals')}
-          className="text-left bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md hover:border-blue-200 dark:hover:border-blue-700 transition-all group"
+          className="text-left bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md hover:border-blue-200 dark:hover:border-blue-700 transition-all group min-h-[120px]"
         >
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
@@ -367,10 +367,10 @@ export function ManagerDashboard() {
                 )}
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('dashboard.manager.pendingApprovals')}
                 </p>
-                <p className={`text-2xl font-bold ${(teamStats?.pendingApprovals ?? 0) > 10 ? 'text-red-600 dark:text-red-400' : (teamStats?.pendingApprovals ?? 0) > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-900 dark:text-white'}`}>
+                <p className={`text-xl md:text-2xl font-bold ${(teamStats?.pendingApprovals ?? 0) > 10 ? 'text-red-600 dark:text-red-400' : (teamStats?.pendingApprovals ?? 0) > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-900 dark:text-white'}`}>
                   {teamStats?.pendingApprovals ?? 0}
                 </p>
               </div>
@@ -380,14 +380,14 @@ export function ManagerDashboard() {
             </svg>
           </div>
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-            <span className="text-xs text-slate-500 dark:text-slate-400">
+            <span className="text-sm md:text-xs text-slate-500 dark:text-slate-400">
               {(teamStats?.pendingApprovals ?? 0) === 0 ? t('dashboard.manager.allCaughtUp') : 'Click to review'}
             </span>
           </div>
         </button>
 
         {/* Overtime This Week */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className={`p-3 rounded-xl ${overtimeStatus.bg}`}>
@@ -396,17 +396,17 @@ export function ManagerDashboard() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('overtime.title')}
                 </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                <p className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
                   {teamStats?.overtimeHoursThisWeek ?? 0}h
                 </p>
               </div>
             </div>
           </div>
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-            <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center justify-between text-sm md:text-xs">
               <span className="text-slate-500 dark:text-slate-400">
                 Budget: {teamStats?.budgetedOvertime ?? 20}h
               </span>
@@ -414,9 +414,9 @@ export function ManagerDashboard() {
                 {Math.round(((teamStats?.overtimeHoursThisWeek ?? 0) / (teamStats?.budgetedOvertime ?? 20)) * 100)}%
               </span>
             </div>
-            <div className="mt-2 w-full bg-slate-200 dark:bg-slate-600 rounded-full h-1.5 overflow-hidden">
+            <div className="mt-2 w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2 md:h-1.5 overflow-hidden">
               <div
-                className={`h-1.5 rounded-full transition-all duration-500 ${overtimeStatus.status === 'good' ? 'bg-emerald-500' : overtimeStatus.status === 'warning' ? 'bg-amber-500' : 'bg-red-500'}`}
+                className={`h-2 md:h-1.5 rounded-full transition-all duration-500 ${overtimeStatus.status === 'good' ? 'bg-emerald-500' : overtimeStatus.status === 'warning' ? 'bg-amber-500' : 'bg-red-500'}`}
                 style={{ width: `${Math.min(((teamStats?.overtimeHoursThisWeek ?? 0) / (teamStats?.budgetedOvertime ?? 20)) * 100, 100)}%` }}
               />
             </div>
@@ -424,7 +424,7 @@ export function ManagerDashboard() {
         </div>
 
         {/* Compliance Score */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className={`p-3 rounded-xl ${complianceColors.bg}`}>
@@ -433,10 +433,10 @@ export function ManagerDashboard() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   Compliance Score
                 </p>
-                <p className={`text-2xl font-bold ${complianceColors.text}`}>
+                <p className={`text-xl md:text-2xl font-bold ${complianceColors.text}`}>
                   {teamStats?.complianceScore ?? 0}%
                 </p>
               </div>
@@ -444,7 +444,7 @@ export function ManagerDashboard() {
           </div>
           {/* Gauge visualization */}
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-            <div className="relative h-2 bg-slate-200 dark:bg-slate-600 rounded-full overflow-hidden">
+            <div className="relative h-2.5 md:h-2 bg-slate-200 dark:bg-slate-600 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${complianceColors.gauge}`}
                 style={{ width: `${teamStats?.complianceScore ?? 0}%` }}
@@ -453,7 +453,7 @@ export function ManagerDashboard() {
               <div className="absolute top-0 bottom-0 left-[80%] w-0.5 bg-amber-400/50" />
               <div className="absolute top-0 bottom-0 left-[95%] w-0.5 bg-emerald-400/50" />
             </div>
-            <div className="flex justify-between mt-1 text-[10px] text-slate-400">
+            <div className="flex justify-between mt-1 text-xs md:text-[10px] text-slate-400">
               <span>0%</span>
               <span>80%</span>
               <span>95%</span>
@@ -471,21 +471,21 @@ export function ManagerDashboard() {
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
           <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
+              <div className="p-2.5 md:p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
                 <svg className="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z" />
                 </svg>
               </div>
               <div className="flex items-center gap-2">
-                <h3 className="font-semibold text-slate-900 dark:text-white">Team Activity</h3>
+                <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">Team Activity</h3>
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                 </span>
-                <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Live</span>
+                <span className="text-sm md:text-xs text-emerald-600 dark:text-emerald-400 font-medium">Live</span>
               </div>
             </div>
-            <span className="text-sm text-slate-500 dark:text-slate-400">
+            <span className="text-base md:text-sm text-slate-500 dark:text-slate-400">
               {clockedInMembers.length} active
             </span>
           </div>
@@ -500,21 +500,21 @@ export function ManagerDashboard() {
           ) : (
             <div className="divide-y divide-slate-100 dark:divide-slate-700 max-h-[400px] overflow-y-auto">
               {clockedInMembers.map((member) => (
-                <div key={member.id} className="px-5 py-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                <div key={member.id} className="px-5 py-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors min-h-[72px]">
                   {/* Avatar with status indicator */}
                   <div className="relative">
-                    <div className="w-12 h-12 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-600 dark:to-slate-700 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-bold text-slate-600 dark:text-slate-200">
+                    <div className="w-14 md:w-12 h-14 md:h-12 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-600 dark:to-slate-700 rounded-full flex items-center justify-center">
+                      <span className="text-base md:text-sm font-bold text-slate-600 dark:text-slate-200">
                         {member.firstName.charAt(0)}{member.lastName.charAt(0)}
                       </span>
                     </div>
-                    <div className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center ${member.onBreak ? 'bg-amber-500' : 'bg-emerald-500'}`}>
+                    <div className={`absolute -bottom-0.5 -right-0.5 w-5 md:w-4 h-5 md:h-4 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center ${member.onBreak ? 'bg-amber-500' : 'bg-emerald-500'}`}>
                       {member.onBreak ? (
-                        <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-2.5 md:w-2 h-2.5 md:h-2 text-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
                         </svg>
                       ) : (
-                        <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-2.5 md:w-2 h-2.5 md:h-2 text-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       )}
@@ -523,18 +523,18 @@ export function ManagerDashboard() {
                   
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="text-base md:text-sm font-semibold text-slate-900 dark:text-white truncate">
                         {member.firstName} {member.lastName}
                       </p>
-                      <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full ${member.onBreak ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300' : 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300'}`}>
+                      <span className={`px-2 py-1 md:py-0.5 text-xs md:text-[10px] font-semibold rounded-full ${member.onBreak ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300' : 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300'}`}>
                         {member.onBreak ? 'On Break' : 'Working'}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    <div className="flex items-center gap-3 mt-1 text-sm md:text-xs text-slate-500 dark:text-slate-400">
                       {member.clockInTime && (
                         <span className="flex items-center gap-1">
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 md:w-3 h-4 md:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
                           {new Date(member.clockInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -542,7 +542,7 @@ export function ManagerDashboard() {
                       )}
                       {member.location && (
                         <span className="flex items-center gap-1">
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 md:w-3 h-4 md:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           </svg>
                           {member.location.name}
@@ -553,7 +553,7 @@ export function ManagerDashboard() {
 
                   {/* Time ago */}
                   {member.clockInTime && (
-                    <span className="text-xs text-slate-400 dark:text-slate-500 whitespace-nowrap">
+                    <span className="text-sm md:text-xs text-slate-400 dark:text-slate-500 whitespace-nowrap">
                       {formatTimeAgo(member.clockInTime)}
                     </span>
                   )}
@@ -567,16 +567,16 @@ export function ManagerDashboard() {
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
           <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg ${(teamStats?.pendingApprovals ?? 0) > 0 ? 'bg-amber-50 dark:bg-amber-900/30' : 'bg-slate-100 dark:bg-slate-700'}`}>
+              <div className={`p-2.5 md:p-2 rounded-lg ${(teamStats?.pendingApprovals ?? 0) > 0 ? 'bg-amber-50 dark:bg-amber-900/30' : 'bg-slate-100 dark:bg-slate-700'}`}>
                 <svg className={`w-5 h-5 ${(teamStats?.pendingApprovals ?? 0) > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-slate-900 dark:text-white">{t('dashboard.manager.pendingApprovals')}</h3>
+              <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">{t('dashboard.manager.pendingApprovals')}</h3>
             </div>
             <button
               onClick={() => navigate('/app/approvals')}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1"
+              className="text-base md:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1 min-h-[44px] px-2"
             >
               {t('dashboard.employee.viewAll')}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -595,23 +595,23 @@ export function ManagerDashboard() {
           ) : (
             <div className="divide-y divide-slate-100 dark:divide-slate-700 max-h-[400px] overflow-y-auto">
               {pendingRequests.slice(0, 5).map((request) => (
-                <div key={request.id} className="px-5 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                <div key={request.id} className="px-5 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors min-h-[72px]">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center">
-                        <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
+                      <div className="w-10 md:w-8 h-10 md:h-8 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center">
+                        <span className="text-sm md:text-xs font-medium text-slate-600 dark:text-slate-300">
                           {request.requestedBy.firstName.charAt(0)}{request.requestedBy.lastName.charAt(0)}
                         </span>
                       </div>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
+                      <p className="text-base md:text-sm font-medium text-slate-900 dark:text-white">
                         {request.requestedBy.firstName} {request.requestedBy.lastName}
                       </p>
                     </div>
-                    <span className="px-2.5 py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 text-xs font-semibold rounded-full">
+                    <span className="px-3 md:px-2.5 py-1.5 md:py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 text-sm md:text-xs font-semibold rounded-full">
                       {request.status}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 ml-11">
+                  <div className="flex items-center justify-between text-sm md:text-xs text-slate-500 dark:text-slate-400 ml-13 md:ml-11">
                     <span className="capitalize">{request.fieldName.replace(/([A-Z])/g, ' $1').trim()} change</span>
                     <span>{new Date(request.createdAt).toLocaleDateString()}</span>
                   </div>
@@ -628,16 +628,16 @@ export function ManagerDashboard() {
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
+            <div className="p-2.5 md:p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
               <svg className="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 className="font-semibold text-slate-900 dark:text-white">{t('scheduling.thisWeek')} Schedule</h3>
+            <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">{t('scheduling.thisWeek')} Schedule</h3>
           </div>
           <button
             onClick={() => navigate('/app/schedules')}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1"
+            className="text-base md:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1 min-h-[44px] px-2"
           >
             {t('dashboard.employee.viewAll')}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -669,28 +669,28 @@ export function ManagerDashboard() {
                 return (
                   <div
                     key={index}
-                    className={`relative p-3 rounded-xl border-2 transition-all ${
+                    className={`relative p-4 md:p-3 rounded-xl border-2 transition-all min-h-[100px] md:min-h-0 ${
                       isToday
                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-400'
                         : 'border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50'
                     }`}
                   >
                     {isToday && (
-                      <div className="absolute -top-2 left-2 px-2 py-0.5 bg-blue-500 text-white text-[10px] font-bold rounded uppercase">
+                      <div className="absolute -top-2 left-2 px-2 py-0.5 bg-blue-500 text-white text-xs md:text-[10px] font-bold rounded uppercase">
                         {t('scheduling.today')}
                       </div>
                     )}
-                    <p className={`text-xs font-bold mb-2 ${isToday ? 'text-blue-700 dark:text-blue-300' : 'text-slate-600 dark:text-slate-300'}`}>
+                    <p className={`text-sm md:text-xs font-bold mb-2 ${isToday ? 'text-blue-700 dark:text-blue-300' : 'text-slate-600 dark:text-slate-300'}`}>
                       {getDayLabel(dayDate)}
                     </p>
                     {daySchedules.length === 0 ? (
-                      <p className="text-[10px] text-slate-400 dark:text-slate-500 italic">No shifts</p>
+                      <p className="text-xs md:text-[10px] text-slate-400 dark:text-slate-500 italic">No shifts</p>
                     ) : (
-                      <div className="space-y-1.5">
+                      <div className="space-y-2 md:space-y-1.5">
                         {daySchedules.slice(0, 3).map((schedule) => (
                           <div
                             key={schedule.id}
-                            className={`p-1.5 rounded text-[10px] ${isToday ? 'bg-blue-100 dark:bg-blue-800/50' : 'bg-white dark:bg-slate-600'}`}
+                            className={`p-2 md:p-1.5 rounded text-xs md:text-[10px] ${isToday ? 'bg-blue-100 dark:bg-blue-800/50' : 'bg-white dark:bg-slate-600'}`}
                           >
                             <p className="font-semibold text-slate-700 dark:text-slate-200 truncate">
                               {schedule.employee.firstName} {schedule.employee.lastName.charAt(0)}.
@@ -701,7 +701,7 @@ export function ManagerDashboard() {
                           </div>
                         ))}
                         {daySchedules.length > 3 && (
-                          <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center">
+                          <p className="text-xs md:text-[10px] text-slate-400 dark:text-slate-500 text-center">
                             +{daySchedules.length - 3} more
                           </p>
                         )}

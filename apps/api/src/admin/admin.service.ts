@@ -13,82 +13,116 @@ export class AdminService {
    * @returns Dashboard statistics
    */
   async getDashboardStats(tenantId: string) {
+    // Calculate start and end of current month
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
     // Get counts in parallel
-    const [totalUsers, activeLocations, totalEntries] = await Promise.all([
+    const [totalUsers, activeUsers, totalLocations, timeEntries] = await Promise.all([
       // Total users in tenant
       this.prisma.user.count({
         where: { tenantId },
       }),
-      // Active locations
-      this.prisma.location.count({
+      // Active users
+      this.prisma.user.count({
         where: {
           tenantId,
           isActive: true,
         },
       }),
-      // Total time entries this month
-      this.prisma.timeEntry.count({
+      // Total locations (all, not just active)
+      this.prisma.location.count({
+        where: { tenantId },
+      }),
+      // All time entries this month for compliance calculation
+      this.prisma.timeEntry.findMany({
         where: {
           tenantId,
           clockIn: {
-            gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+            gte: startOfMonth,
+            lte: endOfMonth,
           },
+        },
+        select: {
+          id: true,
+          validationWarning: true,
         },
       }),
     ]);
 
-    this.logger.log(`Stats retrieved for tenant ${tenantId}`);
+    // Calculate compliance score: % of entries with no warnings
+    const totalEntriesThisMonth = timeEntries.length;
+    const compliantEntries = timeEntries.filter(
+      (entry) => !entry.validationWarning || entry.validationWarning.trim() === '',
+    );
+    const complianceScore =
+      totalEntriesThisMonth > 0
+        ? Math.round((compliantEntries.length / totalEntriesThisMonth) * 100)
+        : 100;
+
+    this.logger.log(`Stats retrieved for tenant ${tenantId}: ${totalUsers} users, ${totalEntriesThisMonth} entries, ${complianceScore}% compliance`);
 
     return {
       totalUsers,
-      activeLocations,
-      totalEntries,
-      pendingReports: 0, // TODO: Implement when reports are ready
-      systemHealth: 'healthy' as const,
+      activeUsers,
+      totalLocations,
+      totalEntriesThisMonth,
+      complianceScore,
     };
   }
 
   /**
-   * Get recent activity for a tenant
+   * Get recent activity for a tenant from audit logs
    * @param tenantId - Tenant UUID
-   * @param limit - Max number of activities to return
-   * @returns Recent activities
+   * @param limit - Max number of activities to return (default 50)
+   * @returns Recent activities formatted for display
    */
-  async getRecentActivity(tenantId: string, limit: number = 10) {
-    // Get recent time entries with user info
-    const recentEntries = await this.prisma.timeEntry.findMany({
+  async getRecentActivity(tenantId: string, limit: number = 50) {
+    // Get recent audit logs
+    const logs = await this.prisma.auditLog.findMany({
       where: { tenantId },
       orderBy: { createdAt: 'desc' },
       take: limit,
-      select: {
-        id: true,
-        clockIn: true,
-        clockOut: true,
-        createdAt: true,
-        user: {
-          select: {
-            firstName: true,
-            lastName: true,
-          },
-        },
-      },
     });
 
-    // Format as activity items
-    const activities = recentEntries.map((entry) => ({
-      id: entry.id,
-      type: 'TIME_ENTRY',
-      description: entry.clockOut
-        ? 'Clocked out'
-        : 'Clocked in',
-      timestamp: entry.createdAt.toISOString(),
-      user: {
-        firstName: entry.user.firstName,
-        lastName: entry.user.lastName,
-      },
-    }));
+    // Map action + entity to human-readable strings
+    const actionMap: Record<string, string> = {
+      'TIME_ENTRY_CREATED': 'Clocked in',
+      'TIME_ENTRY_UPDATED': 'Modified time entry',
+      'EDIT_REQUEST_CREATED': 'Requested edit',
+      'EDIT_REQUEST_APPROVED': 'Approved edit request',
+      'EDIT_REQUEST_REJECTED': 'Rejected edit request',
+      'USER_LOGIN': 'Logged in',
+      'USER_LOGOUT': 'Logged out',
+      'USER_CREATED': 'User created',
+      'USER_UPDATED': 'User updated',
+      'LOCATION_CREATED': 'Location created',
+      'LOCATION_UPDATED': 'Location updated',
+      'REPORT_GENERATED': 'Report generated',
+    };
 
-    this.logger.log(`Recent activity retrieved for tenant ${tenantId}`);
+    // Format as activity feed
+    const activities = logs.map((log) => {
+      const actionKey = `${log.entity}_${log.action}`.toUpperCase().replace(/\s+/g, '_');
+      const action = actionMap[log.action] || actionMap[actionKey] || log.action;
+      const user = log.actorEmail || 'System';
+      
+      // Build details string
+      let details = `${action}`;
+      if (log.entity && log.entityId) {
+        details += ` (${log.entity} ${log.entityId.substring(0, 8)})`;
+      }
+
+      return {
+        timestamp: log.createdAt.toISOString(),
+        user,
+        action,
+        details,
+      };
+    });
+
+    this.logger.log(`Recent activity retrieved for tenant ${tenantId}: ${activities.length} entries`);
 
     return activities;
   }

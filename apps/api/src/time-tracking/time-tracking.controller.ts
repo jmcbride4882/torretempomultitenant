@@ -9,7 +9,14 @@ import {
   Param,
 } from '@nestjs/common';
 import { TimeTrackingService } from './time-tracking.service';
-import { ClockInDto, ClockOutDto, StartBreakDto, EndBreakDto } from './dto';
+import {
+  ClockInDto,
+  ClockOutDto,
+  StartBreakDto,
+  EndBreakDto,
+  TeamStatsDto,
+  ClockedInEmployeeDto,
+} from './dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -126,5 +133,29 @@ export class TimeTrackingController {
   @Get('breaks/:timeEntryId')
   async getBreaks(@Param('timeEntryId') timeEntryId: string) {
     return this.timeTrackingService.getBreaks(timeEntryId);
+  }
+
+  /**
+   * Get currently clocked-in employees (manager/admin view)
+   * GET /api/time-tracking/clocked-in
+   */
+  @Get('clocked-in')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MANAGER, Role.ADMIN)
+  async getClockedInEmployees(
+    @CurrentUser() user: any,
+  ): Promise<ClockedInEmployeeDto[]> {
+    return this.timeTrackingService.getClockedInEmployees(user.tenantId);
+  }
+
+  /**
+   * Get team statistics (manager/admin view)
+   * GET /api/time-tracking/team-stats
+   */
+  @Get('team-stats')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MANAGER, Role.ADMIN)
+  async getTeamStats(@CurrentUser() user: any): Promise<TeamStatsDto> {
+    return this.timeTrackingService.getTeamStats(user.tenantId);
   }
 }

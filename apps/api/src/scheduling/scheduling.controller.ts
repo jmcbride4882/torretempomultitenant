@@ -268,6 +268,17 @@ export class SchedulingController {
     );
   }
 
+  /**
+   * Get team schedules for next 7 days (Manager Dashboard)
+   * GET /api/scheduling/team-schedules
+   */
+  @Get('team-schedules')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MANAGER, Role.ADMIN)
+  async getTeamSchedules(@CurrentUser() user: any) {
+    return this.schedulingService.getTeamSchedules(user.tenantId);
+  }
+
   // ============================================
   // COMPLIANCE
   // ============================================

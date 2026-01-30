@@ -434,7 +434,7 @@ export function AdminDashboard() {
         {/* Total Users */}
         <button
           onClick={() => navigate('/app/users')}
-          className="text-left bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md hover:border-blue-200 dark:hover:border-blue-700 transition-all group"
+          className="text-left bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md hover:border-blue-200 dark:hover:border-blue-700 transition-all group min-h-[120px]"
         >
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
@@ -444,10 +444,10 @@ export function AdminDashboard() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('dashboard.admin.totalUsers')}
                 </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                <p className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
                   {systemStats?.totalUsers ?? 0}
                 </p>
               </div>
@@ -461,7 +461,7 @@ export function AdminDashboard() {
               <div className={`flex items-center gap-1 text-sm ${usersTrend.color}`}>
                 {usersTrend.icon}
                 <span className="font-medium">{usersTrend.text}</span>
-                <span className="text-slate-400 dark:text-slate-500">vs last month</span>
+                <span className="text-slate-400 dark:text-slate-500 text-sm md:text-xs">vs last month</span>
               </div>
             </div>
           )}
@@ -470,7 +470,7 @@ export function AdminDashboard() {
         {/* Active Locations */}
         <button
           onClick={() => navigate('/app/locations')}
-          className="text-left bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-700 transition-all group"
+          className="text-left bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md hover:border-emerald-200 dark:hover:border-emerald-700 transition-all group min-h-[120px]"
         >
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
@@ -481,10 +481,10 @@ export function AdminDashboard() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('dashboard.admin.activeLocations')}
                 </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                <p className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
                   {systemStats?.activeLocations ?? 0}
                 </p>
               </div>
@@ -494,7 +494,7 @@ export function AdminDashboard() {
             </svg>
           </div>
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+            <div className="flex items-center gap-2 text-sm md:text-xs text-slate-500 dark:text-slate-400">
               <span className="inline-flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 {locations.filter((l) => l.isActive).length} active
@@ -509,7 +509,7 @@ export function AdminDashboard() {
         </button>
 
         {/* Total Entries */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow min-h-[120px]">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-purple-50 dark:bg-purple-900/30 rounded-xl">
@@ -518,13 +518,13 @@ export function AdminDashboard() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('dashboard.admin.totalEntries')}
                 </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                <p className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
                   {systemStats?.totalEntries?.toLocaleString() ?? 0}
                 </p>
-                <p className="text-xs text-slate-400 dark:text-slate-500">{t('dashboard.admin.thisMonth')}</p>
+                <p className="text-sm md:text-xs text-slate-400 dark:text-slate-500">{t('dashboard.admin.thisMonth')}</p>
               </div>
             </div>
           </div>
@@ -533,7 +533,7 @@ export function AdminDashboard() {
               <div className={`flex items-center gap-1 text-sm ${entriesTrend.color}`}>
                 {entriesTrend.icon}
                 <span className="font-medium">{entriesTrend.text}</span>
-                <span className="text-slate-400 dark:text-slate-500">vs last month</span>
+                <span className="text-slate-400 dark:text-slate-500 text-sm md:text-xs">vs last month</span>
               </div>
             </div>
           )}
@@ -542,7 +542,7 @@ export function AdminDashboard() {
         {/* Pending Reports */}
         <button
           onClick={() => navigate('/app/reports')}
-          className="text-left bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md hover:border-amber-200 dark:hover:border-amber-700 transition-all group"
+          className="text-left bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md hover:border-amber-200 dark:hover:border-amber-700 transition-all group min-h-[120px]"
         >
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
@@ -557,10 +557,10 @@ export function AdminDashboard() {
                 )}
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('dashboard.admin.pendingReports')}
                 </p>
-                <p className={`text-2xl font-bold ${(systemStats?.pendingReports ?? 0) > 5 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-900 dark:text-white'}`}>
+                <p className={`text-xl md:text-2xl font-bold ${(systemStats?.pendingReports ?? 0) > 5 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-900 dark:text-white'}`}>
                   {systemStats?.pendingReports ?? 0}
                 </p>
               </div>
@@ -570,7 +570,7 @@ export function AdminDashboard() {
             </svg>
           </div>
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-            <span className="text-xs text-slate-500 dark:text-slate-400">
+            <span className="text-sm md:text-xs text-slate-500 dark:text-slate-400">
               {(systemStats?.pendingReports ?? 0) === 0 ? 'All reports processed' : 'Click to review'}
             </span>
           </div>
@@ -583,18 +583,18 @@ export function AdminDashboard() {
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-slate-100 dark:bg-slate-700 rounded-lg">
+            <div className="p-2.5 md:p-2 bg-slate-100 dark:bg-slate-700 rounded-lg">
               <svg className="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
               </svg>
             </div>
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-slate-900 dark:text-white">Service Health</h3>
+              <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">Service Health</h3>
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Live</span>
+              <span className="text-sm md:text-xs text-emerald-600 dark:text-emerald-400 font-medium">Live</span>
             </div>
           </div>
         </div>
@@ -603,17 +603,17 @@ export function AdminDashboard() {
           {/* API Status */}
           {healthMetrics && (
             <>
-              <div className={`p-4 rounded-xl ${getServiceStatusColor(healthMetrics.api.status).bg}`}>
+              <div className={`p-4 md:p-4 rounded-xl ${getServiceStatusColor(healthMetrics.api.status).bg}`}>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">API</span>
-                  <span className={`w-2.5 h-2.5 rounded-full ${getServiceStatusColor(healthMetrics.api.status).dot}`} />
+                  <span className="text-sm md:text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">API</span>
+                  <span className={`w-3 md:w-2.5 h-3 md:h-2.5 rounded-full ${getServiceStatusColor(healthMetrics.api.status).dot}`} />
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-sm md:text-xs">
                     <span className="text-slate-500 dark:text-slate-400">Response Time</span>
                     <span className="font-semibold text-slate-700 dark:text-slate-200">{healthMetrics.api.responseTime}ms</span>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-sm md:text-xs">
                     <span className="text-slate-500 dark:text-slate-400">Uptime</span>
                     <span className="font-semibold text-slate-700 dark:text-slate-200">{healthMetrics.api.uptime}%</span>
                   </div>
@@ -621,17 +621,17 @@ export function AdminDashboard() {
               </div>
 
               {/* Database Status */}
-              <div className={`p-4 rounded-xl ${getServiceStatusColor(healthMetrics.database.status).bg}`}>
+              <div className={`p-4 md:p-4 rounded-xl ${getServiceStatusColor(healthMetrics.database.status).bg}`}>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">Database</span>
-                  <span className={`w-2.5 h-2.5 rounded-full ${getServiceStatusColor(healthMetrics.database.status).dot}`} />
+                  <span className="text-sm md:text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">Database</span>
+                  <span className={`w-3 md:w-2.5 h-3 md:h-2.5 rounded-full ${getServiceStatusColor(healthMetrics.database.status).dot}`} />
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-sm md:text-xs">
                     <span className="text-slate-500 dark:text-slate-400">Query Time</span>
                     <span className="font-semibold text-slate-700 dark:text-slate-200">{healthMetrics.database.queryTime}ms</span>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-sm md:text-xs">
                     <span className="text-slate-500 dark:text-slate-400">Connections</span>
                     <span className="font-semibold text-slate-700 dark:text-slate-200">{healthMetrics.database.connections}</span>
                   </div>
@@ -639,17 +639,17 @@ export function AdminDashboard() {
               </div>
 
               {/* Redis Status */}
-              <div className={`p-4 rounded-xl ${getServiceStatusColor(healthMetrics.redis.status).bg}`}>
+              <div className={`p-4 md:p-4 rounded-xl ${getServiceStatusColor(healthMetrics.redis.status).bg}`}>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">Redis</span>
-                  <span className={`w-2.5 h-2.5 rounded-full ${getServiceStatusColor(healthMetrics.redis.status).dot}`} />
+                  <span className="text-sm md:text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">Redis</span>
+                  <span className={`w-3 md:w-2.5 h-3 md:h-2.5 rounded-full ${getServiceStatusColor(healthMetrics.redis.status).dot}`} />
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-sm md:text-xs">
                     <span className="text-slate-500 dark:text-slate-400">Memory</span>
                     <span className="font-semibold text-slate-700 dark:text-slate-200">{healthMetrics.redis.memoryUsage}%</span>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-sm md:text-xs">
                     <span className="text-slate-500 dark:text-slate-400">Hit Rate</span>
                     <span className="font-semibold text-slate-700 dark:text-slate-200">{healthMetrics.redis.hitRate}%</span>
                   </div>
@@ -657,17 +657,17 @@ export function AdminDashboard() {
               </div>
 
               {/* Storage Status */}
-              <div className={`p-4 rounded-xl ${getServiceStatusColor(healthMetrics.storage.status).bg}`}>
+              <div className={`p-4 md:p-4 rounded-xl ${getServiceStatusColor(healthMetrics.storage.status).bg}`}>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">Storage</span>
-                  <span className={`w-2.5 h-2.5 rounded-full ${getServiceStatusColor(healthMetrics.storage.status).dot}`} />
+                  <span className="text-sm md:text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">Storage</span>
+                  <span className={`w-3 md:w-2.5 h-3 md:h-2.5 rounded-full ${getServiceStatusColor(healthMetrics.storage.status).dot}`} />
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-sm md:text-xs">
                     <span className="text-slate-500 dark:text-slate-400">Disk Usage</span>
                     <span className="font-semibold text-slate-700 dark:text-slate-200">{healthMetrics.storage.diskUsage}%</span>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-sm md:text-xs">
                     <span className="text-slate-500 dark:text-slate-400">Available</span>
                     <span className="font-semibold text-slate-700 dark:text-slate-200">{healthMetrics.storage.availableSpace}</span>
                   </div>
@@ -684,7 +684,7 @@ export function AdminDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <button
           onClick={() => navigate('/app/users')}
-          className="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-lg transition-all text-left hover:scale-[1.02] active:scale-[0.98]"
+          className="group bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-lg transition-all text-left hover:scale-[1.02] active:scale-[0.98] min-h-[80px]"
         >
           <div className="flex items-center gap-4">
             <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors group-hover:scale-110 group-hover:rotate-3">
@@ -693,8 +693,8 @@ export function AdminDashboard() {
               </svg>
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-slate-900 dark:text-white">{t('dashboard.admin.userManagement')}</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard.admin.manageUsers')}</p>
+              <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">{t('dashboard.admin.userManagement')}</h3>
+              <p className="text-base md:text-sm text-slate-500 dark:text-slate-400">{t('dashboard.admin.manageUsers')}</p>
             </div>
             <svg className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -704,7 +704,7 @@ export function AdminDashboard() {
 
         <button
           onClick={() => navigate('/app/locations')}
-          className="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-600 hover:shadow-lg transition-all text-left hover:scale-[1.02] active:scale-[0.98]"
+          className="group bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-600 hover:shadow-lg transition-all text-left hover:scale-[1.02] active:scale-[0.98] min-h-[80px]"
         >
           <div className="flex items-center gap-4">
             <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 transition-colors group-hover:scale-110 group-hover:rotate-3">
@@ -714,8 +714,8 @@ export function AdminDashboard() {
               </svg>
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-slate-900 dark:text-white">{t('dashboard.admin.locationManagement')}</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard.admin.manageLocations')}</p>
+              <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">{t('dashboard.admin.locationManagement')}</h3>
+              <p className="text-base md:text-sm text-slate-500 dark:text-slate-400">{t('dashboard.admin.manageLocations')}</p>
             </div>
             <svg className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -725,7 +725,7 @@ export function AdminDashboard() {
 
         <button
           onClick={() => navigate('/app/reports')}
-          className="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-purple-300 dark:hover:border-purple-600 hover:shadow-lg transition-all text-left hover:scale-[1.02] active:scale-[0.98]"
+          className="group bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:border-purple-300 dark:hover:border-purple-600 hover:shadow-lg transition-all text-left hover:scale-[1.02] active:scale-[0.98] min-h-[80px]"
         >
           <div className="flex items-center gap-4">
             <div className="p-3 bg-purple-50 dark:bg-purple-900/30 rounded-xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors group-hover:scale-110 group-hover:rotate-3">
@@ -734,8 +734,8 @@ export function AdminDashboard() {
               </svg>
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-slate-900 dark:text-white">{t('dashboard.admin.reportsOverview')}</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard.admin.viewReports')}</p>
+              <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">{t('dashboard.admin.reportsOverview')}</h3>
+              <p className="text-base md:text-sm text-slate-500 dark:text-slate-400">{t('dashboard.admin.viewReports')}</p>
             </div>
             <svg className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-purple-500 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -752,17 +752,17 @@ export function AdminDashboard() {
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
           <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
+              <div className="p-2.5 md:p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
                 <svg className="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-slate-900 dark:text-white">{t('dashboard.admin.activeLocations')}</h3>
+              <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">{t('dashboard.admin.activeLocations')}</h3>
             </div>
             <button
               onClick={() => navigate('/app/locations')}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1"
+              className="text-base md:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1 min-h-[44px] px-2"
             >
               {t('dashboard.admin.manageLocations')}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -781,26 +781,26 @@ export function AdminDashboard() {
           ) : (
             <div className="divide-y divide-slate-100 dark:divide-slate-700 max-h-[400px] overflow-y-auto">
               {locations.slice(0, 5).map((location) => (
-                <div key={location.id} className="px-5 py-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group">
+                <div key={location.id} className="px-5 py-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors group min-h-[72px]">
                   <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <div className={`w-3 h-3 rounded-full flex-shrink-0 ${location.isActive ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
+                    <div className={`w-3.5 md:w-3 h-3.5 md:h-3 rounded-full flex-shrink-0 ${location.isActive ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{location.name}</p>
+                      <p className="text-base md:text-sm font-medium text-slate-900 dark:text-white truncate">{location.name}</p>
                       {location.address && (
-                        <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{location.address}</p>
+                        <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 truncate">{location.address}</p>
                       )}
                       <div className="flex items-center gap-2 mt-1">
                         {location.qrEnabled !== false && (
-                          <span className="inline-flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400">
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <span className="inline-flex items-center gap-1 text-xs md:text-[10px] text-slate-500 dark:text-slate-400">
+                            <svg className="w-4 md:w-3 h-4 md:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                             </svg>
                             QR
                           </span>
                         )}
                         {location.geofenceEnabled !== false && (
-                          <span className="inline-flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400">
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <span className="inline-flex items-center gap-1 text-xs md:text-[10px] text-slate-500 dark:text-slate-400">
+                            <svg className="w-4 md:w-3 h-4 md:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                             </svg>
                             Geofence
@@ -810,7 +810,7 @@ export function AdminDashboard() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${
+                    <span className={`px-3 md:px-2.5 py-1.5 md:py-1 text-sm md:text-xs font-semibold rounded-full ${
                       location.isActive 
                         ? 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300' 
                         : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
@@ -822,10 +822,10 @@ export function AdminDashboard() {
                         e.stopPropagation();
                         navigate(`/app/locations/${location.id}/qr`);
                       }}
-                      className="p-2 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                      className="p-2.5 md:p-2 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0 flex items-center justify-center"
                       title={t('locations.generateQR')}
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 md:w-4 h-5 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                       </svg>
                     </button>

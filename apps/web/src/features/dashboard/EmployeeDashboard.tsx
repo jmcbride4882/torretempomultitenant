@@ -367,7 +367,7 @@ export function EmployeeDashboard() {
           ═══════════════════════════════════════════════════════════════════ */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* This Week Card */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
@@ -376,17 +376,17 @@ export function EmployeeDashboard() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('scheduling.thisWeek')}
                 </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                <p className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
                   {weekHours.toFixed(1)}h
                 </p>
               </div>
             </div>
           </div>
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-            <div className="flex items-center gap-1 text-sm">
+            <div className="flex items-center gap-1 text-base md:text-sm">
               <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
               </svg>
@@ -399,7 +399,7 @@ export function EmployeeDashboard() {
         </div>
 
         {/* Overtime Balance Card */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className={`p-3 rounded-xl ${
@@ -414,10 +414,10 @@ export function EmployeeDashboard() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('overtime.balance')}
                 </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                <p className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
                   {overtimeBalance ? `${overtimeBalance.totalHours.toFixed(0)}/${overtimeBalance.annualLimit}h` : '0/80h'}
                 </p>
               </div>
@@ -425,13 +425,13 @@ export function EmployeeDashboard() {
           </div>
           {/* Progress bar */}
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
-            <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
+            <div className="flex items-center justify-between text-sm md:text-xs text-slate-500 dark:text-slate-400 mb-2">
               <span className={`font-medium ${overtimeColors.text}`}>{overtimeColors.label}</span>
               <span>{overtimePercentage.toFixed(0)}%</span>
             </div>
-            <div className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2.5 md:h-2 overflow-hidden">
               <div
-                className={`h-2 rounded-full transition-all duration-500 ${overtimeColors.bg}`}
+                className={`h-2.5 md:h-2 rounded-full transition-all duration-500 ${overtimeColors.bg}`}
                 style={{ width: `${Math.min(overtimePercentage, 100)}%` }}
               />
             </div>
@@ -439,7 +439,7 @@ export function EmployeeDashboard() {
         </div>
 
         {/* Next Shift Card */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-purple-50 dark:bg-purple-900/30 rounded-xl">
@@ -448,11 +448,11 @@ export function EmployeeDashboard() {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
                   {t('scheduling.nextWeek').replace('Week', 'Shift')}
                 </p>
                 {nextShift ? (
-                  <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                  <p className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
                     {getDayLabel(new Date(nextShift.date), t)}
                   </p>
                 ) : (
@@ -463,7 +463,7 @@ export function EmployeeDashboard() {
           </div>
           <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
             {nextShift ? (
-              <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+              <div className="flex items-center gap-2 text-base md:text-sm text-slate-600 dark:text-slate-300">
                 <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -472,7 +472,7 @@ export function EmployeeDashboard() {
                 <span>{nextShift.shift.name}</span>
               </div>
             ) : (
-              <p className="text-sm text-slate-400 dark:text-slate-500">{t('empty.noShifts')}</p>
+              <p className="text-base md:text-sm text-slate-400 dark:text-slate-500">{t('empty.noShifts')}</p>
             )}
           </div>
         </div>
@@ -484,16 +484,16 @@ export function EmployeeDashboard() {
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
+            <div className="p-2.5 md:p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
               <svg className="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 className="font-semibold text-slate-900 dark:text-white">{t('scheduling.mySchedule')} (7 Days)</h3>
+            <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">{t('scheduling.mySchedule')} (7 Days)</h3>
           </div>
           <button
             onClick={() => navigate('/app/schedule')}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1"
+            className="text-base md:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1 min-h-[44px] px-2"
           >
             {t('dashboard.employee.viewAll')}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -510,7 +510,7 @@ export function EmployeeDashboard() {
             variant="compact"
           />
         ) : (
-          <div className="p-4">
+          <div className="p-4 md:p-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
               {next7DaysShifts.slice(0, 7).map((schedule) => {
                 const scheduleDate = new Date(schedule.date);
@@ -519,25 +519,25 @@ export function EmployeeDashboard() {
                 return (
                   <div
                     key={schedule.id}
-                    className={`relative p-4 rounded-xl border-2 transition-all hover:shadow-md ${
+                    className={`relative p-5 md:p-4 rounded-xl border-2 transition-all hover:shadow-md min-h-[80px] ${
                       isToday 
                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-400' 
                         : 'border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50'
                     }`}
                   >
                     {isToday && (
-                      <div className="absolute -top-2 left-3 px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded">
+                      <div className="absolute -top-2 left-3 px-2 py-0.5 bg-blue-500 text-white text-sm md:text-xs font-bold rounded">
                         {t('scheduling.today')}
                       </div>
                     )}
                     <div className="space-y-2">
-                      <p className={`text-sm font-bold ${isToday ? 'text-blue-700 dark:text-blue-300' : 'text-slate-700 dark:text-slate-200'}`}>
+                      <p className={`text-base md:text-sm font-bold ${isToday ? 'text-blue-700 dark:text-blue-300' : 'text-slate-700 dark:text-slate-200'}`}>
                         {scheduleDate.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
                       </p>
-                      <div className={`text-xs ${isToday ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300'}`}>
+                      <div className={`text-sm md:text-xs ${isToday ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300'}`}>
                         <p className="font-semibold">{schedule.shift.name}</p>
                         <p className="flex items-center gap-1 mt-1">
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 md:w-3 h-4 md:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
                           {schedule.shift.startTime} - {schedule.shift.endTime}
@@ -556,24 +556,24 @@ export function EmployeeDashboard() {
           PENDING REQUESTS ALERT
           ═══════════════════════════════════════════════════════════════════ */}
       {pendingRequests.length > 0 && (
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-700 rounded-2xl p-5">
-          <div className="flex items-center gap-4">
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-700 rounded-2xl p-5 md:p-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="p-3 bg-amber-100 dark:bg-amber-800/50 rounded-xl">
               <svg className="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
             </div>
             <div className="flex-1">
-              <p className="font-bold text-amber-900 dark:text-amber-200">
+              <p className="text-base md:text-sm font-bold text-amber-900 dark:text-amber-200">
                 {t('dashboard.employee.pendingRequests')}
               </p>
-              <p className="text-sm text-amber-700 dark:text-amber-300">
+              <p className="text-base md:text-sm text-amber-700 dark:text-amber-300">
                 {pendingRequests.length} {pendingRequests.length === 1 ? 'request' : 'requests'} awaiting approval
               </p>
             </div>
             <button
               onClick={() => navigate('/app/approvals')}
-              className="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
+              className="w-full sm:w-auto px-6 py-3 md:px-5 md:py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-base md:text-sm font-semibold rounded-xl transition-colors shadow-sm min-h-[44px]"
             >
               {t('dashboard.employee.viewAll')}
             </button>
@@ -587,16 +587,16 @@ export function EmployeeDashboard() {
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-slate-100 dark:bg-slate-700 rounded-lg">
+            <div className="p-2.5 md:p-2 bg-slate-100 dark:bg-slate-700 rounded-lg">
               <svg className="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 className="font-semibold text-slate-900 dark:text-white">{t('dashboard.employee.recentEntries')}</h3>
+            <h3 className="text-base md:text-sm font-semibold text-slate-900 dark:text-white">{t('dashboard.employee.recentEntries')}</h3>
           </div>
           <button
             onClick={() => navigate('/app/clock')}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1"
+            className="text-base md:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1 min-h-[44px] px-2"
           >
             {t('dashboard.employee.viewAll')}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -621,21 +621,21 @@ export function EmployeeDashboard() {
                 : null;
               
               return (
-                <div key={entry.id} className="px-5 py-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                <div key={entry.id} className="px-5 py-4 md:py-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors min-h-[72px]">
                   <div className="flex items-center gap-4">
-                    <div className={`w-2 h-12 rounded-full ${
+                    <div className={`w-2 h-14 md:h-12 rounded-full ${
                       entry.clockOut ? 'bg-emerald-500' : 'bg-amber-500'
                     }`} />
                     <div>
-                      <p className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                      <p className="text-base md:text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                         {isToday ? t('scheduling.today') : entryDate.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
                         {isToday && (
-                          <span className="px-1.5 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs rounded">
+                          <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-sm md:text-xs rounded">
                             {t('scheduling.today')}
                           </span>
                         )}
                       </p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                      <p className="text-sm md:text-xs text-slate-500 dark:text-slate-400 flex flex-wrap items-center gap-2">
                         <span>
                           {new Date(entry.clockIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           {entry.clockOut && (
@@ -653,11 +653,11 @@ export function EmployeeDashboard() {
                   </div>
                   <div className="flex items-center gap-3">
                     {duration && (
-                      <span className="text-sm font-bold text-slate-700 dark:text-slate-200">
+                      <span className="text-base md:text-sm font-bold text-slate-700 dark:text-slate-200">
                         {duration}h
                       </span>
                     )}
-                    <span className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
+                    <span className={`px-3 py-2 md:py-1.5 rounded-full text-sm md:text-xs font-semibold ${
                       entry.clockOut 
                         ? 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300' 
                         : 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300'
