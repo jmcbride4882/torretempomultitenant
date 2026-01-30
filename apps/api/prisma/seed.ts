@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -20,7 +20,6 @@ async function main() {
   const passwordHash = await bcrypt.hash('Summer15', 12);
 
   // Create GLOBAL_ADMIN user (no tenant association)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const globalAdmin = await prisma.user.create({
     data: {
       tenantId: undefined,
@@ -28,8 +27,8 @@ async function main() {
       passwordHash,
       firstName: 'LSLT',
       lastName: 'Global Admin',
-      role: 'GLOBAL_ADMIN' as any, // Type will be correct after Prisma regenerate
-    } as any,
+      role: Role.GLOBAL_ADMIN,
+    },
   });
 
   console.log('✅ Global admin user created:');

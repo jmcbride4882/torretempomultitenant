@@ -5,6 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import { LocationsService } from '../locations/locations.service';
 import { ComplianceService } from '../compliance/compliance.service';
+import { OvertimeService } from '../overtime/overtime.service';
 import { mockPrismaService, resetPrismaMocks } from '../test-utils/prisma-mock';
 import { EntryStatus, EntryOrigin } from '@prisma/client';
 
@@ -44,16 +45,22 @@ describe('TimeTrackingService', () => {
           },
         },
         {
+          provide: ComplianceService,
+          useValue: {
+            validateClockInAllowed: jest.fn(),
+          },
+        },
+        {
+          provide: OvertimeService,
+          useValue: {
+            detectOvertime: jest.fn(),
+          },
+        },
+        {
           provide: LocationsService,
           useValue: {
             validateQRToken: jest.fn(),
             validateGeofence: jest.fn(),
-          },
-        },
-        {
-          provide: ComplianceService,
-          useValue: {
-            validateClockInAllowed: jest.fn(),
           },
         },
       ],

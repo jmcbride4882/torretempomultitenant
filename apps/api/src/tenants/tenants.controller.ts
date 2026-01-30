@@ -61,12 +61,12 @@ export class TenantsController {
   }
 
    /**
-    * List all tenants (GLOBAL_ADMIN only)
-    * GET /api/tenants
-    */
-   @Get()
-   @UseGuards(RolesGuard)
-   @Roles('GLOBAL_ADMIN' as any)
+     * List all tenants (GLOBAL_ADMIN only)
+     * GET /api/tenants
+     */
+    @Get()
+    @UseGuards(RolesGuard)
+    @Roles(Role.GLOBAL_ADMIN)
    async listAllTenants(
      @Query('page') page?: string,
      @Query('pageSize') pageSize?: string,
@@ -77,24 +77,24 @@ export class TenantsController {
      return this.tenantsService.listAllTenants(pageNum, pageSizeNum, search);
    }
 
-  /**
-   * Get tenant by ID (GLOBAL_ADMIN only)
-   * GET /api/tenants/:id
-   */
-  @Get(':id')
-  @UseGuards(RolesGuard)
-  @Roles('GLOBAL_ADMIN' as any)
+   /**
+    * Get tenant by ID (GLOBAL_ADMIN only)
+    * GET /api/tenants/:id
+    */
+   @Get(':id')
+   @UseGuards(RolesGuard)
+   @Roles(Role.GLOBAL_ADMIN)
   async getTenantById(@Param('id') id: string) {
     return this.tenantsService.getTenantById(id);
   }
 
-  /**
-   * Update tenant by ID (GLOBAL_ADMIN only)
-   * PATCH /api/tenants/:id
-   */
-  @Patch(':id')
-  @UseGuards(RolesGuard)
-  @Roles('GLOBAL_ADMIN' as any)
+   /**
+    * Update tenant by ID (GLOBAL_ADMIN only)
+    * PATCH /api/tenants/:id
+    */
+   @Patch(':id')
+   @UseGuards(RolesGuard)
+   @Roles(Role.GLOBAL_ADMIN)
   async updateTenantById(
     @Param('id') id: string,
     @CurrentUser() user: any,
@@ -109,13 +109,13 @@ export class TenantsController {
     );
   }
 
-  /**
-   * Create new tenant (GLOBAL_ADMIN only)
-   * POST /api/tenants
-   */
-  @Post()
-  @UseGuards(RolesGuard)
-  @Roles('GLOBAL_ADMIN' as any)
+   /**
+    * Create new tenant (GLOBAL_ADMIN only)
+    * POST /api/tenants
+    */
+   @Post()
+   @UseGuards(RolesGuard)
+   @Roles(Role.GLOBAL_ADMIN)
   async createTenant(
     @CurrentUser() user: any,
     @Body() dto: CreateTenantDto,
