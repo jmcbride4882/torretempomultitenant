@@ -76,6 +76,16 @@ export const mockPrismaService: any = {
     findFirst: jest.fn(),
     create: jest.fn(),
   },
+  breakEntry: {
+    findFirst: jest.fn(),
+    findMany: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+  },
+  overtimeEntry: {
+    findMany: jest.fn(),
+    create: jest.fn(),
+  },
   $transaction: jest.fn((callback) => {
     if (typeof callback === 'function') {
       return callback(mockPrismaService);
