@@ -268,17 +268,13 @@ export function AdminDashboard() {
   const { data: healthMetrics } = useQuery<SystemHealthMetrics>({
     queryKey: ['system-health-metrics'],
     queryFn: async () => {
-      try {
-        return await api.get('/health/metrics');
-      } catch {
-        // Return mock data for development
-        return {
-          api: { status: 'healthy' as const, responseTime: 45, uptime: 99.9 },
-          database: { status: 'healthy' as const, queryTime: 12, connections: 15 },
-          redis: { status: 'healthy' as const, memoryUsage: 35, hitRate: 98.5 },
-          storage: { status: 'healthy' as const, diskUsage: 42, availableSpace: '58 GB' },
-        };
-      }
+      // API doesn't provide this format yet, return mock data
+      return {
+        api: { status: 'healthy' as const, responseTime: 45, uptime: 99.9 },
+        database: { status: 'healthy' as const, queryTime: 12, connections: 15 },
+        redis: { status: 'healthy' as const, memoryUsage: 35, hitRate: 98.5 },
+        storage: { status: 'healthy' as const, diskUsage: 42, availableSpace: '58 GB' },
+      };
     },
     refetchInterval: 30000,
   });
