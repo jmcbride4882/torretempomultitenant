@@ -133,14 +133,14 @@ export function TenantSettingsPage() {
   const { data: tenantData, isLoading: tenantLoading } = useQuery<Tenant>({
     queryKey: ['tenant', 'current'],
     queryFn: () => api.get('/tenants/current'),
-    enabled: user?.role === Role.ADMIN, // Only fetch if user is admin
+    enabled: user?.role === Role.ADMIN || user?.role === Role.GLOBAL_ADMIN, // Only fetch if user is admin
   });
 
   // Fetch tenant stats
   const { data: statsData, isLoading: statsLoading } = useQuery<TenantStats>({
     queryKey: ['tenant', 'stats'],
     queryFn: () => api.get('/tenants/stats'),
-    enabled: user?.role === Role.ADMIN, // Only fetch if user is admin
+    enabled: user?.role === Role.ADMIN || user?.role === Role.GLOBAL_ADMIN, // Only fetch if user is admin
   });
 
   // Initialize form with tenant data
@@ -245,7 +245,7 @@ export function TenantSettingsPage() {
   };
 
   // Redirect non-admin users
-  if (!user || user.role !== Role.ADMIN) {
+  if (!user || (user.role !== Role.ADMIN && user.role !== Role.GLOBAL_ADMIN)) {
     return <Navigate to="/app/dashboard" replace />;
   }
 

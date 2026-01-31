@@ -166,7 +166,15 @@
     "signUp": "Zarejestruj się"
   },
   "navigation": {
-    "systemAdmin": "Admin Systemu"
+    "personal": "Osobiste",
+    "teamManagement": "Zarządzanie zespołem",
+    "administration": "Administracja",
+    "account": "Konto",
+    "systemOverview": "Przegląd systemu",
+    "multiTenant": "Wiele najemców",
+    "tenantManagement": "Zarządzanie najemcami",
+    "operations": "Operacje",
+    "systemAdmin": "Administrator systemu"
   },
   "dashboard": {
     "title": "Pulpit",

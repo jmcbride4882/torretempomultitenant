@@ -170,7 +170,15 @@
     "signUp": "Registrate"
   },
   "navigation": {
-    "systemAdmin": "Admin Sistema"
+    "personal": "Personal",
+    "teamManagement": "Gestión de Equipo",
+    "administration": "Administración",
+    "account": "Cuenta",
+    "systemOverview": "Visión del Sistema",
+    "multiTenant": "Multi-Inquilino",
+    "tenantManagement": "Gestión de Inquilinos",
+    "operations": "Operaciones",
+    "systemAdmin": "Admin del Sistema"
   },
   "dashboard": {
     "title": "Panel de control",

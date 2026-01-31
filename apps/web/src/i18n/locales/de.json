@@ -166,7 +166,15 @@
     "signUp": "Registrieren"
   },
   "navigation": {
-    "systemAdmin": "Systemadmin"
+    "personal": "Persönlich",
+    "teamManagement": "Teamverwaltung",
+    "administration": "Verwaltung",
+    "account": "Konto",
+    "systemOverview": "Systemübersicht",
+    "multiTenant": "Mehrere Mandanten",
+    "tenantManagement": "Mieterverwaltung",
+    "operations": "Betrieb",
+    "systemAdmin": "Systemadministrator"
   },
   "dashboard": {
     "title": "Dashboard",

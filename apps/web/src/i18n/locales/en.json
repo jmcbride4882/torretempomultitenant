@@ -163,6 +163,14 @@
     "signUp": "Sign up"
   },
   "navigation": {
+    "personal": "Personal",
+    "teamManagement": "Team Management",
+    "administration": "Administration",
+    "account": "Account",
+    "systemOverview": "System Overview",
+    "multiTenant": "Multi-Tenant",
+    "tenantManagement": "Tenant Management",
+    "operations": "Operations",
     "systemAdmin": "System Admin"
   },
 "dashboard": {

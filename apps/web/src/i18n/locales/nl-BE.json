@@ -166,7 +166,15 @@
     "signUp": "Registreren"
   },
   "navigation": {
-    "systemAdmin": "Systeembeheer"
+    "personal": "Persoonlijk",
+    "teamManagement": "Teambeheer",
+    "administration": "Administratie",
+    "account": "Account",
+    "systemOverview": "Systeemoverzicht",
+    "multiTenant": "Multi-tenant",
+    "tenantManagement": "Tenantbeheer",
+    "operations": "Operaties",
+    "systemAdmin": "Systeembeheerder"
   },
   "dashboard": {
     "title": "Dashboard",

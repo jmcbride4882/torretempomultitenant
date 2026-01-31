@@ -22,7 +22,7 @@ import { SchedulingPage } from './features/scheduling/SchedulingPage';
 import { MySchedulePage } from './features/scheduling/MySchedulePage';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { InstallPrompt, OfflineIndicator } from './components/pwa';
-import { AppLayout } from './components/layout';
+import { RoleProtectedRoute } from './components/RoleProtectedRoute';
 
 // ============================================
 // LOGIN PAGE
@@ -197,23 +197,6 @@ function CompliancePage() {
 }
 
 // ============================================
-// PROTECTED ROUTE
-// ============================================
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  
-  return (
-    <AppLayout>
-      {children}
-    </AppLayout>
-  );
-}
-
-// ============================================
 // APP ROOT
 // ============================================
 export default function App() {
@@ -232,137 +215,137 @@ export default function App() {
         <Route
           path="/app/dashboard"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/dashboard">
               <DashboardPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/clock"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/clock">
               <ClockingPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/approvals"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/approvals">
               <ApprovalsPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/overtime"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/overtime">
               <OvertimePage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/reports"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/reports">
               <ReportsPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/my-reports"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/my-reports">
               <MyReportsPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/locations"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/locations">
               <LocationsPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/users"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/users">
               <UsersPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/settings"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/settings">
               <TenantSettingsPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/profile"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/profile">
               <ProfilePage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/compliance"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/compliance">
               <CompliancePage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/tenants"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/tenants">
               <TenantManagementPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/tenants/:id"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/tenants/:id">
               <TenantDetailPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/tenants/:id/edit"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/tenants/:id/edit">
               <TenantEditPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/system"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/system">
               <GlobalAdminDashboard />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/schedule"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/schedule">
               <SchedulingPage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         <Route
           path="/app/my-schedule"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute path="/app/my-schedule">
               <MySchedulePage />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
         

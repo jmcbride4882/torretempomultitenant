@@ -166,7 +166,15 @@
     "signUp": "S'inscrire"
   },
   "navigation": {
-    "systemAdmin": "Admin Système"
+    "personal": "Personnel",
+    "teamManagement": "Gestion d'équipe",
+    "administration": "Administration",
+    "account": "Compte",
+    "systemOverview": "Vue du système",
+    "multiTenant": "Multi-locataire",
+    "tenantManagement": "Gestion des locataires",
+    "operations": "Opérations",
+    "systemAdmin": "Admin système"
   },
   "dashboard": {
     "title": "Tableau de bord",
