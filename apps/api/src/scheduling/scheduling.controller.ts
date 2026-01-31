@@ -36,7 +36,7 @@ export class SchedulingController {
    */
    @Post('shifts')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async createShift(@CurrentUser() user: RequestUser, @Body() dto: CreateShiftDto) {
      return this.schedulingService.createShift(user.tenantId!, dto);
    }
@@ -71,7 +71,7 @@ export class SchedulingController {
    */
    @Patch('shifts/:id')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async updateShift(
      @CurrentUser() user: RequestUser,
      @Param('id') id: string,
@@ -86,7 +86,7 @@ export class SchedulingController {
    */
    @Delete('shifts/:id')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async deleteShift(@CurrentUser() user: RequestUser, @Param('id') id: string) {
      return this.schedulingService.deleteShift(user.tenantId!, id);
    }
@@ -101,7 +101,7 @@ export class SchedulingController {
    */
    @Post('schedules')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async createSchedule(@CurrentUser() user: RequestUser, @Body() dto: CreateScheduleDto) {
      return this.schedulingService.createSchedule(user.tenantId!, dto);
    }
@@ -149,7 +149,7 @@ export class SchedulingController {
    */
    @Patch('schedules/:id')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async updateSchedule(
      @CurrentUser() user: RequestUser,
      @Param('id') id: string,
@@ -164,7 +164,7 @@ export class SchedulingController {
    */
    @Delete('schedules/:id')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async deleteSchedule(@CurrentUser() user: RequestUser, @Param('id') id: string) {
      return this.schedulingService.deleteSchedule(user.tenantId!, id);
    }
@@ -175,7 +175,7 @@ export class SchedulingController {
    */
    @Post('schedules/:id/publish')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async publishSchedule(@CurrentUser() user: RequestUser, @Param('id') id: string) {
      return this.schedulingService.publishSchedule(user.tenantId!, id);
    }
@@ -186,7 +186,7 @@ export class SchedulingController {
    */
    @Post('schedules/publish-many')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async publishMany(
      @CurrentUser() user: RequestUser,
      @Body() dto: { scheduleIds: string[] },
@@ -275,7 +275,7 @@ export class SchedulingController {
    */
    @Get('team-schedules')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async getTeamSchedules(@CurrentUser() user: RequestUser) {
      return this.schedulingService.getTeamSchedules(user.tenantId!);
    }
@@ -290,7 +290,7 @@ export class SchedulingController {
    */
    @Get('scheduled-vs-actual')
    @UseGuards(RolesGuard)
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async getScheduledVsActual(
      @CurrentUser() user: RequestUser,
      @Query('userId') userId: string,

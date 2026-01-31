@@ -26,11 +26,11 @@ export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 
   /**
-   * Create a new location (ADMIN only)
+   * Create a new location (GLOBAL_ADMIN/ADMIN)
    */
   @Post()
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.GLOBAL_ADMIN, Role.ADMIN)
   create(@CurrentUser() user: RequestUser, @Body() dto: CreateLocationDto) {
     return this.locationsService.create(user.tenantId!, dto);
   }
@@ -52,11 +52,11 @@ export class LocationsController {
   }
 
   /**
-   * Update a location (ADMIN only)
+   * Update a location (GLOBAL_ADMIN/ADMIN)
    */
   @Patch(':id')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.GLOBAL_ADMIN, Role.ADMIN)
   update(
     @CurrentUser() user: RequestUser,
     @Param('id') id: string,
@@ -66,22 +66,22 @@ export class LocationsController {
   }
 
   /**
-   * Delete a location (ADMIN only)
+   * Delete a location (GLOBAL_ADMIN/ADMIN)
    */
   @Delete(':id')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.GLOBAL_ADMIN, Role.ADMIN)
   remove(@CurrentUser() user: RequestUser, @Param('id') id: string) {
     return this.locationsService.remove(user.tenantId!, id);
   }
 
   /**
-   * Generate QR code for a location (ADMIN only)
+   * Generate QR code for a location (GLOBAL_ADMIN/ADMIN)
    * Returns base64 PNG data URL
    */
   @Post(':id/generate-qr')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.GLOBAL_ADMIN, Role.ADMIN)
   async generateQR(@CurrentUser() user: RequestUser, @Param('id') id: string) {
     const qrCodeDataUrl = await this.locationsService.generateQRCodeImage(
       user.tenantId!,

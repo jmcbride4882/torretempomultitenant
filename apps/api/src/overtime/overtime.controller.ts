@@ -29,7 +29,7 @@ export class OvertimeController {
    */
   @Post()
   @UseGuards(RolesGuard)
-  @Roles(Role.MANAGER, Role.ADMIN)
+  @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
   async createOvertime(
     @CurrentUser() user: RequestUser,
     @Body() dto: CreateOvertimeDto,
@@ -52,7 +52,7 @@ export class OvertimeController {
    */
   @Post(':id/approve')
   @UseGuards(RolesGuard)
-  @Roles(Role.MANAGER, Role.ADMIN)
+  @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
   async approveOvertime(
     @CurrentUser() user: RequestUser,
     @Param('id') overtimeId: string,
@@ -87,7 +87,7 @@ export class OvertimeController {
    */
   @Get('pending')
   @UseGuards(RolesGuard)
-  @Roles(Role.MANAGER, Role.ADMIN)
+  @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
   async getPendingOvertimes(@CurrentUser() user: RequestUser) {
     return this.overtimeService.getPendingOvertimes(user.tenantId!);
   }
@@ -119,7 +119,7 @@ export class OvertimeController {
    */
   @Get('all')
   @UseGuards(RolesGuard)
-  @Roles(Role.MANAGER, Role.ADMIN)
+  @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
   async getAllOvertimes(
     @CurrentUser() user: RequestUser,
     @Query('page') page?: string,

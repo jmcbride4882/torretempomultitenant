@@ -38,7 +38,7 @@ export class TenantsController {
    */
   @Patch('current')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.GLOBAL_ADMIN, Role.ADMIN)
   async updateCurrentTenant(
     @CurrentUser() user: RequestUser,
     @Body() dto: UpdateTenantDto,

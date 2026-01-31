@@ -28,10 +28,10 @@ export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
   /**
-   * Generate monthly report (MANAGER/ADMIN only)
+   * Generate monthly report (GLOBAL_ADMIN/ADMIN/MANAGER)
    */
    @Post('generate')
-   @Roles(Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER)
    async generateReport(
      @CurrentUser() user: RequestUser,
      @Body() dto: GenerateReportDto,
@@ -70,7 +70,7 @@ export class ReportsController {
    * Get my reports (employee view)
    */
    @Get('my/reports')
-   @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER, Role.EMPLOYEE)
    async getMyReports(@CurrentUser() user: RequestUser) {
      const reports = await this.reportsService.getMyReports(
        user.tenantId!,
@@ -152,7 +152,7 @@ export class ReportsController {
    * Sign report (employee acknowledges)
    */
    @Post(':id/sign')
-   @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN)
+   @Roles(Role.GLOBAL_ADMIN, Role.ADMIN, Role.MANAGER, Role.EMPLOYEE)
    async signReport(
      @CurrentUser() user: RequestUser,
      @Param('id') id: string,
