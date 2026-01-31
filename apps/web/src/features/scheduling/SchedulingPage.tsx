@@ -69,7 +69,7 @@ export function SchedulingPage() {
   // Fetch users (employees)
   const { data: users = [] } = useQuery<User[]>({
     queryKey: ['users'],
-    queryFn: () => api.get('/auth/users'),
+    queryFn: () => api.get('/users'),
   });
 
   // Fetch schedules
@@ -140,7 +140,7 @@ export function SchedulingPage() {
       setSelectedLocation('');
       setError('');
     },
-    onError: (err: any) => {
+    onError: (err: Error) => {
       setError(err.message || 'Failed to create schedule');
     },
   });

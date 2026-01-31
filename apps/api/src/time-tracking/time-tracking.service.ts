@@ -145,7 +145,7 @@ export class TimeTrackingService {
       },
     });
 
-    this.logger.log(`User ${userId} clocked in at ${timeEntry.clockIn}`);
+    this.logger.log(`User ${userId} clocked in at ${timeEntry.clockIn.toISOString()}`);
 
     // Log to audit
     await this.auditService.logTimeEntryCreation(
@@ -219,7 +219,7 @@ export class TimeTrackingService {
       },
     });
 
-     this.logger.log(`User ${userId} clocked out at ${timeEntry.clockOut}`);
+     this.logger.log(`User ${userId} clocked out at ${timeEntry.clockOut?.toISOString() ?? 'null'}`);
 
      // Log to audit
      await this.auditService.logTimeEntryUpdate(
@@ -274,12 +274,12 @@ export class TimeTrackingService {
            );
          }
        }
-     } catch (error) {
-       this.logger.error(
-         `Error detecting overtime for user ${userId}: ${error.message}`,
-       );
-       // Don't fail the clock-out if overtime detection fails
-     }
+      } catch (error) {
+        this.logger.error(
+          `Error detecting overtime for user ${userId}: ${error instanceof Error ? error.message : String(error)}`,
+        );
+        // Don't fail the clock-out if overtime detection fails
+      }
 
      return timeEntry;
   }

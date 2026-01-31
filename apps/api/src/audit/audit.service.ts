@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 export interface AuditLogData {
@@ -9,7 +10,7 @@ export interface AuditLogData {
   actorId?: string;
   actorEmail?: string;
   actorRole?: string;
-  changes?: Record<string, any>;
+  changes?: Prisma.InputJsonValue;
   ipAddress?: string;
   userAgent?: string;
 }
@@ -142,7 +143,7 @@ export class AuditService {
     userId: string,
     userEmail: string,
     userRole: string,
-    entryData: Record<string, unknown>,
+    entryData: Prisma.InputJsonValue,
   ) {
     return this.createLog({
       tenantId,
@@ -167,8 +168,8 @@ export class AuditService {
     userId: string,
     userEmail: string,
     userRole: string,
-    beforeData: Record<string, unknown>,
-    afterData: Record<string, unknown>,
+    beforeData: Prisma.InputJsonValue,
+    afterData: Prisma.InputJsonValue,
   ) {
     return this.createLog({
       tenantId,
@@ -195,7 +196,7 @@ export class AuditService {
     userEmail: string,
     userRole: string,
     action: 'CREATED' | 'APPROVED' | 'REJECTED',
-    requestData: Record<string, unknown>,
+    requestData: Prisma.InputJsonValue,
   ) {
     return this.createLog({
       tenantId,

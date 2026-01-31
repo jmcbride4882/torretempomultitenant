@@ -176,6 +176,26 @@ function DashboardPage() {
 }
 
 // ============================================
+// COMPLIANCE PAGE (Placeholder)
+// ============================================
+function CompliancePage() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="p-6">
+      <div className="max-w-3xl">
+        <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+          {t('compliance.notChecked')}
+        </h1>
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+          {t('compliance.checking')}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
 // PROTECTED ROUTE
 // ============================================
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -277,6 +297,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <TenantSettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/app/compliance"
+          element={
+            <ProtectedRoute>
+              <CompliancePage />
             </ProtectedRoute>
           }
         />

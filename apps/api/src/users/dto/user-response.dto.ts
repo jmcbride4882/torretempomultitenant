@@ -2,7 +2,7 @@ import { Role } from '@prisma/client';
 
 export class UserResponseDto {
   id: string;
-  tenantId: string;
+  tenantId: string | null;
   email: string;
   firstName: string;
   lastName: string;
@@ -17,7 +17,19 @@ export class UserResponseDto {
 /**
  * Transform Prisma user to response DTO (removes passwordHash)
  */
-export function toUserResponse(user: any): UserResponseDto {
+export function toUserResponse(user: {
+  id: string;
+  tenantId: string | null;
+  email: string;
+  firstName: string;
+  lastName: string;
+  employeeCode: string | null;
+  role: Role;
+  isActive: boolean;
+  locale: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}): UserResponseDto {
   return {
     id: user.id,
     tenantId: user.tenantId,

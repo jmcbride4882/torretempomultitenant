@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe, Logger } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
 import { loggerConfig } from './config/logger.config';
@@ -37,4 +37,4 @@ async function bootstrap() {
   logger.log(`Environment: ${process.env.NODE_ENV || 'development'}`, 'Bootstrap');
 }
 
-bootstrap();
+void bootstrap();

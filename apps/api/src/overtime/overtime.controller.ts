@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { RequestUser } from '../auth/interfaces/request-user.interface';
 import { Role } from '@prisma/client';
 
 @Controller('overtime')
@@ -27,14 +28,21 @@ export class OvertimeController {
    * POST /api/overtime
    */
   @Post()
+  @UseGuards(RolesGuard)
+  @Roles(Role.MANAGER, Role.ADMIN)
   async createOvertime(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Body() dto: CreateOvertimeDto,
   ) {
+    const userId = dto.userId || user.id;
+    const tenantId = user.tenantId!;
+    
     return this.overtimeService.createOvertimeEntry({
-      ...dto,
-      userId: dto.userId || user.id,
-      tenantId: user.tenantId,
+      timeEntryId: dto.timeEntryId,
+      userId,
+      tenantId,
+      hours: dto.hours,
+      type: dto.type,
     });
   }
 
@@ -46,7 +54,7 @@ export class OvertimeController {
   @UseGuards(RolesGuard)
   @Roles(Role.MANAGER, Role.ADMIN)
   async approveOvertime(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Param('id') overtimeId: string,
     @Body() dto: ApproveOvertimeDto,
   ) {
@@ -68,7 +76,7 @@ export class OvertimeController {
    * GET /api/overtime/balance
    */
   @Get('balance')
-  async getBalance(@CurrentUser() user: any) {
+  async getBalance(@CurrentUser() user: RequestUser) {
     const year = new Date().getFullYear();
     return this.overtimeService.getOvertimeBalance(user.id, year);
   }
@@ -80,8 +88,8 @@ export class OvertimeController {
   @Get('pending')
   @UseGuards(RolesGuard)
   @Roles(Role.MANAGER, Role.ADMIN)
-  async getPendingOvertimes(@CurrentUser() user: any) {
-    return this.overtimeService.getPendingOvertimes(user.tenantId);
+  async getPendingOvertimes(@CurrentUser() user: RequestUser) {
+    return this.overtimeService.getPendingOvertimes(user.tenantId!);
   }
 
   /**
@@ -90,7 +98,7 @@ export class OvertimeController {
    */
   @Get('history')
   async getOvertimeHistory(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Query('page') page?: string,
     @Query('pageSize') pageSize?: string,
   ) {
@@ -99,7 +107,7 @@ export class OvertimeController {
 
     return this.overtimeService.getOvertimeHistory(
       user.id,
-      user.tenantId,
+      user.tenantId!,
       pageNum,
       pageSizeNum,
     );
@@ -113,7 +121,7 @@ export class OvertimeController {
   @UseGuards(RolesGuard)
   @Roles(Role.MANAGER, Role.ADMIN)
   async getAllOvertimes(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Query('page') page?: string,
     @Query('pageSize') pageSize?: string,
   ) {
@@ -121,7 +129,7 @@ export class OvertimeController {
     const pageSizeNum = pageSize ? parseInt(pageSize, 10) : 50;
 
     return this.overtimeService.getAllOvertimes(
-      user.tenantId,
+      user.tenantId!,
       pageNum,
       pageSizeNum,
     );

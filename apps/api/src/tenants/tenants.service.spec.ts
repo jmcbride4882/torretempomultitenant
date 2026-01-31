@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
 import { TenantsService } from './tenants.service';
@@ -375,7 +376,7 @@ describe('TenantsService', () => {
         createdAt: new Date(),
       };
 
-      prisma.$transaction.mockImplementation(async (callback: any) => {
+      prisma.$transaction.mockImplementation((callback: any) => {
         return callback({
           tenant: {
             create: jest.fn().mockResolvedValue(createdTenant),
@@ -479,7 +480,7 @@ describe('TenantsService', () => {
         createdAt: new Date(),
       };
 
-      prisma.$transaction.mockImplementation(async (callback: any) => {
+      prisma.$transaction.mockImplementation((callback: any) => {
         return callback({
           tenant: {
             create: jest.fn().mockResolvedValue(createdTenant),
@@ -540,7 +541,7 @@ describe('TenantsService', () => {
         createdAt: new Date(),
       };
 
-      prisma.$transaction.mockImplementation(async (callback: any) => {
+      prisma.$transaction.mockImplementation((callback: any) => {
         return callback({
           tenant: {
             create: jest.fn().mockResolvedValue(createdTenant),

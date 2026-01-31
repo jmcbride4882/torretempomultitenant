@@ -55,7 +55,7 @@ export class SchedulingService {
    * Get all shifts for a tenant
    */
   async getShifts(tenantId: string, includeInactive = false) {
-    const where: any = { tenantId };
+    const where: { tenantId: string; isActive?: boolean } = { tenantId };
 
     if (!includeInactive) {
       where.isActive = true;
@@ -258,7 +258,12 @@ export class SchedulingService {
     endDate?: string,
     employeeId?: string,
   ) {
-    const where: any = { tenantId };
+    const where: {
+      tenantId: string;
+      userId?: string;
+      isPublished?: boolean;
+      date?: { gte?: Date; lte?: Date };
+    } = { tenantId };
 
     // Role-based filtering
     if (userRole === Role.EMPLOYEE) {
@@ -497,7 +502,12 @@ export class SchedulingService {
     startDate?: string,
     endDate?: string,
   ) {
-    const where: any = {
+    const where: {
+      tenantId: string;
+      userId: string;
+      isPublished: boolean;
+      date?: { gte?: Date; lte?: Date };
+    } = {
       tenantId,
       userId,
       isPublished: true,

@@ -31,9 +31,9 @@ export const loggerConfig: WinstonModuleOptions = {
         winston.format.colorize(),
         winston.format.printf((info: winston.Logform.TransformableInfo) => {
           const { timestamp, level, message, context, ...meta } = info;
-          const contextStr = context ? `[${context}]` : '';
+          const contextStr = context ? `[${String(context)}]` : '';
           const metaStr = Object.keys(meta).length > 0 ? JSON.stringify(meta) : '';
-          return `${timestamp} ${level} ${contextStr} ${message} ${metaStr}`;
+          return `${String(timestamp)} ${String(level)} ${contextStr} ${String(message)} ${metaStr}`;
         }),
       ),
     }),

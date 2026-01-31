@@ -144,7 +144,7 @@ export class ReportsService {
    * Get all reports for a tenant (filtered by role)
    */
   async getReports(tenantId: string, userId: string, userRole: string) {
-    const where: any = { tenantId };
+    const where: { tenantId: string; signatures?: { some: { userId: string } } } = { tenantId };
 
     // Employees can only see their own reports
     if (userRole === 'EMPLOYEE') {
@@ -252,7 +252,7 @@ export class ReportsService {
     ipAddress?: string,
     userAgent?: string,
   ) {
-    const report = await this.getReport(reportId, tenantId);
+    const _report = await this.getReport(reportId, tenantId);
 
     // Check if user already signed
     const existingSignature = await this.prisma.signature.findUnique({

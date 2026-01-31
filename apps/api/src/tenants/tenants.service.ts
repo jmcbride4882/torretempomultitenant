@@ -214,8 +214,8 @@ export class TenantsService {
      const where = search
        ? {
            OR: [
-             { name: { contains: search, mode: 'insensitive' as any } },
-             { slug: { contains: search, mode: 'insensitive' as any } },
+             { name: { contains: search, mode: 'insensitive' as const } },
+             { slug: { contains: search, mode: 'insensitive' as const } },
            ],
          }
        : {};

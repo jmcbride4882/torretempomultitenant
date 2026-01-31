@@ -17,9 +17,13 @@ class SyncService {
 
     window.addEventListener('online', () => this.processQueue());
 
-    if ('serviceWorker' in navigator && 'sync' in (navigator.serviceWorker as any)) {
-      navigator.serviceWorker.ready.then((registration: any) => {
-        return registration.sync.register('sync-offline-queue');
+    if ('serviceWorker' in navigator) {
+      const swContainer = navigator.serviceWorker as unknown as { ready: Promise<unknown> };
+      swContainer.ready.then((registration: unknown) => {
+        const regWithSync = registration as unknown as { sync?: { register: (tag: string) => Promise<void> } };
+        if (regWithSync.sync) {
+          regWithSync.sync.register('sync-offline-queue');
+        }
       });
     }
   }
@@ -43,11 +47,12 @@ class SyncService {
         try {
           await api.post(request.endpoint, request.body);
           await offlineQueue.remove(request.id);
-        } catch (error: any) {
-          const shouldRetry = await offlineQueue.incrementRetry(
-            request.id,
-            error.message || 'Unknown error'
-          );
+         } catch (error: unknown) {
+           const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+           const shouldRetry = await offlineQueue.incrementRetry(
+             request.id,
+             errorMessage
+           );
 
           if (!shouldRetry) {
             // Max retries exceeded - request is removed from queue
@@ -59,9 +64,9 @@ class SyncService {
     }
   }
 
-  async addToQueue(endpoint: string, method: string, body: any): Promise<string> {
-    return offlineQueue.add({ endpoint, method, body });
-  }
+   async addToQueue(endpoint: string, method: string, body: unknown): Promise<string> {
+     return offlineQueue.add({ endpoint, method, body });
+   }
 
   async getQueueCount(): Promise<number> {
     return offlineQueue.count();

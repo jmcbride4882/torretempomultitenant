@@ -5,8 +5,8 @@ import {
   Body,
   UseGuards,
   Query,
-  ParseIntPipe,
   Param,
+  BadRequestException,
 } from '@nestjs/common';
 import { TimeTrackingService } from './time-tracking.service';
 import {
@@ -21,6 +21,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { RequestUser } from '../auth/interfaces/request-user.interface';
 import { Role } from '@prisma/client';
 
 @Controller('time-tracking')
@@ -35,7 +36,11 @@ export class TimeTrackingController {
   @Post('clock-in')
   @UseGuards(RolesGuard)
   @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
-  async clockIn(@CurrentUser() user: any, @Body() dto: ClockInDto) {
+  async clockIn(@CurrentUser() user: RequestUser, @Body() dto: ClockInDto) {
+    // GLOBAL_ADMIN users don't have tenantId - they cannot clock in
+    if (!user.tenantId) {
+      throw new BadRequestException('GLOBAL_ADMIN users cannot clock in/out');
+    }
     return this.timeTrackingService.clockIn(
       user.id,
       user.tenantId,
@@ -52,7 +57,11 @@ export class TimeTrackingController {
   @Post('clock-out')
   @UseGuards(RolesGuard)
   @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
-  async clockOut(@CurrentUser() user: any, @Body() dto: ClockOutDto) {
+  async clockOut(@CurrentUser() user: RequestUser, @Body() dto: ClockOutDto) {
+    // GLOBAL_ADMIN users don't have tenantId - they cannot clock out
+    if (!user.tenantId) {
+      throw new BadRequestException('GLOBAL_ADMIN users cannot clock in/out');
+    }
     return this.timeTrackingService.clockOut(
       user.id,
       user.tenantId,
@@ -69,7 +78,11 @@ export class TimeTrackingController {
   @Get('current')
   @UseGuards(RolesGuard)
   @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
-  async getCurrentEntry(@CurrentUser() user: any) {
+  async getCurrentEntry(@CurrentUser() user: RequestUser) {
+    // GLOBAL_ADMIN users don't have tenantId and don't clock in/out
+    if (!user.tenantId) {
+      return null;
+    }
     return this.timeTrackingService.getCurrentEntry(user.id, user.tenantId);
   }
 
@@ -81,12 +94,16 @@ export class TimeTrackingController {
   @UseGuards(RolesGuard)
   @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async getMyEntries(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Query('page') page?: string,
     @Query('pageSize') pageSize?: string,
   ) {
     const pageNum = page ? parseInt(page, 10) : undefined;
     const pageSizeNum = pageSize ? parseInt(pageSize, 10) : undefined;
+    // GLOBAL_ADMIN users don't have tenantId and don't clock in/out
+    if (!user.tenantId) {
+      return { entries: [], total: 0, page: pageNum || 1, pageSize: pageSizeNum || 50 };
+    }
     return this.timeTrackingService.getEntries(
       user.id,
       user.tenantId,
@@ -103,12 +120,16 @@ export class TimeTrackingController {
   @UseGuards(RolesGuard)
   @Roles(Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async getAllEntries(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Query('page') page?: string,
     @Query('pageSize') pageSize?: string,
   ) {
     const pageNum = page ? parseInt(page, 10) : undefined;
     const pageSizeNum = pageSize ? parseInt(pageSize, 10) : undefined;
+    // GLOBAL_ADMIN users don't have tenantId - return empty
+    if (!user.tenantId) {
+      return { entries: [], total: 0, page: pageNum || 1, pageSize: pageSizeNum || 50 };
+    }
     return this.timeTrackingService.getAllEntries(
       user.tenantId,
       pageNum,
@@ -123,7 +144,7 @@ export class TimeTrackingController {
   @Post('breaks/start')
   @UseGuards(RolesGuard)
   @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
-  async startBreak(@CurrentUser() user: any, @Body() dto: StartBreakDto) {
+  async startBreak(@CurrentUser() user: RequestUser, @Body() dto: StartBreakDto) {
     return this.timeTrackingService.startBreak(dto.timeEntryId, user.id);
   }
 
@@ -134,7 +155,7 @@ export class TimeTrackingController {
   @Post('breaks/end')
   @UseGuards(RolesGuard)
   @Roles(Role.EMPLOYEE, Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
-  async endBreak(@CurrentUser() user: any, @Body() dto: EndBreakDto) {
+  async endBreak(@CurrentUser() user: RequestUser, @Body() dto: EndBreakDto) {
     return this.timeTrackingService.endBreak(dto.breakId, user.id);
   }
 
@@ -157,8 +178,12 @@ export class TimeTrackingController {
   @UseGuards(RolesGuard)
   @Roles(Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
   async getClockedInEmployees(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
   ): Promise<ClockedInEmployeeDto[]> {
+    // GLOBAL_ADMIN users don't have tenantId - return empty array
+    if (!user.tenantId) {
+      return [];
+    }
     return this.timeTrackingService.getClockedInEmployees(user.tenantId);
   }
 
@@ -169,7 +194,17 @@ export class TimeTrackingController {
   @Get('team-stats')
   @UseGuards(RolesGuard)
   @Roles(Role.MANAGER, Role.ADMIN, Role.GLOBAL_ADMIN)
-  async getTeamStats(@CurrentUser() user: any): Promise<TeamStatsDto> {
+  async getTeamStats(@CurrentUser() user: RequestUser): Promise<TeamStatsDto> {
+    // GLOBAL_ADMIN users don't have tenantId - return empty stats
+    if (!user.tenantId) {
+      return {
+        totalEmployees: 0,
+        clockedIn: 0,
+        totalHoursToday: 0,
+        totalHoursWeek: 0,
+        overtimeHours: 0,
+      };
+    }
     return this.timeTrackingService.getTeamStats(user.tenantId);
   }
 }

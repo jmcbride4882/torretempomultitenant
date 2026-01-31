@@ -4,11 +4,40 @@ import {
   NotFoundException,
   Logger,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOvertimeDto } from './dto/create-overtime.dto';
-import { ApproveOvertimeDto } from './dto/approve-overtime.dto';
-import { OvertimeType, CompensationType } from '@prisma/client';
+import { OvertimeType, CompensationType, OvertimeEntry } from '@prisma/client';
 import { differenceInMinutes } from 'date-fns';
+
+type OvertimeWithRelations = Prisma.OvertimeEntryGetPayload<{
+  include: {
+    user: {
+      select: {
+        id: true;
+        email: true;
+        firstName: true;
+        lastName: true;
+        employeeCode: true;
+      };
+    };
+    timeEntry: {
+      select: {
+        id: true;
+        clockIn: true;
+        clockOut: true;
+      };
+    };
+    approvedBy: {
+      select: {
+        id: true;
+        email: true;
+        firstName: true;
+        lastName: true;
+      };
+    };
+  };
+}>;
 
 @Injectable()
 export class OvertimeService {
@@ -20,7 +49,7 @@ export class OvertimeService {
    * Detect overtime from a completed time entry
    * Checks if worked hours exceed 9h/day and creates overtime entry if needed
    */
-  async detectOvertime(timeEntryId: string): Promise<any | null> {
+  async detectOvertime(timeEntryId: string): Promise<OvertimeEntry | null> {
     // Get time entry with breaks
     const entry = await this.prisma.timeEntry.findUnique({
       where: { id: timeEntryId },
@@ -60,7 +89,7 @@ export class OvertimeService {
   /**
    * Create an overtime entry manually
    */
-  async createOvertimeEntry(data: CreateOvertimeDto): Promise<any> {
+  async createOvertimeEntry(data: CreateOvertimeDto): Promise<OvertimeEntry> {
     // Verify time entry exists
     const timeEntry = await this.prisma.timeEntry.findUnique({
       where: { id: data.timeEntryId },
@@ -132,8 +161,8 @@ export class OvertimeService {
   async approveOvertime(
     overtimeId: string,
     approverId: string,
-    approvalNote?: string,
-  ): Promise<any> {
+    _approvalNote?: string,
+  ): Promise<OvertimeEntry> {
     // Verify overtime entry exists
     const overtimeEntry = await this.prisma.overtimeEntry.findUnique({
       where: { id: overtimeId },
@@ -250,7 +279,7 @@ export class OvertimeService {
   /**
    * Get pending (unapproved) overtime entries for a tenant
    */
-  async getPendingOvertimes(tenantId: string): Promise<any[]> {
+  async getPendingOvertimes(tenantId: string): Promise<OvertimeWithRelations[]> {
     return this.prisma.overtimeEntry.findMany({
       where: {
         tenantId,
@@ -273,6 +302,14 @@ export class OvertimeService {
             clockOut: true,
           },
         },
+        approvedBy: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
@@ -289,7 +326,7 @@ export class OvertimeService {
     page: number = 1,
     pageSize: number = 50,
   ): Promise<{
-    entries: any[];
+    entries: OvertimeWithRelations[];
     total: number;
     page: number;
     pageSize: number;
@@ -303,6 +340,15 @@ export class OvertimeService {
           tenantId,
         },
         include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true,
+              employeeCode: true,
+            },
+          },
           timeEntry: {
             select: {
               id: true,
@@ -349,7 +395,7 @@ export class OvertimeService {
     page: number = 1,
     pageSize: number = 50,
   ): Promise<{
-    entries: any[];
+    entries: OvertimeWithRelations[];
     total: number;
     page: number;
     pageSize: number;

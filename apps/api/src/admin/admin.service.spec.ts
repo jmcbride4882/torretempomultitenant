@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminService } from './admin.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { mockPrismaService, resetPrismaMocks } from '../test-utils/prisma-mock';
+import { TimeEntry, AuditLog } from '@prisma/client';
 
 describe('AdminService', () => {
   let service: AdminService;
@@ -42,13 +44,13 @@ describe('AdminService', () => {
       prisma.location.count.mockResolvedValue(5); // totalLocations
 
       // Mock time entries with some having warnings
-      const timeEntries = [
+      const timeEntries: Partial<TimeEntry>[] = [
         { id: 'entry-1', validationWarning: null },
         { id: 'entry-2', validationWarning: '' },
         { id: 'entry-3', validationWarning: 'Warning message' },
         { id: 'entry-4', validationWarning: null },
       ];
-      prisma.timeEntry.findMany.mockResolvedValue(timeEntries);
+      prisma.timeEntry.findMany.mockResolvedValue(timeEntries as TimeEntry[]);
 
       const result = await service.getDashboardStats(tenantId);
 
@@ -98,11 +100,12 @@ describe('AdminService', () => {
     it('should return 0% compliance score if all entries have warnings', async () => {
       prisma.user.count.mockResolvedValue(5);
       prisma.location.count.mockResolvedValue(2);
-      prisma.timeEntry.findMany.mockResolvedValue([
+      const entriesWithWarnings: Partial<TimeEntry>[] = [
         { id: 'entry-1', validationWarning: 'Warning 1' },
         { id: 'entry-2', validationWarning: 'Warning 2' },
         { id: 'entry-3', validationWarning: 'Warning 3' },
-      ]);
+      ];
+      prisma.timeEntry.findMany.mockResolvedValue(entriesWithWarnings as TimeEntry[]);
 
       const result = await service.getDashboardStats(tenantId);
 
@@ -121,7 +124,7 @@ describe('AdminService', () => {
 
       await service.getDashboardStats(tenantId);
 
-      const callArgs = prisma.timeEntry.findMany.mock.calls[0][0];
+      const callArgs = prisma.timeEntry.findMany.mock.calls[0][0] as { where: { clockIn: { gte: Date; lte: Date } } };
       const clockInFilter = callArgs.where.clockIn;
 
       // Verify date range is start to end of current month
@@ -163,7 +166,7 @@ describe('AdminService', () => {
     const tenantId = 'tenant-1';
 
     it('should return formatted activity feed from audit logs', async () => {
-      const mockLogs = [
+      const mockLogs: Partial<AuditLog>[] = [
         {
           id: 'log-1',
           tenantId,
@@ -193,7 +196,7 @@ describe('AdminService', () => {
         },
       ];
 
-      prisma.auditLog.findMany.mockResolvedValue(mockLogs);
+      prisma.auditLog.findMany.mockResolvedValue(mockLogs as AuditLog[]);
 
       const result = await service.getRecentActivity(tenantId);
 
@@ -245,7 +248,7 @@ describe('AdminService', () => {
     });
 
     it('should map various action types correctly', async () => {
-      const mockLogs = [
+      const mockLogs: Partial<AuditLog>[] = [
         {
           id: 'log-1',
           tenantId,
@@ -284,7 +287,7 @@ describe('AdminService', () => {
         },
       ];
 
-      prisma.auditLog.findMany.mockResolvedValue(mockLogs);
+      prisma.auditLog.findMany.mockResolvedValue(mockLogs as AuditLog[]);
 
       const result = await service.getRecentActivity(tenantId);
 

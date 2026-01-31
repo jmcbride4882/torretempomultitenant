@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ComplianceService } from './compliance.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { TenantsService } from '../tenants/tenants.service';
 import { mockPrismaService, resetPrismaMocks } from '../test-utils/prisma-mock';
 import { EntryStatus } from '@prisma/client';
-import { addHours, addDays, subHours, subDays } from 'date-fns';
+import { addHours, subHours, subDays } from 'date-fns';
 
 describe('ComplianceService', () => {
   let service: ComplianceService;
@@ -414,7 +415,7 @@ describe('ComplianceService', () => {
   });
 
   describe('validateBreakCompliance', () => {
-    it('should warn if shift > 6 hours without break', async () => {
+    it('should warn if shift > 6 hours without break', () => {
       const clockIn = new Date('2026-01-29T08:00:00Z');
       const clockOut = new Date('2026-01-29T15:00:00Z'); // 7 hours
       const timeEntry: any = {
@@ -427,7 +428,7 @@ describe('ComplianceService', () => {
         status: EntryStatus.ACTIVE,
       };
 
-      const result = await service.validateBreakCompliance(timeEntry);
+      const result = service.validateBreakCompliance(timeEntry);
 
       expect(result.isCompliant).toBe(true);
       expect(result.violations).toHaveLength(0);
@@ -435,7 +436,7 @@ describe('ComplianceService', () => {
       expect(result.warnings[0].code).toBe('BREAK_REQUIRED');
     });
 
-    it('should not warn if shift > 6 hours with adequate break', async () => {
+    it('should not warn if shift > 6 hours with adequate break', () => {
       const clockIn = new Date('2026-01-29T08:00:00Z');
       const clockOut = new Date('2026-01-29T15:00:00Z'); // 7 hours
       const timeEntry: any = {
@@ -448,14 +449,14 @@ describe('ComplianceService', () => {
         status: EntryStatus.ACTIVE,
       };
 
-      const result = await service.validateBreakCompliance(timeEntry);
+      const result = service.validateBreakCompliance(timeEntry);
 
       expect(result.isCompliant).toBe(true);
       expect(result.violations).toHaveLength(0);
       expect(result.warnings).toHaveLength(0);
     });
 
-    it('should not warn if shift <= 6 hours without break', async () => {
+    it('should not warn if shift <= 6 hours without break', () => {
       const clockIn = new Date('2026-01-29T08:00:00Z');
       const clockOut = new Date('2026-01-29T14:00:00Z'); // 6 hours
       const timeEntry: any = {
@@ -468,14 +469,14 @@ describe('ComplianceService', () => {
         status: EntryStatus.ACTIVE,
       };
 
-      const result = await service.validateBreakCompliance(timeEntry);
+      const result = service.validateBreakCompliance(timeEntry);
 
       expect(result.isCompliant).toBe(true);
       expect(result.violations).toHaveLength(0);
       expect(result.warnings).toHaveLength(0);
     });
 
-    it('should handle ongoing shift (no clockOut)', async () => {
+    it('should handle ongoing shift (no clockOut)', () => {
       const clockIn = new Date('2026-01-29T08:00:00Z');
       const timeEntry: any = {
         id: 'entry-1',
@@ -487,7 +488,7 @@ describe('ComplianceService', () => {
         status: EntryStatus.ACTIVE,
       };
 
-      const result = await service.validateBreakCompliance(timeEntry);
+      const result = service.validateBreakCompliance(timeEntry);
 
       expect(result.isCompliant).toBe(true);
       expect(result.violations).toHaveLength(0);

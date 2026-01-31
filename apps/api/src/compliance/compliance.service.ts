@@ -141,9 +141,9 @@ export class ComplianceService {
     return this.validateWeeklyRestWithTenant(userId, tenantId, tenant.timezone);
   }
 
-  async validateBreakCompliance(
+  validateBreakCompliance(
     timeEntry: TimeEntry,
-  ): Promise<ComplianceCheckResult> {
+  ): ComplianceCheckResult {
     const now = new Date();
     const clockOut = timeEntry.clockOut ?? now;
     const totalMinutes = differenceInMinutes(clockOut, timeEntry.clockIn);

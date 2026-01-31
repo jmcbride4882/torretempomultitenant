@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { Navigate } from 'react-router-dom';
 import { Role, SUPPORTED_LOCALES, type Tenant, type SupportedLocale } from '@torre-tempo/shared';
 import { api } from '../../lib/api';
 import { useAuthStore } from '../../lib/store';
-import { Navigate } from 'react-router-dom';
 
 // ============================================
 // TYPES
@@ -129,21 +129,18 @@ export function TenantSettingsPage() {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [isDirty, setIsDirty] = useState(false);
 
-  // Redirect non-admin users
-  if (!user || user.role !== Role.ADMIN) {
-    return <Navigate to="/app/dashboard" replace />;
-  }
-
   // Fetch current tenant
   const { data: tenantData, isLoading: tenantLoading } = useQuery<Tenant>({
     queryKey: ['tenant', 'current'],
     queryFn: () => api.get('/tenants/current'),
+    enabled: user?.role === Role.ADMIN, // Only fetch if user is admin
   });
 
   // Fetch tenant stats
   const { data: statsData, isLoading: statsLoading } = useQuery<TenantStats>({
     queryKey: ['tenant', 'stats'],
     queryFn: () => api.get('/tenants/stats'),
+    enabled: user?.role === Role.ADMIN, // Only fetch if user is admin
   });
 
   // Initialize form with tenant data
@@ -246,6 +243,11 @@ export function TenantSettingsPage() {
 
     updateMutation.mutate(updateData);
   };
+
+  // Redirect non-admin users
+  if (!user || user.role !== Role.ADMIN) {
+    return <Navigate to="/app/dashboard" replace />;
+  }
 
   // Loading state
   if (tenantLoading) {

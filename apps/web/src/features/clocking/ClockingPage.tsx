@@ -31,6 +31,14 @@ interface Coordinates {
   longitude: number;
 }
 
+interface BreakEntry {
+  id: string;
+  timeEntryId: string;
+  startedAt: string;
+  endedAt: string | null;
+  createdAt: string;
+}
+
 type MutationError = Error & { message: string };
 
 // ============================================
@@ -102,8 +110,8 @@ export function ClockingPage() {
   const [elapsedTime, setElapsedTime] = useState<string>('00:00:00');
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [activeBreak, setActiveBreak] = useState<any>(null);
-  const [breaks, setBreaks] = useState<any[]>([]);
+  const [activeBreak, setActiveBreak] = useState<BreakEntry | null>(null);
+  const [breaks, setBreaks] = useState<BreakEntry[]>([]);
 
   // Initialize sync service and listeners
   useEffect(() => {
@@ -332,6 +340,27 @@ export function ClockingPage() {
   // BREAK TRACKING
   // ============================================
 
+  const fetchActiveBreak = useCallback(async () => {
+    if (!currentEntry?.id) return;
+    try {
+      const response = await api.get<BreakEntry[]>(`/time-tracking/breaks/${currentEntry.id}`);
+      const activeBreak = response.find((b) => !b.endedAt);
+      setActiveBreak(activeBreak || null);
+    } catch {
+      // Failed to fetch active break - continue with null state
+    }
+  }, [currentEntry?.id]);
+
+  const fetchBreaks = useCallback(async () => {
+    if (!currentEntry?.id) return;
+    try {
+      const response = await api.get<BreakEntry[]>(`/time-tracking/breaks/${currentEntry.id}`);
+      setBreaks(response);
+    } catch {
+      // Failed to fetch breaks - continue with empty state
+    }
+  }, [currentEntry?.id]);
+
   // Fetch breaks when current entry changes
   useEffect(() => {
     if (currentEntry?.id) {
@@ -341,41 +370,20 @@ export function ClockingPage() {
       setActiveBreak(null);
       setBreaks([]);
     }
-  }, [currentEntry?.id]);
+  }, [currentEntry?.id, fetchActiveBreak, fetchBreaks]);
 
-   const fetchActiveBreak = async () => {
-     if (!currentEntry?.id) return;
-     try {
-       const response = await api.get<any[]>(`/time-tracking/breaks/${currentEntry.id}`);
-       const activeBreak = response.find((b: any) => !b.endedAt);
-       setActiveBreak(activeBreak || null);
-     } catch {
-       // Failed to fetch active break - continue with null state
-     }
-   };
-
-   const fetchBreaks = async () => {
-     if (!currentEntry?.id) return;
-     try {
-       const response = await api.get<any[]>(`/time-tracking/breaks/${currentEntry.id}`);
-       setBreaks(response);
-     } catch {
-       // Failed to fetch breaks - continue with empty state
-     }
-   };
-
-  const startBreakMutation = useMutation({
-    mutationFn: async (timeEntryId: string) => {
-      return api.post('/time-tracking/breaks/start', { timeEntryId });
-    },
-    onSuccess: (data) => {
-      setActiveBreak(data);
-      setSuccessMessage(t('clocking.breakStarted'));
-    },
-    onError: (error: MutationError) => {
-      setErrorMessage(error.message || t('clocking.breakStartFailed'));
-    },
-  });
+   const startBreakMutation = useMutation<BreakEntry, MutationError, string>({
+     mutationFn: async (timeEntryId: string) => {
+       return api.post('/time-tracking/breaks/start', { timeEntryId });
+     },
+     onSuccess: (data) => {
+       setActiveBreak(data);
+       setSuccessMessage(t('clocking.breakStarted'));
+     },
+     onError: (error: MutationError) => {
+       setErrorMessage(error.message || t('clocking.breakStartFailed'));
+     },
+   });
 
   const endBreakMutation = useMutation({
     mutationFn: async (breakId: string) => {

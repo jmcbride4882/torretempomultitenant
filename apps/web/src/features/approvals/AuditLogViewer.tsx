@@ -11,9 +11,9 @@ interface AuditLog {
   actorEmail: string | null;
   actorRole: string | null;
   changes: {
-    before?: Record<string, any>;
-    after?: Record<string, any>;
-    [key: string]: any;
+    before?: Record<string, unknown>;
+    after?: Record<string, unknown>;
+    [key: string]: unknown;
   } | null;
   ipAddress: string | null;
   userAgent: string | null;
@@ -44,7 +44,7 @@ export function AuditLogViewer({ timeEntryId }: AuditLogViewerProps) {
     },
   });
 
-  const formatValue = (value: any): string => {
+  const formatValue = (value: unknown): string => {
     if (value === null || value === undefined) {
       return t('audit.noChanges');
     }

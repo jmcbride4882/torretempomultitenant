@@ -4,7 +4,7 @@ interface OfflineRequest {
   id: string;
   endpoint: string;
   method: string;
-  body: any;
+  body: unknown;
   timestamp: number;
   retries: number;
   lastError?: string;

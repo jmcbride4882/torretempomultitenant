@@ -112,7 +112,7 @@ export class RetentionService {
    * 3. Optionally delete from main table after successful export
    * 4. Keep manifest file with archive locations for retrieval
    */
-  private async archiveOldLogs(cutoffDate: Date): Promise<void> {
+  private archiveOldLogs(cutoffDate: Date): void {
     // TODO: Implement when cold storage is configured
     // Example implementation:
     //

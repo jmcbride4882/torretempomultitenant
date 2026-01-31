@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { RequestUser } from '../auth/interfaces/request-user.interface';
 import { Role } from '@prisma/client';
 
 @Controller('tenants')
@@ -27,8 +28,8 @@ export class TenantsController {
    * GET /api/tenants/current
    */
   @Get('current')
-  async getCurrentTenant(@CurrentUser() user: any) {
-    return this.tenantsService.getTenant(user.tenantId);
+  async getCurrentTenant(@CurrentUser() user: RequestUser) {
+    return this.tenantsService.getTenant(user.tenantId!);
   }
 
   /**
@@ -39,11 +40,11 @@ export class TenantsController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   async updateCurrentTenant(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Body() dto: UpdateTenantDto,
   ) {
     return this.tenantsService.updateTenant(
-      user.tenantId,
+      user.tenantId!,
       user.id,
       user.email,
       user.role,
@@ -56,8 +57,8 @@ export class TenantsController {
    * GET /api/tenants/stats
    */
   @Get('stats')
-  async getTenantStats(@CurrentUser() user: any) {
-    return this.tenantsService.getTenantStats(user.tenantId);
+  async getTenantStats(@CurrentUser() user: RequestUser) {
+    return this.tenantsService.getTenantStats(user.tenantId!);
   }
 
    /**
@@ -97,7 +98,7 @@ export class TenantsController {
    @Roles(Role.GLOBAL_ADMIN)
   async updateTenantById(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Body() dto: UpdateTenantDto,
   ) {
     return this.tenantsService.updateTenant(
@@ -117,7 +118,7 @@ export class TenantsController {
    @UseGuards(RolesGuard)
    @Roles(Role.GLOBAL_ADMIN)
   async createTenant(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Body() dto: CreateTenantDto,
   ) {
     return this.tenantsService.createTenant(dto, user.id, user.email);

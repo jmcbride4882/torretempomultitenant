@@ -2,6 +2,7 @@ import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ComplianceService } from './compliance.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { RequestUser } from '../auth/interfaces/request-user.interface';
 
 @Controller('compliance')
 @UseGuards(JwtAuthGuard)
@@ -14,16 +15,16 @@ export class ComplianceController {
    */
   @Get('check')
   async checkCompliance(
-    @CurrentUser() user: { tenantId: string; id: string },
+    @CurrentUser() user: RequestUser,
     @Query('userId') userId?: string,
-    @Query('date') date?: string,
+    @Query('date') _date?: string,
   ) {
     // Use current user if no userId provided
     const targetUserId = userId || user.id;
 
     return this.complianceService.validateClockInAllowed(
       targetUserId,
-      user.tenantId,
+      user.tenantId!,
     );
   }
 
@@ -33,7 +34,7 @@ export class ComplianceController {
    */
   @Get('check-batch')
   async checkComplianceBatch(
-    @CurrentUser() user: { tenantId: string },
+    @CurrentUser() user: RequestUser,
     @Query('userIds') userIds: string,
   ) {
     const userIdList = userIds.split(',').filter(Boolean);
@@ -42,7 +43,7 @@ export class ComplianceController {
       userIdList.map(async (userId) => {
         const result = await this.complianceService.validateClockInAllowed(
           userId,
-          user.tenantId,
+          user.tenantId!,
         );
         return { userId, ...result };
       }),

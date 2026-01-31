@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   Logger,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import { CreateEditRequestDto } from './dto/create-edit-request.dto';
@@ -132,7 +133,7 @@ export class ApprovalsService {
   ) {
     const skip = (page - 1) * pageSize;
 
-    const where: any = {
+    const where: Prisma.EditRequestWhereInput = {
       timeEntry: {
         tenantId,
       },
@@ -203,19 +204,22 @@ export class ApprovalsService {
 
   /**
    * Get a single edit request
+   * For GLOBAL_ADMIN (tenantId=null), allows cross-tenant lookup
    */
   async getEditRequest(
     requestId: string,
     userId: string,
-    tenantId: string,
+    tenantId: string | null,
     userRole: string,
   ) {
     const editRequest = await this.prisma.editRequest.findFirst({
       where: {
         id: requestId,
-        timeEntry: {
-          tenantId,
-        },
+        ...(tenantId !== null && {
+          timeEntry: {
+            tenantId,
+          },
+        }),
       },
       include: {
         timeEntry: {
@@ -508,7 +512,7 @@ export class ApprovalsService {
   /**
    * Helper: Get field value from time entry
    */
-  private getFieldValue(timeEntry: any, fieldName: string): any {
+  private getFieldValue(timeEntry: { clockIn: Date; clockOut: Date | null; breakMinutes: number | null; locationId: string | null }, fieldName: string): Date | number | string | null | undefined {
     switch (fieldName) {
       case 'clockIn':
         return timeEntry.clockIn;
@@ -526,15 +530,16 @@ export class ApprovalsService {
   /**
    * Helper: Build update data for time entry
    */
-  private buildUpdateData(fieldName: string, newValue: string): any {
+  private buildUpdateData(fieldName: string, newValue: string): { clockIn?: Date; clockOut?: Date; breakMinutes?: number; locationId?: string } {
     switch (fieldName) {
       case 'clockIn':
+        return { clockIn: new Date(newValue) };
       case 'clockOut':
-        return { [fieldName]: new Date(newValue) };
+        return { clockOut: new Date(newValue) };
       case 'breakMinutes':
-        return { [fieldName]: parseInt(newValue, 10) };
+        return { breakMinutes: parseInt(newValue, 10) };
       case 'locationId':
-        return { [fieldName]: newValue };
+        return { locationId: newValue };
       default:
         throw new BadRequestException(`Cannot update field: ${fieldName}`);
     }

@@ -2,7 +2,6 @@ import {
   Injectable,
   UnauthorizedException,
   ConflictException,
-  BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -21,7 +20,7 @@ export class AuthService {
    * Validate user credentials
    * @returns User object without password if valid, null otherwise
    */
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(email: string, password: string) {
     const user = await this.prisma.user.findFirst({
       where: {
         email: email.toLowerCase(),
@@ -46,7 +45,7 @@ export class AuthService {
     }
 
     // Remove password from returned user object
-    const { passwordHash, ...result } = user;
+    const { passwordHash: _passwordHash, ...result } = user;
     return result;
   }
 
@@ -54,32 +53,32 @@ export class AuthService {
    * Login user and generate JWT token
    */
   async login(loginDto: LoginDto) {
-    const user = await this.validateUser(loginDto.email, loginDto.password);
+    const validatedUser = await this.validateUser(loginDto.email, loginDto.password);
 
-    if (!user) {
+    if (!validatedUser) {
       throw new UnauthorizedException('Invalid email or password');
     }
 
     const payload = {
-      sub: user.id,
-      email: user.email,
-      tenantId: user.tenantId,
-      role: user.role,
+      sub: validatedUser.id,
+      email: validatedUser.email,
+      tenantId: validatedUser.tenantId,
+      role: validatedUser.role,
     };
 
     return {
       accessToken: this.jwtService.sign(payload),
       user: {
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
-        tenantId: user.tenantId,
-        tenant: user.tenant ? {
-          id: user.tenant.id,
-          name: user.tenant.name,
-          slug: user.tenant.slug,
+        id: validatedUser.id,
+        email: validatedUser.email,
+        firstName: validatedUser.firstName,
+        lastName: validatedUser.lastName,
+        role: validatedUser.role,
+        tenantId: validatedUser.tenantId,
+        tenant: validatedUser.tenant ? {
+          id: validatedUser.tenant.id,
+          name: validatedUser.tenant.name,
+          slug: validatedUser.tenant.slug,
         } : null,
       },
     };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -69,8 +70,8 @@ describe('AuthService', () => {
       const result = await service.validateUser('test@example.com', 'password123');
 
       expect(result).toBeDefined();
-      expect(result.passwordHash).toBeUndefined();
-      expect(result.email).toBe('test@example.com');
+      expect(result).not.toHaveProperty('passwordHash');
+      expect(result?.email).toBe('test@example.com');
       expect(prisma.user.findFirst).toHaveBeenCalledWith(
         expect.objectContaining({
           where: {
@@ -207,7 +208,7 @@ describe('AuthService', () => {
         role: 'ADMIN',
       };
 
-      prisma.$transaction.mockImplementation(async (callback: any) => {
+      prisma.$transaction.mockImplementation((callback: any) => {
         return callback({
           tenant: {
             create: jest.fn().mockResolvedValue(createdTenant),
@@ -293,7 +294,7 @@ describe('AuthService', () => {
         role: 'ADMIN',
       };
 
-      prisma.$transaction.mockImplementation(async (callback: any) => {
+      prisma.$transaction.mockImplementation((callback: any) => {
         return callback({
           tenant: {
             create: jest.fn().mockResolvedValue(createdTenant),
@@ -341,7 +342,7 @@ describe('AuthService', () => {
         role: 'ADMIN',
       };
 
-      prisma.$transaction.mockImplementation(async (callback: any) => {
+      prisma.$transaction.mockImplementation((callback: any) => {
         return callback({
           tenant: {
             create: jest.fn().mockResolvedValue(createdTenant),

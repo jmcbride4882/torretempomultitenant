@@ -7,6 +7,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Role } from '@prisma/client';
+import { RequestUser } from './interfaces/request-user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -23,14 +24,14 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logout() {
+  logout() {
     // JWT is stateless, so logout is client-side only
     return { message: 'Logged out successfully' };
   }
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  async me(@CurrentUser() user: any) {
+  me(@CurrentUser() user: RequestUser) {
     return user;
   }
 
@@ -39,8 +40,8 @@ export class AuthController {
   @Roles(Role.ADMIN, Role.MANAGER)
   async registerUser(
     @Body() dto: RegisterUserDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
   ) {
-    return this.authService.registerUser(user.tenantId, dto);
+    return this.authService.registerUser(user.tenantId!, dto);
   }
 }

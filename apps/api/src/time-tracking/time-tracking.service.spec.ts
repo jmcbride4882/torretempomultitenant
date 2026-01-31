@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException } from '@nestjs/common';
 import { TimeTrackingService } from './time-tracking.service';
@@ -16,7 +17,7 @@ describe('TimeTrackingService', () => {
   let locationsService: LocationsService;
   let complianceService: ComplianceService;
 
-  const mockUser = {
+  const _mockUser = {
     id: 'user-1',
     email: 'test@example.com',
     role: 'EMPLOYEE',
@@ -631,8 +632,8 @@ describe('TimeTrackingService', () => {
     const tenantId = 'tenant-1';
 
     it('should return list of currently clocked-in employees', async () => {
-      const now = new Date();
-      const clockInTime = new Date(now.getTime() - 2 * 60 * 60 * 1000); // 2 hours ago
+      const _now = new Date();
+      const clockInTime = new Date(_now.getTime() - 2 * 60 * 60 * 1000); // 2 hours ago
 
       const activeEntries = [
         {
@@ -708,8 +709,8 @@ describe('TimeTrackingService', () => {
     });
 
     it('should handle null location gracefully', async () => {
-      const now = new Date();
-      const clockInTime = new Date(now.getTime() - 1 * 60 * 60 * 1000); // 1 hour ago
+      const _now = new Date();
+      const clockInTime = new Date(_now.getTime() - 1 * 60 * 60 * 1000); // 1 hour ago
 
       const activeEntries = [
         {
@@ -746,7 +747,7 @@ describe('TimeTrackingService', () => {
         timezone: 'Europe/Madrid',
       };
 
-      const now = new Date('2026-01-29T12:00:00Z');
+      const _now = new Date('2026-01-29T12:00:00Z');
 
       prisma.tenant.findUnique.mockResolvedValue(mockTenant);
       prisma.user.count.mockResolvedValue(10); // totalEmployees

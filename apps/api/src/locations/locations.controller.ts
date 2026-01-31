@@ -17,6 +17,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { RequestUser } from '../auth/interfaces/request-user.interface';
 import { Role } from '@prisma/client';
 
 @Controller('locations')
@@ -30,24 +31,24 @@ export class LocationsController {
   @Post()
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
-  create(@CurrentUser() user: any, @Body() dto: CreateLocationDto) {
-    return this.locationsService.create(user.tenantId, dto);
+  create(@CurrentUser() user: RequestUser, @Body() dto: CreateLocationDto) {
+    return this.locationsService.create(user.tenantId!, dto);
   }
 
   /**
    * Get all locations for tenant
    */
   @Get()
-  findAll(@CurrentUser() user: any) {
-    return this.locationsService.findAll(user.tenantId);
+  findAll(@CurrentUser() user: RequestUser) {
+    return this.locationsService.findAll(user.tenantId!);
   }
 
   /**
    * Get single location by ID
    */
   @Get(':id')
-  findOne(@CurrentUser() user: any, @Param('id') id: string) {
-    return this.locationsService.findOne(user.tenantId, id);
+  findOne(@CurrentUser() user: RequestUser, @Param('id') id: string) {
+    return this.locationsService.findOne(user.tenantId!, id);
   }
 
   /**
@@ -57,11 +58,11 @@ export class LocationsController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   update(
-    @CurrentUser() user: any,
+    @CurrentUser() user: RequestUser,
     @Param('id') id: string,
     @Body() dto: UpdateLocationDto,
   ) {
-    return this.locationsService.update(user.tenantId, id, dto);
+    return this.locationsService.update(user.tenantId!, id, dto);
   }
 
   /**
@@ -70,8 +71,8 @@ export class LocationsController {
   @Delete(':id')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
-  remove(@CurrentUser() user: any, @Param('id') id: string) {
-    return this.locationsService.remove(user.tenantId, id);
+  remove(@CurrentUser() user: RequestUser, @Param('id') id: string) {
+    return this.locationsService.remove(user.tenantId!, id);
   }
 
   /**
@@ -81,9 +82,9 @@ export class LocationsController {
   @Post(':id/generate-qr')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
-  async generateQR(@CurrentUser() user: any, @Param('id') id: string) {
+  async generateQR(@CurrentUser() user: RequestUser, @Param('id') id: string) {
     const qrCodeDataUrl = await this.locationsService.generateQRCodeImage(
-      user.tenantId,
+      user.tenantId!,
       id,
     );
     return { qrCode: qrCodeDataUrl };

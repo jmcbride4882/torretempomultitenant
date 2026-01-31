@@ -2,7 +2,6 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
-  ForbiddenException,
   UnauthorizedException,
   BadRequestException,
   Logger,
@@ -57,8 +56,9 @@ export class UsersService {
 
   /**
    * Get single user by ID (same tenant only)
+   * For GLOBAL_ADMIN (tenantId=null), allows cross-tenant lookup
    */
-  async findOne(userId: string, tenantId: string): Promise<UserResponseDto> {
+  async findOne(userId: string, tenantId: string | null): Promise<UserResponseDto> {
     const user = await this.prisma.user.findFirst({
       where: {
         id: userId,
@@ -267,8 +267,9 @@ export class UsersService {
 
   /**
    * Get current user profile
+   * For GLOBAL_ADMIN, tenantId will be null
    */
-  async getCurrentUser(userId: string, tenantId: string): Promise<UserResponseDto> {
+  async getCurrentUser(userId: string, tenantId: string | null): Promise<UserResponseDto> {
     const user = await this.prisma.user.findFirst({
       where: {
         id: userId,
@@ -285,10 +286,11 @@ export class UsersService {
 
   /**
    * Change own password
+   * For GLOBAL_ADMIN, tenantId will be null
    */
   async changePassword(
     userId: string,
-    tenantId: string,
+    tenantId: string | null,
     dto: ChangePasswordDto,
     actorEmail: string,
   ): Promise<{ message: string }> {
@@ -325,16 +327,18 @@ export class UsersService {
 
     this.logger.log(`Password changed for user ${userId} (${actorEmail})`);
 
-    // Create audit log (without password details)
-    await this.auditService.createLog({
-      tenantId,
-      action: 'PASSWORD_CHANGED',
-      entity: 'User',
-      entityId: userId,
-      actorId: userId,
-      actorEmail,
-      actorRole: user.role,
-    });
+    // Create audit log (without password details) - handle null tenantId for GLOBAL_ADMIN
+    if (tenantId) {
+      await this.auditService.createLog({
+        tenantId,
+        action: 'PASSWORD_CHANGED',
+        entity: 'User',
+        entityId: userId,
+        actorId: userId,
+        actorEmail,
+        actorRole: user.role,
+      });
+    }
 
     return { message: 'Password changed successfully' };
   }

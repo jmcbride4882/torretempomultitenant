@@ -1,4 +1,4 @@
-import { IsEnum, IsString, IsDateString, IsOptional } from 'class-validator';
+import { IsEnum, IsString, IsOptional } from 'class-validator';
 import { ReportType } from '@prisma/client';
 
 export class GenerateReportDto {

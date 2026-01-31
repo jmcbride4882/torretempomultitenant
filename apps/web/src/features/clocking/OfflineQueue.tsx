@@ -2,9 +2,19 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { syncService } from '../../lib/sync-service';
 
+interface QueueItem {
+  id: string;
+  endpoint: string;
+  method: string;
+  body: unknown;
+  timestamp: number;
+  retries: number;
+  lastError?: string;
+}
+
 export function OfflineQueue() {
   const { t } = useTranslation();
-  const [queue, setQueue] = useState<any[]>([]);
+  const [queue, setQueue] = useState<QueueItem[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {

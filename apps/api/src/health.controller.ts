@@ -52,7 +52,7 @@ export class HealthController {
   }
 
   @Get('metrics')
-  async metrics() {
+  metrics() {
     const memoryUsage = process.memoryUsage();
     
     return {
