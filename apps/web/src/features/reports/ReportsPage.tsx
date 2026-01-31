@@ -78,16 +78,52 @@ export function ReportsPage() {
     });
   };
 
-  const handleDownloadPDF = (reportId: string) => {
-    window.open(`/api/reports/${reportId}/pdf`, '_blank');
+  const handleDownloadPDF = async (reportId: string) => {
+    try {
+      const response = await api.get<Blob>(`/reports/${reportId}/pdf`);
+      const url = window.URL.createObjectURL(response);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `report-${reportId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to download PDF:', error);
+    }
   };
 
-  const handleDownloadCSV = (reportId: string) => {
-    window.open(`/api/reports/${reportId}/csv`, '_blank');
+  const handleDownloadCSV = async (reportId: string) => {
+    try {
+      const response = await api.get<Blob>(`/reports/${reportId}/csv`);
+      const url = window.URL.createObjectURL(response);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `report-${reportId}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to download CSV:', error);
+    }
   };
 
-  const handleDownloadXLSX = (reportId: string) => {
-    window.open(`/api/reports/${reportId}/xlsx`, '_blank');
+  const handleDownloadXLSX = async (reportId: string) => {
+    try {
+      const response = await api.get<Blob>(`/reports/${reportId}/xlsx`);
+      const url = window.URL.createObjectURL(response);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `report-${reportId}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to download XLSX:', error);
+    }
   };
 
   if (isLoading) {

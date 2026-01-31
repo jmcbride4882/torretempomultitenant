@@ -49,6 +49,12 @@ class ApiClient {
       throw new Error(error.message || `HTTP ${response.status}`);
     }
 
+    // Handle binary responses (Blob)
+    const contentType = response.headers.get('content-type');
+    if (contentType && (contentType.includes('application/pdf') || contentType.includes('text/csv') || contentType.includes('application/vnd.openxmlformats'))) {
+      return response.blob() as Promise<T>;
+    }
+
     return response.json();
   }
 
