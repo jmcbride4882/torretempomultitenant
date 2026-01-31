@@ -99,13 +99,12 @@ export class ReportsService {
     }
 
     // Check if report already exists
-    const existingReport = await this.prisma.report.findUnique({
+    const existingReport = await this.prisma.report.findFirst({
       where: {
-        tenantId_type_period: {
-          tenantId,
-          type: dto.type,
-          period: dto.period,
-        },
+        tenantId,
+        type: dto.type,
+        period: dto.period,
+        userId: dto.userId ?? null,
       },
     });
 
@@ -131,6 +130,7 @@ export class ReportsService {
         tenantId,
         type: dto.type,
         period: dto.period,
+        userId: dto.userId, // Store employee ID for MONTHLY_EMPLOYEE reports
         fileHash,
         fileUrl: null, // Will be generated dynamically
       },
@@ -307,23 +307,36 @@ export class ReportsService {
   async generateReportPDF(reportId: string, tenantId: string): Promise<Buffer> {
     const report = await this.getReport(reportId, tenantId);
 
-    // Extract userId from report metadata or signatures
+    // Use userId from report (for MONTHLY_EMPLOYEE) or first user (for company reports)
+    let userId = report.userId;
+    
+    if (!userId && report.type === ReportType.MONTHLY_EMPLOYEE) {
+      throw new BadRequestException('Employee report must have a userId');
+    }
+
+    // For company/compliance reports without userId, use first user as fallback
+    if (!userId) {
+      const firstUser = await this.prisma.user.findFirst({
+        where: { tenantId },
+        select: { id: true },
+      });
+      if (!firstUser) {
+        throw new NotFoundException('No users found in tenant');
+      }
+      userId = firstUser.id;
+    }
+
+    // Get signature if exists
     const signature = await this.prisma.signature.findFirst({
       where: { reportId },
       include: { user: true },
     });
 
-    if (!signature) {
-      throw new NotFoundException('No employee associated with this report');
-    }
-
-    const userId = signature.userId;
-
     // Extract period from report
     const period = report.period;
 
     // Gather report data
-    const reportData = await this.gatherReportData(tenantId, userId, period);
+    const reportData = await this.gatherReportData(tenantId, userId, period, report.type);
 
     // Generate PDF with signature if exists
     const pdfBuffer = await this.generatePDF(reportData, signature);
@@ -337,19 +350,25 @@ export class ReportsService {
   async generateReportCSV(reportId: string, tenantId: string): Promise<Buffer> {
     const report = await this.getReport(reportId, tenantId);
 
-    // Get report data
-    const signature = await this.prisma.signature.findFirst({
-      where: { reportId },
-    });
-
-    if (!signature) {
-      throw new NotFoundException('No employee associated with this report');
+    // Use userId from report
+    let userId = report.userId;
+    
+    if (!userId) {
+      const firstUser = await this.prisma.user.findFirst({
+        where: { tenantId },
+        select: { id: true },
+      });
+      if (!firstUser) {
+        throw new NotFoundException('No users found in tenant');
+      }
+      userId = firstUser.id;
     }
 
     const reportData = await this.gatherReportData(
       tenantId,
-      signature.userId,
+      userId,
       report.period,
+      report.type,
     );
 
     return new Promise((resolve, reject) => {

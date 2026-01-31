@@ -64,6 +64,7 @@ model User {
   signatures        Signature[]
   overtimeEntries   OvertimeEntry[]
   approvedOvertimes OvertimeEntry[] @relation("OvertimeApprovedBy")
+  reports           Report[]
 
   @@unique([tenantId, email])
   @@map("users")
@@ -373,6 +374,10 @@ model Report {
   type   ReportType
   period String // e.g., "2025-01" for monthly
 
+  // For MONTHLY_EMPLOYEE reports, the employee this report is for
+  userId String? @db.Uuid
+  user   User?   @relation(fields: [userId], references: [id])
+
   // Generated file
   fileUrl  String?
   fileHash String? // SHA-256 for integrity
@@ -381,7 +386,7 @@ model Report {
 
   signatures Signature[]
 
-  @@unique([tenantId, type, period])
+  @@unique([tenantId, type, period, userId])
   @@map("reports")
 }
 
