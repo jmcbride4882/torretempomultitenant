@@ -45,6 +45,15 @@ export function ReportsPage() {
     },
   });
 
+  // Fetch users for employee dropdown
+  const { data: users } = useQuery<Array<{ id: string; firstName: string; lastName: string; email: string }>>({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const response = await api.get<Array<{ id: string; firstName: string; lastName: string; email: string }>>('/users');
+      return response;
+    },
+  });
+
   // Generate report mutation
   const generateMutation = useMutation({
     mutationFn: async (data: { type: ReportType; period: string; userId?: string }) => {
@@ -138,14 +147,19 @@ export function ReportsPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   {t('reports.employee')}
                 </label>
-                <input
-                  type="text"
+                <select
                   value={userId}
                   onChange={(e) => setUserId(e.target.value)}
-                  placeholder={t('reports.employeeIdPlaceholder')}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                />
+                >
+                  <option value="">{t('reports.selectEmployee')}</option>
+                  {users?.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.firstName} {user.lastName} ({user.email})
+                    </option>
+                  ))}
+                </select>
               </div>
             )}
 

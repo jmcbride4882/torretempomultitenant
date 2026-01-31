@@ -118,6 +118,7 @@ export class ReportsService {
       tenantId,
       dto.userId,
       dto.period,
+      dto.type,
     );
 
     // Generate PDF and calculate hash
@@ -612,13 +613,33 @@ export class ReportsService {
   }
 
   /**
-   * Gather report data (time entries, audit logs, calculations)
+   * Gather data for report generation
    */
   private async gatherReportData(
     tenantId: string,
     userId: string | undefined,
     period: string,
+    reportType?: ReportType,
   ): Promise<ReportData> {
+    // For employee reports, userId is required
+    if (reportType === ReportType.MONTHLY_EMPLOYEE && !userId) {
+      throw new BadRequestException('userId is required for employee reports');
+    }
+
+    // For company/compliance reports, use first available user as fallback for data structure
+    // TODO: In future, aggregate data from all users for company reports
+    if (!userId && reportType && (reportType === ReportType.MONTHLY_COMPANY || reportType === ReportType.COMPLIANCE_EXPORT)) {
+      // Get first user in tenant for data structure compatibility
+      const firstUser = await this.prisma.user.findFirst({
+        where: { tenantId },
+        select: { id: true },
+      });
+      if (!firstUser) {
+        throw new BadRequestException('No users found in tenant');
+      }
+      userId = firstUser.id;
+    }
+
     if (!userId) {
       throw new BadRequestException('userId is required');
     }
