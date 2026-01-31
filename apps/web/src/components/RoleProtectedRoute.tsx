@@ -1,10 +1,11 @@
+import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '../lib/store';
 import { AppLayout } from './layout';
 import { canAccessRoute } from '../config/navigation';
 
 interface RoleProtectedRouteProps {
-  children: React.ReactNode;
+  children: ReactNode;
   path: string;
 }
 
