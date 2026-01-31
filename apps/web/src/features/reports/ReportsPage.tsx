@@ -46,13 +46,15 @@ export function ReportsPage() {
   });
 
   // Fetch users for employee dropdown
-  const { data: users } = useQuery<Array<{ id: string; firstName: string; lastName: string; email: string }>>({
+  const { data: usersResponse } = useQuery<{ users: Array<{ id: string; firstName: string; lastName: string; email: string }>; total: number; page: number; pageSize: number }>({
     queryKey: ['users'],
     queryFn: async () => {
-      const response = await api.get<Array<{ id: string; firstName: string; lastName: string; email: string }>>('/users');
+      const response = await api.get<{ users: Array<{ id: string; firstName: string; lastName: string; email: string }>; total: number; page: number; pageSize: number }>('/users');
       return response;
     },
   });
+
+  const users = usersResponse?.users;
 
   // Generate report mutation
   const generateMutation = useMutation({
