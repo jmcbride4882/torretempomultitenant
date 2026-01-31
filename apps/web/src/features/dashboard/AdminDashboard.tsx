@@ -27,14 +27,13 @@ interface Location {
 }
 
 interface RecentActivity {
-  id: string;
-  type: 'clock_in' | 'clock_out' | 'edit_request' | 'approval' | 'location_created' | 'user_created' | 'report_generated';
-  description: string;
+  id?: string;
+  type?: 'clock_in' | 'clock_out' | 'edit_request' | 'approval' | 'location_created' | 'user_created' | 'report_generated';
+  description?: string;
   timestamp: string;
-  user: {
-    firstName: string;
-    lastName: string;
-  };
+  user: string; // Email address from API
+  action: string; // Action type from API
+  details: string; // Details from API
 }
 
 interface SystemHealthMetrics {
@@ -121,6 +120,47 @@ function formatUptime(hours: number): string {
   const remainingHours = hours % 24;
   if (days > 0) return `${days}d ${remainingHours}h`;
   return `${hours}h`;
+}
+
+// Helper: Get user initials from email
+function getUserInitials(email: string): string {
+  // Try to extract name from email (before @)
+  const username = email.split('@')[0];
+  if (!username) return '??';
+  
+  // If username has dots or underscores, use first letter of each part
+  const parts = username.split(/[._-]/);
+  if (parts.length >= 2) {
+    return (parts[0]?.[0]?.toUpperCase() || '?') + (parts[1]?.[0]?.toUpperCase() || '?');
+  }
+  
+  // Otherwise use first two letters
+  return username.substring(0, 2).toUpperCase();
+}
+
+// Helper: Get display name from email
+function getDisplayName(email: string): string {
+  const username = email.split('@')[0];
+  if (!username) return email;
+  
+  // Capitalize and replace separators with spaces
+  return username
+    .split(/[._-]/)
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+// Helper: Infer activity type from action string
+function inferActivityType(action: string): RecentActivity['type'] {
+  const actionLower = action.toLowerCase();
+  if (actionLower.includes('clock') && actionLower.includes('in')) return 'clock_in';
+  if (actionLower.includes('clock') && actionLower.includes('out')) return 'clock_out';
+  if (actionLower.includes('edit') || actionLower.includes('modified')) return 'edit_request';
+  if (actionLower.includes('approv')) return 'approval';
+  if (actionLower.includes('location') && actionLower.includes('creat')) return 'location_created';
+  if (actionLower.includes('user') && actionLower.includes('creat')) return 'user_created';
+  if (actionLower.includes('report')) return 'report_generated';
+  return 'clock_in'; // default fallback
 }
 
 // Helper: Get activity type icon and color
@@ -301,11 +341,11 @@ export function AdminDashboard() {
       } catch {
         // Return mock data for development
         return [
-          { id: '1', type: 'clock_in' as const, description: 'Clocked in at Main Office', timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(), user: { firstName: 'Maria', lastName: 'Garcia' } },
-          { id: '2', type: 'edit_request' as const, description: 'Requested time entry edit', timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(), user: { firstName: 'Carlos', lastName: 'Lopez' } },
-          { id: '3', type: 'approval' as const, description: 'Approved edit request #47', timestamp: new Date(Date.now() - 30 * 60 * 1000).toISOString(), user: { firstName: 'Admin', lastName: 'User' } },
-          { id: '4', type: 'clock_out' as const, description: 'Clocked out from Branch Office', timestamp: new Date(Date.now() - 45 * 60 * 1000).toISOString(), user: { firstName: 'Ana', lastName: 'Martinez' } },
-          { id: '5', type: 'report_generated' as const, description: 'Generated monthly compliance report', timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), user: { firstName: 'System', lastName: '' } },
+          { timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(), user: 'maria@example.com', action: 'Clocked in', details: 'Clocked in at Main Office' },
+          { timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(), user: 'carlos@example.com', action: 'Edit requested', details: 'Requested time entry edit' },
+          { timestamp: new Date(Date.now() - 30 * 60 * 1000).toISOString(), user: 'admin@example.com', action: 'Approved', details: 'Approved edit request #47' },
+          { timestamp: new Date(Date.now() - 45 * 60 * 1000).toISOString(), user: 'ana@example.com', action: 'Clocked out', details: 'Clocked out from Branch Office' },
+          { timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), user: 'system@example.com', action: 'Report generated', details: 'Generated monthly compliance report' },
         ];
       }
     },
@@ -864,18 +904,19 @@ export function AdminDashboard() {
             />
           ) : (
             <div className="divide-y divide-slate-100 dark:divide-slate-700 max-h-[400px] overflow-y-auto">
-              {recentActivity.map((activity) => {
-                const styles = getActivityTypeStyles(activity.type);
+              {recentActivity.map((activity, index) => {
+                const activityType = inferActivityType(activity.action);
+                const styles = getActivityTypeStyles(activityType);
                 return (
                   <button
-                    key={activity.id}
+                    key={activity.id || `activity-${index}-${activity.timestamp}`}
                     onClick={() => {
                       // Drill-down navigation based on activity type
-                      if (activity.type === 'clock_in' || activity.type === 'clock_out') {
+                      if (activityType === 'clock_in' || activityType === 'clock_out') {
                         navigate('/app/entries');
-                      } else if (activity.type === 'edit_request' || activity.type === 'approval') {
+                      } else if (activityType === 'edit_request' || activityType === 'approval') {
                         navigate('/app/approvals');
-                      } else if (activity.type === 'report_generated') {
+                      } else if (activityType === 'report_generated') {
                         navigate('/app/reports');
                       }
                     }}
@@ -885,7 +926,7 @@ export function AdminDashboard() {
                     <div className="relative flex-shrink-0">
                       <div className="w-10 h-10 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-600 dark:to-slate-700 rounded-full flex items-center justify-center">
                         <span className="text-xs font-bold text-slate-600 dark:text-slate-200">
-                          {activity.user.firstName.charAt(0)}{activity.user.lastName.charAt(0)}
+                          {getUserInitials(activity.user)}
                         </span>
                       </div>
                       <div className={`absolute -bottom-1 -right-1 w-5 h-5 ${styles.bg} rounded-full flex items-center justify-center ${styles.text}`}>
@@ -895,9 +936,9 @@ export function AdminDashboard() {
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-slate-900 dark:text-white">{activity.description}</p>
+                      <p className="text-sm text-slate-900 dark:text-white">{activity.details}</p>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                        {activity.user.firstName} {activity.user.lastName} • {formatTimeAgo(activity.timestamp)}
+                        {getDisplayName(activity.user)} • {formatTimeAgo(activity.timestamp)}
                       </p>
                     </div>
 
