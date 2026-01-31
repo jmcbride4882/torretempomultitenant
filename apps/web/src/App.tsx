@@ -14,6 +14,7 @@ import { LocationsPage } from './features/locations/LocationsPage';
 import { UsersPage } from './features/users/UsersPage';
 import { EmployeeDashboard, ManagerDashboard, AdminDashboard, GlobalAdminDashboard } from './features/dashboard';
 import { TenantSettingsPage } from './features/settings/TenantSettingsPage';
+import { ProfilePage } from './features/profile/ProfilePage';
 import { TenantManagementPage } from './features/tenants/TenantManagementPage';
 import { TenantDetailPage } from './features/tenants/TenantDetailPage';
 import { TenantEditPage } from './features/tenants/TenantEditPage';
@@ -297,6 +298,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <TenantSettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/app/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
             </ProtectedRoute>
           }
         />
