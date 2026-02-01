@@ -394,9 +394,21 @@
       "breakMinutes": "Pausenminuten",
       "locationId": "Standort"
     }
-  },
-  "audit": {
-    "title": "Prüfprotokoll",
+   },
+   "profile": {
+     "accountInfo": "Kontoinformationen",
+     "changePassword": "Passwort ändern",
+     "company": "Unternehmen",
+     "confirmPassword": "Neues Passwort bestätigen",
+     "currentPassword": "Aktuelles Passwort",
+     "deleteAccountConfirm": "Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+     "email": "E-Mail",
+     "language": "Sprache",
+     "newPassword": "Neues Passwort",
+     "passwordsDontMatch": "Passwörter stimmen nicht überein"
+   },
+   "audit": {
+     "title": "Prüfprotokoll",
     "action": "Aktion",
     "timestamp": "Zeitstempel",
     "user": "Benutzer",

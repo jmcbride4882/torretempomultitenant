@@ -394,9 +394,21 @@
       "breakMinutes": "Minuty przerwy",
       "locationId": "Lokalizacja"
     }
-  },
-  "audit": {
-    "title": "Dziennik audytu",
+   },
+   "profile": {
+     "accountInfo": "Informacje o koncie",
+     "changePassword": "Zmień hasło",
+     "company": "Firma",
+     "confirmPassword": "Potwierdź nowe hasło",
+     "currentPassword": "Bieżące hasło",
+     "deleteAccountConfirm": "Czy na pewno chcesz usunąć swoje konto? Tej czynności nie można cofnąć.",
+     "email": "E-mail",
+     "language": "Język",
+     "newPassword": "Nowe hasło",
+     "passwordsDontMatch": "Hasła nie są zgodne"
+   },
+   "audit": {
+     "title": "Dziennik audytu",
     "action": "Akcja",
     "timestamp": "Znacznik czasu",
     "user": "Użytkownik",

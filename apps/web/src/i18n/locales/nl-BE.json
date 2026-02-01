@@ -393,9 +393,21 @@
       "clockOut": "Uitklokken",
       "breakMinutes": "Pauze minuten",
       "locationId": "Locatie"
-    }
-  },
-  "audit": {
+     }
+   },
+   "profile": {
+     "accountInfo": "Accountgegevens",
+     "changePassword": "Wachtwoord wijzigen",
+     "company": "Bedrijf",
+     "confirmPassword": "Nieuw wachtwoord bevestigen",
+     "currentPassword": "Huidige wachtwoord",
+     "deleteAccountConfirm": "Weet u zeker dat u uw account wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+     "email": "E-mail",
+     "language": "Taal",
+     "newPassword": "Nieuw wachtwoord",
+     "passwordsDontMatch": "Wachtwoorden komen niet overeen"
+   },
+   "audit": {
     "title": "Auditlogboek",
     "action": "Actie",
     "timestamp": "Tijdstempel",

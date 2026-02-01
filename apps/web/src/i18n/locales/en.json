@@ -393,6 +393,18 @@
       "locationId": "Location"
     }
   },
+  "profile": {
+    "accountInfo": "Account Information",
+    "changePassword": "Change Password",
+    "company": "Company",
+    "confirmPassword": "Confirm New Password",
+    "currentPassword": "Current Password",
+    "deleteAccountConfirm": "Are you sure you want to delete your account? This action cannot be undone.",
+    "email": "Email",
+    "language": "Language",
+    "newPassword": "New Password",
+    "passwordsDontMatch": "Passwords do not match"
+  },
   "audit": {
     "title": "Audit Log",
     "action": "Action",

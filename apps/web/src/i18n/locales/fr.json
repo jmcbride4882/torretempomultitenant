@@ -394,9 +394,21 @@
       "breakMinutes": "Minutes de pause",
       "locationId": "Lieu"
     }
-  },
-  "audit": {
-    "title": "Journal d'audit",
+   },
+   "profile": {
+     "accountInfo": "Informations de compte",
+     "changePassword": "Changer le mot de passe",
+     "company": "Entreprise",
+     "confirmPassword": "Confirmer le nouveau mot de passe",
+     "currentPassword": "Mot de passe actuel",
+     "deleteAccountConfirm": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action ne peut pas être annulée.",
+     "email": "E-mail",
+     "language": "Langue",
+     "newPassword": "Nouveau mot de passe",
+     "passwordsDontMatch": "Les mots de passe ne correspondent pas"
+   },
+   "audit": {
+     "title": "Journal d'audit",
     "action": "Action",
     "timestamp": "Horodatage",
     "user": "Utilisateur",
