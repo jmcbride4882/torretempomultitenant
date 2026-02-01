@@ -102,12 +102,38 @@ export function Sidebar({ pendingApprovals = 0 }: SidebarProps) {
   };
 
   // Get navigation groups from ROLE_NAVIGATION config
-  const navigationGroups = ROLE_NAVIGATION[user.role] || [];
+  const configNavGroups = user ? ROLE_NAVIGATION[user.role] : [];
+  
+  // Transform config nav groups to component nav groups
+  const navGroups: NavGroup[] = configNavGroups.map((group) => ({
+    name: group.nameKey,
+    items: group.items.map((item) => ({
+      label: t(item.labelKey),
+      to: item.path,
+      icon: getIcon(item.iconName),
+      // Add badge for approvals if applicable
+      badge: item.path === '/app/approvals' ? (pendingApprovals > 0 ? pendingApprovals : undefined) : undefined,
+    })),
+  }));
 
-  const renderNavigationItems = () => {
-    return navigationGroups.map((group: any) => (
-      <div key={group.name} className="mb-6">
-        {group.items.map((item: any) => {
+  return (
+    <aside
+      className={`hidden md:flex flex-col fixed top-16 left-0 bottom-0 z-40 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transition-all duration-300 ${
+        isSidebarOpen ? 'w-64' : 'w-16'
+      }`}
+    >
+       <nav className="flex-1 overflow-y-auto py-4">
+         {navGroups.map((group, groupIndex) => (
+           <div key={group.name} className={groupIndex > 0 ? 'mt-6' : ''}>
+             {/* Group label - only show when expanded */}
+             {isSidebarOpen && (
+               <h3 className="px-4 mb-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                 {t(group.name)}
+               </h3>
+             )}
+            
+            <ul className="space-y-1 px-2">
+              {group.items.map((item) => {
                 const active = isActive(item.to);
                 
                 return (
